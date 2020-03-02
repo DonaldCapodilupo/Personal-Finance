@@ -281,7 +281,6 @@ def mainDirectory():
                                                         #Exit is handled in the listDisplay function.
 
 if __name__ == "__main__":
-    print("Hell, Welcome to the Personal Finance Software V0.30")
-    print("At this time we assume you are Donald Capodilupo\n")
+    print("Hell, Welcome to the Personal Finance Software V1.00")
     initialSetup()
     mainDirectory()
