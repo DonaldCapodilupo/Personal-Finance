@@ -1,8 +1,10 @@
 class DatabaseManipulation:
-    def __init__(self, databaseName):
+    def __init__(self, databaseName, mainDirectory):
         import os
+        self.mainDirectory = mainDirectory
         self.databaseName = databaseName
-        self.databaseDirectory = os.getcwd()
+        self.databaseDirectory = mainDirectory+"/Databases"
+
 
 
     def addRow(self, accountType):
@@ -44,7 +46,7 @@ class DatabaseManipulation:
 
 
         # Prompts the user to select the item to remove from the database.
-        from Classes import ListDisplay
+        from Classes.ListDisplay import ListDisplay
         userChoice = ListDisplay(acceptableChoices).displayList(addExit=False)
 
         # remove data
