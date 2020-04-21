@@ -74,4 +74,71 @@ class DatabaseManipulation:
 
 
 
+    def getDatabaseInfoAsDict(self):
+        import sqlite3, os
+        os.chdir(self.databaseDirectory)
+        from Dictionaries.PFinanceDicts import completeBalanceSheet, balanceSheetSpecificToGeneral
+        dataBaseNames = ["Current_Assets.db", "NonCurrent_Assets.db", "Current_Liabilities.db",
+                         "NonCurrent_Liabilities.db"]
+        rowObjDict = {}
+
+
+        for db in dataBaseNames:
+            conn = sqlite3.connect(db)
+            c = conn.cursor()
+            conn.row_factory = lambda cursor, row: row[0]
+            if db == "Current_Assets.db":
+                for table in completeBalanceSheet["Assets"]["Current Assets"]:
+                    for row in c.execute('SELECT * FROM ' + table + ' ORDER BY ID').fetchall():
+                        from Classes.AccountClasses import balance_Sheet_Item
+                        dictObj = balance_Sheet_Item(row[0],row[1],row[2])
+                        try:
+                            rowObjDict[db].append(
+                                [dictObj.accountBalance, dictObj.accountNickName, dictObj.accountID])
+                        except KeyError:
+                            rowObjDict.update({db:[dictObj.accountBalance, dictObj.accountNickName, dictObj.accountID]})
+
+            elif db == "NonCurrent_Assets.db":
+                for table in completeBalanceSheet["Assets"]["NonCurrent Assets"]:
+                    for row in c.execute('SELECT * FROM ' + table + ' ORDER BY ID').fetchall():
+                        from Classes.AccountClasses import balance_Sheet_Item
+                        dictObj = balance_Sheet_Item(row[0],row[1],row[2])
+                        try:
+                            rowObjDict[db].append(
+                                [dictObj.accountBalance, dictObj.accountNickName, dictObj.accountID])
+                        except KeyError:
+                            rowObjDict.update({db: [dictObj.accountBalance, dictObj.accountNickName, dictObj.accountID]})
+            elif db == "Current_Liabilities.db":
+                for table in completeBalanceSheet["Liabilities"]["Current Liabilities"]:
+                    for row in c.execute('SELECT * FROM ' + table + ' ORDER BY ID').fetchall():
+                        from Classes.AccountClasses import balance_Sheet_Item
+                        dictObj = balance_Sheet_Item(row[0],row[1],row[2])
+                        try:
+                            rowObjDict[db].append(
+                                [dictObj.accountBalance, dictObj.accountNickName, dictObj.accountID])
+                        except KeyError:
+                            rowObjDict.update({db: [dictObj.accountBalance, dictObj.accountNickName, dictObj.accountID]})
+            elif db == "NonCurrent_Liabilities.db":
+                for table in completeBalanceSheet["Liabilities"]["NonCurrent Liabilities"]:
+                    for row in c.execute('SELECT * FROM ' + table + ' ORDER BY ID').fetchall():
+                        from Classes.AccountClasses import balance_Sheet_Item
+                        dictObj = balance_Sheet_Item(row[0],row[1],row[2])
+                        try:
+                            rowObjDict[db].append(
+                                [dictObj.accountBalance, dictObj.accountNickName, dictObj.accountID])
+                        except KeyError:
+                            rowObjDict.update({db: [dictObj.accountBalance, dictObj.accountNickName, dictObj.accountID]})
+        return rowObjDict
+
+
+
+
+           # acceptableChoices = []
+           # for i in possibleChoices:
+           #     for s in i:
+           #         acceptableChoices.append(s[2])
+
+
+
+
 

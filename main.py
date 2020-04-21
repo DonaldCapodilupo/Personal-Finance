@@ -21,6 +21,8 @@ if __name__ == "__main__":
 
 
     mainMenuOptions = ["Update Account Balances","Add a Record","Remove a Record","View Current Balances"]
+    dataBaseNames = ["Current_Assets.db", "NonCurrent_Assets.db", "Current_Liabilities.db", "NonCurrent_Liabilities.db"]
+
     mainMenu = ListDisplay(mainMenuOptions)
     while True:
         userChoice = mainMenu.displayList(addExit=True)
@@ -58,11 +60,9 @@ if __name__ == "__main__":
             addRowObj = DatabaseManipulation((accountTypeTerm.replace(" ", "_") + ".db"), ROOT)
             addRowObj.removeDatabaseRow(accountTypeFinal)
         elif userChoice == mainMenuOptions[3]:
-            pass
+            from Google_Docs.BalanceSheetGoogle import setupGoogleSpreadsheet
+            from Classes.DatabaseRetrieval import DatabaseManipulation
+            obj = DatabaseManipulation("", ROOT)
+            print(obj.getDatabaseInfoAsDict())
 
 
-        os.chdir(ROOT)
-        #elif userChoice == mainMenuOptions[2]:            #Remove An Account
-        #    removeDatabaseRow(decisionAccountType())
-        #elif userChoice == mainMenuOptions[3]:  # Remove An Account
-        #    displayTotals()
