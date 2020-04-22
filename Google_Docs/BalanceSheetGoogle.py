@@ -11,19 +11,16 @@ def getWorksheetTitle():
     return worksheetTitle
 
 
-rowObjDict = {"Current Assets": [ ],
-              "NonCurrent Assets": [],
-              "Current Liabilities": [],
-              "NonCurrent Liabilities": []}
-
-
 def setupGoogleSpreadsheet(dictOfDBRowObjects):
     import gspread
     from oauth2client.service_account import ServiceAccountCredentials
 
     scope = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/spreadsheets',"https://www.googleapis.com/auth/drive.file","https://www.googleapis.com/auth/drive"]
 
-    creds = ServiceAccountCredentials.from_json_keyfile_name("Creds.json", scope)
+    import os
+    os.chdir("/home/doncapodilupo/Github_Files/Personal-Finance/Google_Docs")
+
+    creds = ServiceAccountCredentials.from_json_keyfile_name("../../../.PyCharmCE2019.3/config/scratches/Creds.json", scope)
 
     client = gspread.authorize(creds)
 
@@ -36,16 +33,29 @@ def setupGoogleSpreadsheet(dictOfDBRowObjects):
     worksheet.update_cell(2, 1, "Current Assets:")
 
     s = 3
-    for i in dictOfDBRowObjects:
-        worksheet.update_cell(s, 3, i.name)
-        worksheet.update_cell(s, 4, i.balance)
+    for i in dictOfDBRowObjects["Current_Assets.db"]:
+        worksheet.update_cell(s, 3, i[1])
+        worksheet.update_cell(s, 4, i[0])
         s+=1
 
     s +=4
-    worksheet.update_cell(s-1, 1, "Current Liabilities:")
-    for i in objDict["Current Liabilities"]:
-        worksheet.update_cell(s, 3, i.name)
-        worksheet.update_cell(s, 4, i.balance)
+    worksheet.update_cell(s-1, 1, "Non Current Assets:")
+    for i in dictOfDBRowObjects["NonCurrent_Assets.db"]:
+        worksheet.update_cell(s, 3, i[1])
+        worksheet.update_cell(s, 4, i[0])
+        s += 1
+
+    s += 4
+    worksheet.update_cell(s - 1, 1, "Current Liabilities:")
+    for i in dictOfDBRowObjects["Current_Liabilities.db"]:
+        worksheet.update_cell(s, 3, i[1])
+        worksheet.update_cell(s, 4, i[0])
+        s += 1
+    s += 4
+    worksheet.update_cell(s - 1, 1, "Non Current Liabilities:")
+    for i in dictOfDBRowObjects["NonCurrent_Liabilities.db"]:
+        worksheet.update_cell(s, 3, i[1])
+        worksheet.update_cell(s, 4, i[0])
         s += 1
 
 

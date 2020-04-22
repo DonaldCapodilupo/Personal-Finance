@@ -63,6 +63,9 @@ if __name__ == "__main__":
             from Google_Docs.BalanceSheetGoogle import setupGoogleSpreadsheet
             from Classes.DatabaseRetrieval import DatabaseManipulation
             obj = DatabaseManipulation("", ROOT)
-            print(obj.getDatabaseInfoAsDict())
+            #os.chdir(ROOT+"/Google_Docs")
+            setupGoogleSpreadsheet(obj.getDatabaseInfoAsDict())
+            print("\nBalance sheet has been updated!\n")
+            os.chdir(ROOT)
 
 
