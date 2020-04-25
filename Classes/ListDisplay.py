@@ -2,6 +2,8 @@ class ListDisplay:
     def __init__(self, listToDisplay):
         self.listToDisplay = list(listToDisplay)
 
+
+
     def displayList(self, addExit=True):
         while True:
             print("Which option would you like to choose")
@@ -20,6 +22,10 @@ class ListDisplay:
             else:
                 userChoiceFINAL = self.listToDisplay[(int(userChoice) - 1)]
                 return userChoiceFINAL
+
+
+
+
 
 
 
