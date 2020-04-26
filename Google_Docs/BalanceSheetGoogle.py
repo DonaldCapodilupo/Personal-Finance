@@ -10,6 +10,13 @@ def getWorksheetTitle():
     worksheetTitle = current_time.strftime('%m%d%y')
     return worksheetTitle
 
+def getDictTotals(dictKeyDatabase):
+    s = 0
+    for i in dictKeyDatabase:
+        s += float(i[0])
+    return s
+
+
 
 def setupGoogleSpreadsheet(dictOfDBRowObjects):
     import gspread
@@ -42,6 +49,11 @@ def setupGoogleSpreadsheet(dictOfDBRowObjects):
         worksheet.update_cell(s, 4, i[0])
         s+=1
 
+    s += 1
+
+    worksheet.update_cell(s, 1, "Total Current Assets: ")
+    worksheet.update_cell(s, 4, getDictTotals(dictOfDBRowObjects["Current_Assets.db"]))
+
     s +=3
 
     worksheet.update_cell(s-1, 1, "Non Current Assets:")
@@ -50,6 +62,17 @@ def setupGoogleSpreadsheet(dictOfDBRowObjects):
         worksheet.update_cell(s, 4, i[0])
         s += 1
 
+    s +=1
+    worksheet.update_cell(s, 1, "Total NonCurrent Assets: ")
+    worksheet.update_cell(s, 4, getDictTotals(dictOfDBRowObjects["NonCurrent_Assets.db"]))
+
+
+    s += 2
+
+    worksheet.update_cell(s, 1, "Total Assets: ")
+    worksheet.update_cell(s, 4, (getDictTotals(dictOfDBRowObjects["Current_Assets.db"])+
+                                 getDictTotals(dictOfDBRowObjects["NonCurrent_Assets.db"])
+))
 
 
 
@@ -65,6 +88,10 @@ def setupGoogleSpreadsheet(dictOfDBRowObjects):
         worksheet.update_cell(s, 4, i[0])
         s += 1
 
+    s += 1
+
+    worksheet.update_cell(s, 1, "Total Current Liabilities: ")
+    worksheet.update_cell(s, 4, getDictTotals(dictOfDBRowObjects["Current_Liabilities.db"]))
 
 
     s += 3
@@ -75,12 +102,32 @@ def setupGoogleSpreadsheet(dictOfDBRowObjects):
         worksheet.update_cell(s, 4, i[0])
         s += 1
 
+    s += 1
+    worksheet.update_cell(s, 1, "Total NonCurrent Liabilities: ")
+    worksheet.update_cell(s, 4, getDictTotals(dictOfDBRowObjects["NonCurrent_Liabilities.db"]))
+
+
+    s += 2
+
+    worksheet.update_cell(s, 1, "Total Liabilities: ")
+    worksheet.update_cell(s, 4, (getDictTotals(dictOfDBRowObjects["Current_Liabilities.db"])+
+                                 getDictTotals(dictOfDBRowObjects["NonCurrent_Liabilities.db"])))
+
+
+
     worksheet.format("A"+firstLiabilityRow+":E" + str(s) + "", {"backgroundColor": {"red": 5.0,
                                                                     "green": 0.1, "blue": 0.0}})
     s += 1
 
     worksheet.update_cell(s, 1, "Equity:")
-    worksheet.update_cell(s, 4,"Equity Amount")
+    worksheet.update_cell(s, 4,(
+            (getDictTotals(dictOfDBRowObjects["Current_Assets.db"])+getDictTotals(dictOfDBRowObjects["NonCurrent_Assets.db"]))-
+            (
+            (getDictTotals(dictOfDBRowObjects["Current_Liabilities.db"])+getDictTotals(dictOfDBRowObjects["NonCurrent_Liabilities.db"]))
+            )
+    )
+)
+
 
 
     lastLiabilityRow = (str(s))
