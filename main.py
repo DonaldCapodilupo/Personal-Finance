@@ -68,3 +68,9 @@ if __name__ == "__main__":
             os.chdir(ROOT)
 
 
+
+
+#TODO: Bug fix: user doesn't input a number, sql attacks ettc.
+#TODO: Make the balance sheet look nicer, boarders, commas, dollar signs, percent change etc.
+#TODO: Add try/excepts (or error handling) for when there is already a sheet with that name
+#TODO: Finis try/excepts. Balance seet is throwing Key errors. 

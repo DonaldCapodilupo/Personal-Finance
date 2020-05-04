@@ -12,8 +12,11 @@ def getWorksheetTitle():
 
 def getDictTotals(dictKeyDatabase):
     s = 0
-    for i in dictKeyDatabase:
-        s += float(i[0])
+    try:
+        for i in dictKeyDatabase:
+            s += float(i[0])
+    except KeyError:
+        pass
     return s
 
 
@@ -27,7 +30,7 @@ def setupGoogleSpreadsheet(dictOfDBRowObjects):
     import os
     os.chdir("/home/doncapodilupo/Github_Files/Personal-Finance/Google_Docs")
 
-    creds = ServiceAccountCredentials.from_json_keyfile_name("", scope)
+    creds = ServiceAccountCredentials.from_json_keyfile_name("../../../.PyCharmCE2019.3/config/scratches/Creds.json", scope)
 
     client = gspread.authorize(creds)
 
@@ -44,35 +47,45 @@ def setupGoogleSpreadsheet(dictOfDBRowObjects):
 
 
     s = 3
-    for i in dictOfDBRowObjects["Current_Assets.db"]:
-        worksheet.update_cell(s, 3, i[1])
-        worksheet.update_cell(s, 4, i[0])
-        s+=1
+    try:
+        for i in dictOfDBRowObjects["Current_Assets.db"]:
+            worksheet.update_cell(s, 3, i[1])
+            worksheet.update_cell(s, 4, i[0])
+            s+=1
 
-    s += 1
-
+        s += 1
+    except KeyError:
+        pass
     worksheet.update_cell(s, 1, "Total Current Assets: ")
-    worksheet.update_cell(s, 4, getDictTotals(dictOfDBRowObjects["Current_Assets.db"]))
+    try:
+        worksheet.update_cell(s, 4, getDictTotals(dictOfDBRowObjects["Current_Assets.db"]))
+    except KeyError:
+        worksheet.update_cell(s, 4, 0.00)
 
     s +=3
 
     worksheet.update_cell(s-1, 1, "Non Current Assets:")
-    for i in dictOfDBRowObjects["NonCurrent_Assets.db"]:
-        worksheet.update_cell(s, 3, i[1])
-        worksheet.update_cell(s, 4, i[0])
-        s += 1
+    try:
+        for i in dictOfDBRowObjects["NonCurrent_Assets.db"]:
+            worksheet.update_cell(s, 3, i[1])
+            worksheet.update_cell(s, 4, i[0])
+            s += 1
+    except KeyError:
+        pass
 
     s +=1
     worksheet.update_cell(s, 1, "Total NonCurrent Assets: ")
-    worksheet.update_cell(s, 4, getDictTotals(dictOfDBRowObjects["NonCurrent_Assets.db"]))
 
+    try:
+        worksheet.update_cell(s, 4, getDictTotals(dictOfDBRowObjects["NonCurrent_Assets.db"]))
+    except KeyError:
+        worksheet.update_cell(s, 4, 0.00)
 
     s += 2
 
     worksheet.update_cell(s, 1, "Total Assets: ")
-    worksheet.update_cell(s, 4, (getDictTotals(dictOfDBRowObjects["Current_Assets.db"])+
-                                 getDictTotals(dictOfDBRowObjects["NonCurrent_Assets.db"])
-))
+    worksheet.update_cell(s, 4, (getDictTotals(dictOfDBRowObjects["Current_Assets.db"]))+
+                                 getDictTotals(dictOfDBRowObjects["NonCurrent_Assets.db"]))
 
 
 
@@ -82,11 +95,14 @@ def setupGoogleSpreadsheet(dictOfDBRowObjects):
     firstLiabilityRow = (str(s+1))
     s+=2
 
-    worksheet.update_cell(s - 1, 1, "Current Liabilities:")
-    for i in dictOfDBRowObjects["Current_Liabilities.db"]:
-        worksheet.update_cell(s, 3, i[1])
-        worksheet.update_cell(s, 4, i[0])
-        s += 1
+    try:
+        worksheet.update_cell(s - 1, 1, "Current Liabilities:")
+        for i in dictOfDBRowObjects["Current_Liabilities.db"]:
+            worksheet.update_cell(s, 3, i[1])
+            worksheet.update_cell(s, 4, i[0])
+            s += 1
+    except KeyError:
+        pass
 
     s += 1
 
@@ -96,11 +112,14 @@ def setupGoogleSpreadsheet(dictOfDBRowObjects):
 
     s += 3
 
-    worksheet.update_cell(s - 1, 1, "Non Current Liabilities:")
-    for i in dictOfDBRowObjects["NonCurrent_Liabilities.db"]:
-        worksheet.update_cell(s, 3, i[1])
-        worksheet.update_cell(s, 4, i[0])
-        s += 1
+    try:
+        worksheet.update_cell(s - 1, 1, "Non Current Liabilities:")
+        for i in dictOfDBRowObjects["NonCurrent_Liabilities.db"]:
+            worksheet.update_cell(s, 3, i[1])
+            worksheet.update_cell(s, 4, i[0])
+            s += 1
+    except KeyError:
+        pass
 
     s += 1
     worksheet.update_cell(s, 1, "Total NonCurrent Liabilities: ")
