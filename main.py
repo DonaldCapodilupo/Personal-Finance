@@ -4,7 +4,8 @@ from Classes.DatabaseRetrieval import *
 from Dictionaries.PFinanceDicts import completeBalanceSheet
 from Classes.CSVBackup import DatabaseBackup
 from os import path
-import os
+
+
 
 
 #/home/user/Github_Files/Personal-Finance
@@ -60,10 +61,27 @@ if __name__ == "__main__":
             addRowObj = DatabaseManipulation((accountTypeTerm.replace(" ", "_") + ".db"), ROOT)
             addRowObj.removeDatabaseRow(accountTypeFinal)
         elif userChoice == mainMenuOptions[3]:
-            from Google_Docs.BalanceSheetGoogle import setupGoogleSpreadsheet
+            import gspread
+            from oauth2client.service_account import ServiceAccountCredentials
             from Classes.DatabaseRetrieval import DatabaseManipulation
+            from Classes.ClassGoogleBalanceSheet import BalanceSheetUpdate
+
+
+            scope = ["https://spreadsheets.google.com/feeds", 'https://www.googleapis.com/auth/spreadsheets',
+                     "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive"]
+            import os
+
             obj = DatabaseManipulation("", ROOT)
-            setupGoogleSpreadsheet(obj.getDatabaseInfoAsDict())
+            databaseDict = obj.getDatabaseInfoAsDict()
+
+
+            creds = ServiceAccountCredentials.from_json_keyfile_name(
+                "/home/doncapodilupo/Github_Files/Personal-Finance/Google_Docs/Creds.json", scope)
+            client = gspread.authorize(creds)
+            sheet = client.open('Balance Sheet')
+
+            balanceSheet = BalanceSheetUpdate(sheet,databaseDict)
+            balanceSheet.addDatabaseToSpreadsheet()
             print("\nBalance sheet has been updated!\n")
             os.chdir(ROOT)
 
@@ -73,4 +91,4 @@ if __name__ == "__main__":
 #TODO: Bug fix: user doesn't input a number, sql attacks ettc.
 #TODO: Make the balance sheet look nicer, boarders, commas, dollar signs, percent change etc.
 #TODO: Add try/excepts (or error handling) for when there is already a sheet with that name
-#TODO: Finis try/excepts. Balance seet is throwing Key errors. 
+#TODO: Finis try/excepts. Balance seet is throwing Key errors.

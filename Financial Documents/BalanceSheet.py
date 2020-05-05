@@ -96,5 +96,3 @@ class BalanceSheetDisplay:
             for s in i:
                 print(s[2].center(15)+s[3].center(25))
 
-    def createGoogleSheet(self):
-
