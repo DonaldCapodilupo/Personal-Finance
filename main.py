@@ -76,7 +76,7 @@ if __name__ == "__main__":
 
 
             creds = ServiceAccountCredentials.from_json_keyfile_name(
-                "/home/doncapodilupo/Github_Files/Personal-Finance/Google_Docs/Creds.json", scope)
+                "/Creds.json", scope)
             client = gspread.authorize(creds)
             sheet = client.open('Balance Sheet')
 
