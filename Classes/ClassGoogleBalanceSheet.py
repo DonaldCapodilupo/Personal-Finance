@@ -13,8 +13,13 @@ def getDictTotals(dictKeyDatabase):
         for i in dictKeyDatabase:
             s += float(i[0])
     except KeyError:
-        pass
-    return s
+        return s
+
+def convertKeyErrorIntoZero(self, dictionary):
+    if not dictionary:
+        return 0.00
+    else:
+        return dictionary
 
 
 class BalanceSheetUpdate:
@@ -24,6 +29,10 @@ class BalanceSheetUpdate:
         self.databases = ["Current_Assets.db","NonCurrent_Assets.db",
                           "Current_Liabilities.db","NonCurrent_Liabilities.db"]
         self.dbDict = dbDict
+
+
+
+
 
     def addDatabaseToSpreadsheet(self):
 
@@ -35,6 +44,9 @@ class BalanceSheetUpdate:
         self.worksheet.update_cell(3, 5, "Change from previous Balance Sheet")
 
         lastAssetRow = ""
+
+
+
 
         for db in self.databases:
             self.worksheet.update_cell(self.itr, 1,str(db[:-3])) # Current_Assets
@@ -60,21 +72,33 @@ class BalanceSheetUpdate:
             if db == "NonCurrent_Assets.db":
                 self.itr += 1
                 self.worksheet.update_cell(self.itr, 1, "Total Assets")
-                self.worksheet.update_cell(self.itr, 4, (getDictTotals(self.dbDict["Current_Assets.db"])) +
-                        (getDictTotals(self.dbDict[db])))
+                try:
+                    self.worksheet.update_cell(self.itr, 4, (getDictTotals(self.dbDict["Current_Assets.db"])) +
+                            (getDictTotals(self.dbDict[db])))
+
+                except KeyError:
+                    self.worksheet.update_cell(self.itr, 4, "0.00")
+
                 self.worksheet.format("A1:E" + str(self.itr), {"backgroundColor": {"red": 0.0,
-                                                                                    "green": 0.1,
-                                                                                    "blue": 5.0}})
+                                                                                   "green": 0.1,
+                                                                                   "blue": 5.0}})
+
                 self.itr += 1
                 lastAssetRow = self.itr
             elif db == "NonCurrent_Liabilities.db":
                 self.itr += 1
                 self.worksheet.update_cell(self.itr, 1, "Total Liabilities")
-                self.worksheet.update_cell(self.itr, 4, (getDictTotals(self.dbDict["Current_Liabilities.db"])) +
-                                           (getDictTotals(self.dbDict[db])))
-                self.worksheet.format("A"+str(lastAssetRow) + ":E" + str(self.itr) + "", {"backgroundColor": {"red": 5.0,
-                                                                                                    "green": 0.1,
-                                                                                                    "blue": 0.0}})
+                try:
+                    self.worksheet.update_cell(self.itr, 4, (getDictTotals(self.dbDict["Current_Liabilities.db"])) +
+                                               (getDictTotals(self.dbDict[db])))
+                except KeyError:
+                    self.worksheet.update_cell(self.itr, 4, "0.00")
+
+                self.worksheet.format("A" + str(lastAssetRow) + ":E" + str(self.itr) + "",
+                                      {"backgroundColor": {"red": 5.0,
+                                                           "green": 0.1,
+                                                           "blue": 0.0}})
+
                 self.itr += 1
 
             else:
@@ -82,10 +106,16 @@ class BalanceSheetUpdate:
 
 
         self.worksheet.update_cell(self.itr, 1, "Equity")
-        self.worksheet.update_cell(self.itr, 4, (getDictTotals(self.dbDict["Current_Assets.db"]))
-                                    +(getDictTotals(self.dbDict["NonCurrent_Assets.db"]))
-                                   -(getDictTotals(self.dbDict["Current_Liabilities.db"]))
-                                   -(getDictTotals(self.dbDict["NonCurrent_Liabilities.db"])))
+        try:
+            self.worksheet.update_cell(self.itr, 4, (getDictTotals(self.dbDict["Current_Assets.db"]))
+                                        +(getDictTotals(self.dbDict["NonCurrent_Assets.db"]))
+                                       -(getDictTotals(self.dbDict["Current_Liabilities.db"]))
+                                       -(getDictTotals(self.dbDict["NonCurrent_Liabilities.db"])))
+        except KeyError:
+
+
+            self.worksheet.update_cell(self.itr, 4, "0")
+
 
         self.worksheet.format("A" + str(self.itr) + ":E" + str(self.itr) + "", {"backgroundColor": {"red": 0.0,
                                                                                                     "green": 5.0,

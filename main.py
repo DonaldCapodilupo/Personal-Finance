@@ -76,7 +76,7 @@ if __name__ == "__main__":
 
 
             creds = ServiceAccountCredentials.from_json_keyfile_name(
-                "/Creds.json", scope)
+                "/home/doncapodilupo/Github_Files/Personal-Finance/Creds.json", scope)
             client = gspread.authorize(creds)
             sheet = client.open('Balance Sheet')
 
@@ -91,4 +91,3 @@ if __name__ == "__main__":
 #TODO: Bug fix: user doesn't input a number, sql attacks ettc.
 #TODO: Make the balance sheet look nicer, boarders, commas, dollar signs, percent change etc.
 #TODO: Add try/excepts (or error handling) for when there is already a sheet with that name
-#TODO: Finis try/excepts. Balance seet is throwing Key errors.
