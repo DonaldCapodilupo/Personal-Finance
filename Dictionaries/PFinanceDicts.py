@@ -1,14 +1,14 @@
-completeBalanceSheet = {"Assets":{"Current Assets":["Cash","Cash_Equivalent_Bank_Accounts", "Short_Term_Investments",
+completeBalanceSheet = {"Assets":{"Current_Assets":["Cash","Cash_Equivalent_Bank_Accounts", "Short_Term_Investments",
                                                     "Net_Receivables","Inventory", "Other_Current_Assets"],
-                                  "NonCurrent Assets":["Property_Plant_and_Equipment", "Accumulated_Depreciation",
+                                  "NonCurrent_Assets":["Property_Plant_and_Equipment", "Accumulated_Depreciation",
                                                         "Equity_and_Other_Investments","Goodwill", "Intangible_Assets",
                                                         "Other_Long_Term_Assets"]},
-                        "Liabilities":{"Current Liabilities":["Total_Revenue", "Accounts_Payable", "Taxes_Payable",
+                        "Liabilities":{"Current_Liabilities":["Total_Revenue", "Accounts_Payable", "Taxes_Payable",
                                                               "Accrued_Liabilities", "Deferred_Revenues",
                                                               "Other_Current_Liabilities"],
-                                       "NonCurrent Liabilities":["Long_Term_Debt", "Deferred_Taxes_Liabilities",
+                                       "NonCurrent_Liabilities":["Long_Term_Debt", "Deferred_Taxes_Liabilities",
                                                                   "Deferred_Revenues","Other_Long_Term_Liabilities"]},
-                        "Equity":{"True Equity":["Common_Stock", "Retained_Earnings", "Accumulated_Other Comprehensive_Income"]}
+                        "Equity":{"True_Equity":["Common_Stock", "Retained_Earnings", "Accumulated_Other Comprehensive_Income"]}
                         }
 
 

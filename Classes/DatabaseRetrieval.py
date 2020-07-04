@@ -1,11 +1,8 @@
 class DatabaseManipulation:
     def __init__(self, databaseName, mainDirectory):
-        import os
         self.mainDirectory = mainDirectory
         self.databaseName = databaseName
         self.databaseDirectory = mainDirectory+"/Databases"
-
-
 
     def addRow(self, accountType):
         import sqlite3, datetime, os
@@ -47,7 +44,7 @@ class DatabaseManipulation:
 
         # Prompts the user to select the item to remove from the database.
         from Classes.ListDisplay import ListDisplay
-        userChoice = ListDisplay(acceptableChoices).displayList(addExit=False)
+        userChoice = ListDisplay(acceptableChoices).displayList()
 
         # remove data
         c.execute('DELETE FROM ' + accountType + ' WHERE Description = ?',
@@ -72,12 +69,10 @@ class DatabaseManipulation:
                 conn.commit()
         print("\n"+self.databaseName+" Updated")
 
-
-
     def getDatabaseInfoAsDict(self):
         import sqlite3, os
         os.chdir(self.databaseDirectory)
-        from Dictionaries.PFinanceDicts import completeBalanceSheet, balanceSheetSpecificToGeneral
+        from Dictionaries.PFinanceDicts import completeBalanceSheet
         dataBaseNames = ["Current_Assets.db", "NonCurrent_Assets.db", "Current_Liabilities.db",
                          "NonCurrent_Liabilities.db"]
         rowObjDict = {}
@@ -86,7 +81,7 @@ class DatabaseManipulation:
         for db in dataBaseNames:
             conn = sqlite3.connect(db)
             c = conn.cursor()
-            conn.row_factory = lambda cursor, row: row[0]
+            conn.row_factory = lambda cursor, rowVariable: row[0]
             if db == "Current_Assets.db":
                 for table in completeBalanceSheet["Assets"]["Current Assets"]:
                     for row in c.execute('SELECT * FROM ' + table + ' ORDER BY ID').fetchall():
