@@ -8,7 +8,7 @@ completeBalanceSheet = {"Assets":{"Current_Assets":["Cash","Cash_Equivalent_Bank
                                                               "Other_Current_Liabilities"],
                                        "NonCurrent_Liabilities":["Long_Term_Debt", "Deferred_Taxes_Liabilities",
                                                                   "Deferred_Revenues","Other_Long_Term_Liabilities"]},
-                        "Equity":{"True_Equity":["Common_Stock", "Retained_Earnings", "Accumulated_Other Comprehensive_Income"]}
+                        "Equity":{"True_Equity":["Common_Stock", "Retained_Earnings", "Accumulated_Other_Comprehensive_Income"]}
                         }
 
 

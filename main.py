@@ -52,30 +52,30 @@ if __name__ == "__main__":
             accountTypeFinal = ListDisplay(list(completeBalanceSheet[accountTypeGeneric][accountTypeTerm])).displayList()
             addRowObj = DatabaseManipulation(accountTypeTerm + ".db", ROOT)
             addRowObj.removeDatabaseRow(accountTypeFinal)
-        #elif mainMenuChoice == mainMenuOptions[3]:
-        #    import gspread
-        #    from oauth2client.service_account import ServiceAccountCredentials
-        #    from Classes.DatabaseRetrieval import DatabaseManipulation
-        #    from Classes.ClassGoogleBalanceSheet import BalanceSheetUpdate
+        elif mainMenuChoice == mainMenuOptions[3]:
+            import gspread
+            from oauth2client.service_account import ServiceAccountCredentials
+            from Classes.DatabaseRetrieval import DatabaseManipulation
+            from Classes.ClassGoogleBalanceSheet import BalanceSheetUpdate
 #
 #
-        #    scope = ["https://spreadsheets.google.com/feeds", 'https://www.googleapis.com/auth/spreadsheets',
-        #             "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive"]
-        #    import os
+            scope = ["https://spreadsheets.google.com/feeds", 'https://www.googleapis.com/auth/spreadsheets',
+                     "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive"]
+            import os
 #
-        #    obj = DatabaseManipulation("", ROOT)
-        #    databaseDict = obj.getDatabaseInfoAsDict()
+            obj = DatabaseManipulation("", ROOT)
+            databaseDict = obj.getDatabaseInfoAsDict()
 #
 #
-        #    creds = ServiceAccountCredentials.from_json_keyfile_name(
-        #        "/home/doncapodilupo/Github_Files/Personal-Finance/Creds.json", scope)
-        #    client = gspread.authorize(creds)
-        #    sheet = client.open('Balance Sheet')
+            creds = ServiceAccountCredentials.from_json_keyfile_name(
+                "C:\\Users\Don\Documents\Github Folder\Personal-Finance\Creds.json", scope)
+            client = gspread.authorize(creds)
+            sheet = client.open('Balance Sheet')
 #
-        #    balanceSheet = BalanceSheetUpdate(sheet,databaseDict)
-        #    balanceSheet.addDatabaseToSpreadsheet()
-        #    print("\nBalance sheet has been updated!\n")
-        #    os.chdir(ROOT)
+            balanceSheet = BalanceSheetUpdate(sheet,databaseDict)
+            balanceSheet.addDatabaseToSpreadsheet()
+            print("\nBalance sheet has been updated!\n")
+            os.chdir(ROOT)
 
 
 
