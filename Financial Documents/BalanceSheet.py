@@ -1,10 +1,3 @@
-
-#Visual printout of the Balance Sheet
-
-#print("|    Account Name     |Account Balance| Change From Last Month|")
-#for i in range(10):
-#        print("|Ally Checking Account|        $147.38|                 -13.5%|")
-
 completeBalanceSheet = {"Assets":{"Current Assets":["Cash","Cash_Equivalent_Bank_Accounts", "Short_Term_Investments",
                                                     "Net_Receivables","Inventory", "Other_Current_Assets"],
                                   "NonCurrent Assets":["Property_Plant_and_Equipment", "Accumulated_Depreciation",

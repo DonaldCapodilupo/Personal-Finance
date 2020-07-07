@@ -4,14 +4,6 @@ def getWorksheetTitle():
     worksheetTitle = current_time.strftime('%m%d%y')
     return worksheetTitle
 
-def sumAccounts(accountDicts):
-    try:
-        accountTotal = [sum(int(row[0]) for row in accountDicts["Current_Assets.db"]) for i in range(len(accountDicts["Current_Assets.db"]))]
-        return accountTotal
-    except KeyError:
-        return 0.00
-
-
 class BalanceSheetUpdate:
     def __init__(self, worksheet, dbDict):
         self.worksheet = worksheet
@@ -19,13 +11,19 @@ class BalanceSheetUpdate:
         self.databases = ["Current_Assets.db","NonCurrent_Assets.db",
                           "Current_Liabilities.db","NonCurrent_Liabilities.db"]
         self.dbDict = dbDict
-        self.totalsDict = {"Current_Assets.db": [sum(int(row[0]) for row in dbDict["Current_Assets.db"]) for i in range(len(dbDict["Current_Assets.db"]))],
-                           "NonCurrent_Assets.db":[sum(int(row[0]) for row in dbDict["NonCurrent_Assets.db"]) for i in range(len(dbDict["NonCurrent_Assets.db"]))],
-                           "Current_Liabilities.db":[sum(int(row[0]) for row in dbDict["Current_Liabilities.db"]) for i in range(len(dbDict["Current_Liabilities.db"]))],
-                           "NonCurrent_Liabilities.db":[sum(int(row[0]) for row in dbDict["NonCurrent_Liabilities.db"]) for i in range(len(dbDict["NonCurrent_Liabilities.db"]))],
+        self.totalsDict = {"Current_Assets.db": self.getTotalsDict("Current_Assets.db"),
+                           "NonCurrent_Assets.db":self.getTotalsDict("NonCurrent_Assets.db"),
+                           "Current_Liabilities.db":self.getTotalsDict("Current_Liabilities.db"),
+                           "NonCurrent_Liabilities.db":self.getTotalsDict("NonCurrent_Liabilities.db")
                            }
         self.equity = "Equity"
 
+    def getTotalsDict(self, database):
+        try:
+            accountTotal = [sum(int(row[0]) for row in self.dbDict[database]) for i in range(len(self.dbDict[database]))]
+            return int(accountTotal[0])
+        except KeyError:
+            return 0.00
 
     def addDatabaseToSpreadsheet(self):
 
@@ -51,7 +49,7 @@ class BalanceSheetUpdate:
             self.worksheet.update_cell(cellRow, 1, "Total for "+str(db[:-3])) #Total for Current_Assets
             #Totals amount. If no accounts, then the balance is zero
             try:
-                self.worksheet.update_cell(cellRow, 4, self.totalsDict[db][0]) #=25.25+1+1...etc
+                self.worksheet.update_cell(cellRow, 4, self.totalsDict[db]) #=25.25+1+1...etc
             except KeyError:
                 self.worksheet.update_cell(cellRow, 4, "0.00")
             cellRow +=1
@@ -59,13 +57,13 @@ class BalanceSheetUpdate:
                 cellRow += 1
                 self.worksheet.update_cell(cellRow, 1, "Total")
                 try:
-                    self.worksheet.update_cell(cellRow, 4, ((self.totalsDict[db][0]) + (self.totalsDict[db[3:]][0])))
+                    self.worksheet.update_cell(cellRow, 4, ((self.totalsDict[db]) + (self.totalsDict[db[3:]])))
                 except KeyError:
                     self.worksheet.update_cell(cellRow, 4, "0.00")
                 if self.lastAssetRow == 1:
                     self.worksheet.format("A"+str(self.lastAssetRow)+":E" + str(cellRow), {"backgroundColor": {"red": 0.0,
-                                                                                   "green": 0.1,
-                                                                                   "blue": 5.0}})
+                                                                                   "green": 0.2,
+                                                                                   "blue": 4.0}})
                 else:
                     self.worksheet.format("A" + str(self.lastAssetRow) + ":E" + str(cellRow),
                                           {"backgroundColor": {"red": 5.0,
@@ -76,8 +74,8 @@ class BalanceSheetUpdate:
 
 
         self.worksheet.update_cell(cellRow, 1, "Equity")
-        self.worksheet.update_cell(cellRow, 4, (sum(self.totalsDict["Current_Assets.db"]+self.totalsDict["NonCurrent_Assets.db"])
-                                                    - sum(self.totalsDict["Current_Liabilities.db"]+self.totalsDict["NonCurrent_Liabilities.db"])))
+        self.worksheet.update_cell(cellRow, 4, (self.totalsDict["Current_Assets.db"]+self.totalsDict["NonCurrent_Assets.db"]
+                                                -self.totalsDict["Current_Liabilities.db"]-self.totalsDict["NonCurrent_Liabilities.db"]))
         self.worksheet.format("A" + str(cellRow) + ":E" + str(cellRow) + "",
                               {"backgroundColor": {"red": 0.0,"green": 5.0,"blue": 0.0}})
         cellRow += 1
