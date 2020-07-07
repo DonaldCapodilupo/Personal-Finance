@@ -1,7 +1,5 @@
-
 class DatabaseBackup:
     def __init__(self, mainDirectory):
-        import os
         self.mainDirectory = mainDirectory
         self.directory = mainDirectory +"/Historical Data"
         self.databaseDirectory = mainDirectory+"/Databases"
@@ -15,10 +13,12 @@ class DatabaseBackup:
             outputWriter = csv.writer(csvFile)
             row = [today, lineItem.accountNickName, lineItem.accountBalance]
             outputWriter.writerow(row)
+
     def createCSVObject(self, row):
         from Classes.AccountClasses import balance_Sheet_Item
         lineItem = balance_Sheet_Item("Null", row[2], row[3])
         DatabaseBackup.updateCSV(self, lineItem)
+
     def getCSVData(self, db, appropriateTableList):
         import sqlite3
         conn = sqlite3.connect(db)  # create a connection the database/create it if it doesn't exist.

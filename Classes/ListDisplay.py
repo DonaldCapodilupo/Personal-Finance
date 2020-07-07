@@ -4,8 +4,6 @@ class ListDisplay:
         self.addExit = addExit
         self.userChoice = ""
 
-
-
     def displayList(self):
         print("Which option would you like to choose")
         number = 1  # This is the counter to display in the output string.
