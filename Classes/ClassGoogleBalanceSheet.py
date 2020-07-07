@@ -4,6 +4,14 @@ def getWorksheetTitle():
     worksheetTitle = current_time.strftime('%m%d%y')
     return worksheetTitle
 
+def sumAccounts(accountDicts):
+    try:
+        accountTotal = [sum(int(row[0]) for row in accountDicts["Current_Assets.db"]) for i in range(len(accountDicts["Current_Assets.db"]))]
+        return accountTotal
+    except KeyError:
+        return 0.00
+
+
 class BalanceSheetUpdate:
     def __init__(self, worksheet, dbDict):
         self.worksheet = worksheet
@@ -15,7 +23,8 @@ class BalanceSheetUpdate:
                            "NonCurrent_Assets.db":[sum(int(row[0]) for row in dbDict["NonCurrent_Assets.db"]) for i in range(len(dbDict["NonCurrent_Assets.db"]))],
                            "Current_Liabilities.db":[sum(int(row[0]) for row in dbDict["Current_Liabilities.db"]) for i in range(len(dbDict["Current_Liabilities.db"]))],
                            "NonCurrent_Liabilities.db":[sum(int(row[0]) for row in dbDict["NonCurrent_Liabilities.db"]) for i in range(len(dbDict["NonCurrent_Liabilities.db"]))],
-                           "Equity":"Test"}
+                           }
+        self.equity = "Equity"
 
 
     def addDatabaseToSpreadsheet(self):
@@ -67,7 +76,8 @@ class BalanceSheetUpdate:
 
 
         self.worksheet.update_cell(cellRow, 1, "Equity")
-        self.worksheet.update_cell(cellRow, 4, self.totalsDict["Equity"])
+        self.worksheet.update_cell(cellRow, 4, (sum(self.totalsDict["Current_Assets.db"]+self.totalsDict["NonCurrent_Assets.db"])
+                                                    - sum(self.totalsDict["Current_Liabilities.db"]+self.totalsDict["NonCurrent_Liabilities.db"])))
         self.worksheet.format("A" + str(cellRow) + ":E" + str(cellRow) + "",
                               {"backgroundColor": {"red": 0.0,"green": 5.0,"blue": 0.0}})
         cellRow += 1
