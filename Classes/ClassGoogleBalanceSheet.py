@@ -20,7 +20,7 @@ class BalanceSheetUpdate:
 
     def getTotalsDict(self, database):
         try:
-            accountTotal = [sum(int(row[0]) for row in self.dbDict[database]) for i in range(len(self.dbDict[database]))]
+            accountTotal = [sum(float(row[0]) for row in self.dbDict[database]) for i in range(len(self.dbDict[database]))]
             return int(accountTotal[0])
         except KeyError:
             return 0.00
@@ -87,3 +87,11 @@ class BalanceSheetUpdate:
         self.worksheet.merge_cells("A" + str(cellRow) + ":E" + str(cellRow + 5))
         print("Where there any notable events?")
         self.worksheet.update_cell(cellRow, 1, input(">"))
+
+    def changeFromPreviousMonth(self):
+        #Connect to spreadsheet
+        #Format column Width
+        #Get previous months values either from CSV or previous google sheet
+        #Get percentages
+        #Input percentages into cells
+        pass

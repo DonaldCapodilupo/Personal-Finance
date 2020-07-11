@@ -24,7 +24,7 @@ if __name__ == "__main__":
 
     while True:
         os.chdir(ROOT)
-        mainMenu = ListDisplay(mainMenuOptions)
+        mainMenu = ListDisplay(mainMenuOptions,addGoBack=False)
         mainMenuChoice = mainMenu.displayList()
         if mainMenuChoice == mainMenuOptions[0]:              #Update Account Balances
             backupDatabase = DatabaseBackup(ROOT)
@@ -35,14 +35,15 @@ if __name__ == "__main__":
                 else:
                     dbToBeUpdated.updateDatabaseColumns(completeBalanceSheet["Liabilities"][dbName[:-3]])
 
-        elif mainMenuChoice == mainMenuOptions[1]:            #Add An Account
+        elif mainMenuChoice == mainMenuOptions[1]:  # Add An Account
             print("What item would you like to add?\n")
             userChoiceGeneric = ListDisplay([*completeBalanceSheet], addExit=False).displayList()
-            print("What is the term of the "+str(userChoiceGeneric)+"?")
+            print("What is the term of the " + str(userChoiceGeneric) + "?")
             accountTypeTerm = ListDisplay(list(completeBalanceSheet[userChoiceGeneric])).displayList()
             accountTypeFinal = ListDisplay(list(completeBalanceSheet[userChoiceGeneric][accountTypeTerm])).displayList()
-            addRowObj = DatabaseManipulation((accountTypeTerm+".db"),ROOT)
+            addRowObj = DatabaseManipulation((accountTypeTerm + ".db"), ROOT)
             addRowObj.addRow(accountTypeFinal)
+
 
         elif mainMenuChoice == mainMenuOptions[2]:
             print("What item would you like to remove?\n")
@@ -52,26 +53,22 @@ if __name__ == "__main__":
             accountTypeFinal = ListDisplay(list(completeBalanceSheet[accountTypeGeneric][accountTypeTerm])).displayList()
             addRowObj = DatabaseManipulation(accountTypeTerm + ".db", ROOT)
             addRowObj.removeDatabaseRow(accountTypeFinal)
+
         elif mainMenuChoice == mainMenuOptions[3]:
             import gspread
             from oauth2client.service_account import ServiceAccountCredentials
             from Classes.DatabaseRetrieval import DatabaseManipulation
             from Classes.ClassGoogleBalanceSheet import BalanceSheetUpdate
-#
-#
+
             scope = ["https://spreadsheets.google.com/feeds", 'https://www.googleapis.com/auth/spreadsheets',
                      "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive"]
             import os
-#
             obj = DatabaseManipulation("", ROOT)
             databaseDict = obj.getDatabaseInfoAsDict()
-#
-#
             creds = ServiceAccountCredentials.from_json_keyfile_name(
                 "C:\\Users\Don\Documents\Github Folder\Personal-Finance\Creds.json", scope)
             client = gspread.authorize(creds)
             sheet = client.open('Balance Sheet')
-#
             balanceSheet = BalanceSheetUpdate(sheet,databaseDict)
             balanceSheet.addDatabaseToSpreadsheet()
             print("\nBalance sheet has been updated!\n")
