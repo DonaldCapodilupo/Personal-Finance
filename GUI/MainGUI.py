@@ -3,14 +3,8 @@ import tkinter as tk
 # custom classes made to create good looking buttons and entries
 from class_buttons import Button
 from class_entry import Entry
-# backend
-
-# copy
 
 
-
-# this is the class called when the program starts
-# it inherits a tkinter window
 class Main(tk.Tk):
     def __init__(self):
         tk.Tk.__init__(self)
@@ -40,54 +34,89 @@ class MainMenu(tk.Frame):
         tk.Frame.__init__(self, master)
         tk.Frame.config(self, bg = '#333333')
 
-        tk.Label(self, text = 'Password Generator', font = ('Arial', 25, 'bold'), bg = '#333333', fg = '#ffffff').pack(pady = 30)
+        tk.Label(self, text = 'Personal Finance Calculations', font = ('Arial', 25, 'bold'), bg = '#333333', fg = '#ffffff').pack(pady = 30)
         tk.Label(self, bg = '#333333').pack(pady = 25) # spacing
 
         # using custom buttons for the ui
-        Button(root = self, text='Start', command = lambda x: master.switch_frame(SelectMode)).pack(pady = 15)
-        Button(root = self, text='Help', command = lambda x: print('DO HELP')).pack(pady = 15)
-        Button(root = self, text='Exit', command = lambda x: master.destroy()).pack(pady = 15)
+        update_accounts_button = Button(root = self, text='Update Accounts', command = lambda x: master.switch_frame(UpdateAccounts))
+        add_record_button = Button(root = self, text='Add an Account', command = lambda x: master.switch_frame(UpdateAccounts))
+        remove_record_button = Button(root = self, text='Remove an Account', command = lambda x: master.switch_frame(UpdateAccounts))
+        view_balances_button = Button(root = self, text='View Balances', command = lambda x: master.switch_frame(UpdateAccounts))
+        exit_button = Button(root = self, text='Exit', command = lambda x: master.destroy())
+
+        update_accounts_button.pack(pady = 15)
+        add_record_button.pack(pady = 15)
+        remove_record_button.pack(pady = 15)
+        view_balances_button.pack(pady = 15)
+        exit_button.pack(pady = 15)
 
 
-
-class SelectMode(tk.Frame):
+class UpdateAccounts(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
         tk.Frame.config(self, bg = '#333333')
 
-        tk.Label(self, text = 'Select mode', font = ('Arial', 25, 'bold'), bg = '#333333', fg = '#ffffff').pack(pady = 30)
-        tk.Label(self, bg = '#333333').pack(pady = 25) # spacing
+        self.main_label = tk.Label(self, text='Click the button to start',
+                 font=('Arial', 25, 'bold'), bg='#333333', fg='#ffffff')
+        tk.Label(self, bg='#333333').pack(pady=25)  # spacing
+        self.entry = Entry(self, alt_text='Current previous value was %v ')
+        # self.entry_length.pack(pady = 10)
+        submit_button = Button(root=self, text='Confirm', command=self.changeLabel)
 
-        # using custom buttons for the ui
-        Button(root = self, text='Fully Random', command = lambda x: master.switch_frame(FullyRandom)).pack(pady = 15)
-        Button(root = self, text='Easy to Remember', command = lambda x: master.switch_frame(EasyToRemember)).pack(pady = 15)
+        self.main_label.pack(pady = 15)
+        self.entry.pack(pady = 15)
+        submit_button.pack(pady = 15)
+
+    def changeLabel(self):
+        self.main_label.config(text="Yay you clicked")
+        self.main_label.pack()
+
+    def updateLoop(self,master,item):
+        tk.Frame.__init__(self, master)
+        tk.Frame.config(self, bg='#333333')
+        tk.Label(self, text='What is the current balance of :',
+                 font=('Arial', 25, 'bold'), bg='#333333', fg='#ffffff').pack(pady=30)
+        tk.Label(self, bg='#333333').pack(pady=25)  # spacing
+        self.entry_length = Entry(self, alt_text='Current previous value was %v ').pack(pady=15)
+        # self.entry_length.pack(pady = 10)
+        Button(root=self, text='Confirm', command=lambda x: self.changeLabel).pack(pady=15)
 
 
-
-class EasyToRemember(tk.Frame):
+class EachAccountToUpdate(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
         tk.Frame.config(self, bg = '#333333')
+        tk.Label(self, text='What is the current balance of :',
+                 font=('Arial', 25, 'bold'), bg='#333333', fg='#ffffff').pack(pady=30)
+        tk.Label(self, bg='#333333').pack(pady=25)  # spacing
+        self.entry_length = Entry(self, alt_text='Current previous value was %v ').pack(pady=15)
+        # self.entry_length.pack(pady = 10)
+        Button(root=self, text='Confirm', command=lambda x: master.destroy()).pack(pady=15)
 
-        tk.Label(self, text = 'Fully Random Password', font = ('Arial', 25, 'bold'), bg = '#333333', fg = '#ffffff').pack \
-            (pady = 30)
-        tk.Label(self, bg = '#333333').pack(pady = 25) # spacing
 
-        self.entry_length = Entry(self, alt_text='Enter password length')
-        self.entry_length.pack(pady = 10)
 
-        self.entry_name = Entry(self, alt_text='Enter your name')
-        self.entry_name.pack(pady = 10)
 
-        self.entry_year = Entry(self, alt_text='Enter your birth year')
-        self.entry_year.pack(pady = 10)
 
-        Button(root = self, text='Confirm', command = lambda x: self.generate_password(int(self.entry_length.get()), self.entry_name.get(), self.entry_year.get())).pack(pady = 15)
 
-        self.entry_password = Entry(self, alt_text='')
-        self.entry_password.pack(pady = 15)
 
-        Button(root = self, text='Copy', command = lambda x: pyperclip.copy(self.entry_password.get())).pack(pady = 15)
+
+
+
+        #self.entry_length = Entry(self, alt_text='Enter password length')
+        #self.entry_length.pack(pady = 10)
+#
+        #self.entry_name = Entry(self, alt_text='Enter your name')
+        #self.entry_name.pack(pady = 10)
+#
+        #self.entry_year = Entry(self, alt_text='Enter your birth year')
+        #self.entry_year.pack(pady = 10)
+#
+        #Button(root = self, text='Confirm', command = lambda x: self.generate_password(int(self.entry_length.get()), self.entry_name.get(), self.entry_year.get())).pack(pady = 15)
+#
+        #self.entry_password = Entry(self, alt_text='')
+        #self.entry_password.pack(pady = 15)
+#
+        #Button(root = self, text='Copy', command = lambda x: pyperclip.copy(self.entry_password.get())).pack(pady = 15)
 
 
     def generate_password(self, length, user_name, birth_year):

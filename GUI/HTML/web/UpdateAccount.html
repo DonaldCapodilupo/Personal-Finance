@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="/eel.js"></script>
+
+    <script>
+    function getAccountType() {
+      window.open("AccountTypeGeneric.html","_self");
+    }
+    </script>
+
+</head>
+<body>
+    <h1 style="text-align: center;">Update Account Balances</h1>
+        <p>&nbsp;</p>
+        <p style="text-align: center;">What is the current balance of {VARIABLE}?</p>
+        <p style="text-align: center;">&nbsp;</p>
+        <form action="/action_page.php">
+        <p><label for="fname">Current Balance:</label> <input id="fname" name="fname" type="text" /><br />"Please only enter numeric input"</p>
+        <p><label for="lname">Previous Balance:</label> <label for="lname">{$XXX.XX}</label>
+</form>
+
+<form>
+            <p style="text-align: center;">
+                <input type="button" value="Update Account Balances" onclick="getAccountType()">
+            </p>
+        </form>
+</body>
+</html>
