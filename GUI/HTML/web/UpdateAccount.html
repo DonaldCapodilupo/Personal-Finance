@@ -5,12 +5,6 @@
     <title>Title</title>
     <script type="text/javascript" src="/eel.js"></script>
 
-    <script>
-    function getAccountType() {
-      window.open("AccountTypeGeneric.html","_self");
-    }
-    </script>
-
 </head>
 <body>
     <h1 style="text-align: center;">Update Account Balances</h1>
@@ -18,8 +12,8 @@
         <p style="text-align: center;">What is the current balance of {VARIABLE}?</p>
         <p style="text-align: center;">&nbsp;</p>
         <form action="/action_page.php">
-        <p><label for="fname">Current Balance:</label> <input id="fname" name="fname" type="text" /><br />"Please only enter numeric input"</p>
-        <p><label for="lname">Previous Balance:</label> <label for="lname">{$XXX.XX}</label>
+        <p><label for="curBal">Current Balance:</label> <input id="curBal" name="curBal" type="text" /><br />"Please only enter numeric input"</p>
+        <p><label for="preBal">Previous Balance:</label> <label for="preBal">{$XXX.XX}</label>
 </form>
 
 <form>

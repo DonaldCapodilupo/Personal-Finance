@@ -5,6 +5,12 @@
     <title>Title</title>
     <script type="text/javascript" src="/eel.js"></script>
 
+    <script>
+    function getAccountTerm() {
+      window.open("AccountTypeTerm.html","_self");
+    }
+    </script>
+
 </head>
 <body>
     <h1 style="text-align: center;">Add An Account</h1>
@@ -17,8 +23,12 @@
     <div style="text-align: center;"><input id="Income" name="accountType" type="radio" value="Income" /> <label for="Income">Income</label></div>
     <div style="text-align: center;"><input id="Expense" name="accountType" type="radio" value="Expense" /> <label for="Expense">Expense</label></div>
     <form>
-    <p style="text-align: center;"><input type="button" value="Add Selection" /></p>
 </form>
-</form>
+
+<form>
+            <p style="text-align: center;">
+                <input type="button" value="Add Selection" onclick="getAccountTerm()">
+            </p>
+        </form>
 </body>
 </html>
