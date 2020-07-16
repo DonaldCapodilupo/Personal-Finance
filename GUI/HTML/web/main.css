@@ -1,0 +1,22 @@
+.box{
+    color: "black";
+    padding: 20px;
+    display: none;
+    margin-top: 20px;
+}
+
+.secondBox{
+    color: "black";
+    padding: 20px;
+    display: none;
+    margin-top: 20px;
+}
+
+.finalBox{
+    color: "black";
+    padding: 20px;
+    display: none;
+    margin-top: 20px;
+    text-align:center;
+}
+
