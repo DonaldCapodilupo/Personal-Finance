@@ -8,9 +8,10 @@
 </style>
 
     <link rel="stylesheet" href="main.css">
+    <script type="text/javascript" src="/eel.js"></script>
 
-<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-<script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script>
 $(document).ready(function(){
     $('input[name="PrimaryAccountType"]').click(function(){
         var inputValue = $(this).attr("value");
@@ -41,6 +42,55 @@ $(document).ready(function(){
 
 
 </script>
+
+    <script>
+           eel.expose(readTextBox)
+           function readTextBox() {
+               var textbox = document.getElementById("accountNameBox");
+               return textbox.value;
+           }
+           function sendAccountNameMessage() {
+               var textbox = document.getElementById("accountNameBox");
+               eel.send(textbox.value)(processAcknowledgement);
+           }
+           function processAcknowledgement(result) {
+               if (result == "ok") {
+                   var textbox = document.getElementById("accountNameBox");
+                   textbox.value = "";
+               }
+           }
+       </script>
+
+    <script>
+        eel.expose(readValueBox)
+        function readValueBox() {
+            var textbox = document.getElementById("accountValueBox");
+            return textbox.value;
+        }
+        function sendAccountValueMessage() {
+            var textbox = document.getElementById("accountValueBox");
+            eel.send(textbox.value)(processAcknowledgement);
+        }
+        function processAcknowledgement(result) {
+            if (result == "ok") {
+                var valueTextbox = document.getElementById("accountValueBox");
+                valueTextbox.value = "";
+            }
+        }
+     </script>
+
+    <script>
+    $(document).ready(function(){
+    $('input[name="PrimaryAccountType"]').click(function(){
+        var inputValue = $(this).attr("value");
+        var targetBox = $("." + inputValue);
+        $(".box").not(targetBox).hide();
+        $(targetBox).show();
+        });
+    });
+       </script>
+
+
 </head>
 <body>
     <div class="getTerm" id="AccountTypePrimary">
@@ -54,20 +104,17 @@ $(document).ready(function(){
         <div style="text-align: center;"><input id="Expense" name="PrimaryAccountType" type="radio" value="Expense" /> <label for="Expense">Expense</label></div>
     </div>
 
-
     <div class="Liability box">
         <p style="text-align: center;">&nbsp;What is the term of the Liability?</p>
         <div style="text-align: center;"><input id="Current_Liability" name="AccountTerm" type="radio" value="FinalCurrentLiability" /> <label for="Current_Liability">Current Liability</label></div>
         <div style="text-align: center;"><input id="NonCurrent_Liability" name="AccountTerm" type="radio" value="FinalNonCurrentLiability" /> <label for="NonCurrent_Liability">NonCurrent Liability</label></div>
     </div>
-    <div class="Equity box">You have selected <strong>green radio button</strong> so i am here</div>
+    <div class="Equity box"><strong>Feature coming soon.</strong></div>
     <div class="Asset box">
         <p style="text-align: center;">&nbsp;What is the term of the Asset?</p>
         <div style="text-align: center;"><input id="Current_Asset" name="AccountTerm" type="radio" value="FinalCurrentAsset" /> <label for="Current_Asset">Current Asset</label></div>
         <div style="text-align: center;"><input id="NonCurrent_Asset" name="AccountTerm" type="radio" value="FinalNonCurrentAsset" /> <label for="NonCurrent_Asset">NonCurrent Asset</label></div>
     </div>
-
-
 
     <div class="FinalCurrentAsset secondBox">
         <p style="text-align: center;">&nbsp;What Current Asset class would you like to add?</p>
@@ -107,7 +154,6 @@ $(document).ready(function(){
         <div style="text-align: center;"><input id="Other_Long_Term_Liabilities" name="Final_Account_Type" type="radio" value="Other_Long_Term_Liabilities" /> <label for="Other_Long_Term_Liabilities">Other Long Term Liabilities</label></div>
         </div>
 
-
     <div class="Final_Account_Type finalBox">
         <p>
             Please give the new account a name:
@@ -116,7 +162,7 @@ $(document).ready(function(){
          <input type="text" id="accountValueBox" name="accountName"><br><br>
 
 
-        <input type="button" value="Add Account" onclick="openWin()">
+        <input type="button" value="Add Account" onclick="sendAccountNameMessage();sendAccountValueMessage()">
         </p>
 
     </div>
