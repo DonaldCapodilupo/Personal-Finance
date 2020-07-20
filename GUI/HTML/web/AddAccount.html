@@ -50,8 +50,9 @@ $(document).ready(function(){
                return textbox.value;
            }
            function sendAccountNameMessage() {
-               var textbox = document.getElementById("accountNameBox");
-               eel.send(textbox.value)(processAcknowledgement);
+               var nameTextbox = document.getElementById("accountNameBox");
+               var valueTextbox = document.getElementById("accountValueBox");
+               eel.send(nameTextbox.value,valueTextbox.value)(processAcknowledgement);
            }
            function processAcknowledgement(result) {
                if (result == "ok") {
@@ -69,7 +70,7 @@ $(document).ready(function(){
         }
         function sendAccountValueMessage() {
             var textbox = document.getElementById("accountValueBox");
-            eel.send(textbox.value)(processAcknowledgement);
+            eel.send(valueTextbox.value)(processAcknowledgement);
         }
         function processAcknowledgement(result) {
             if (result == "ok") {
@@ -89,6 +90,32 @@ $(document).ready(function(){
         });
     });
        </script>
+
+
+    <script>
+        eel.expose(displayRadioValue)
+        function displayRadioValue() {
+            var ele = document.getElementsByType('radio');
+
+            for(i = 0; i < ele.length; i++) {
+                if(ele[i].checked)
+                    eel.send(ele[i].value)(processAcknowledgement);
+        }
+        function processAcknowledgement(result) {
+            if (result == "ok") {
+                var valueTextbox = document.getElementById("accountValueBox");
+                valueTextbox.value = "";
+            }
+        }
+                }
+            }
+        }
+
+        function sendAccountValueMessage() {
+            var accountPrimary = document.getElementById("accountValueBox");
+            eel.send(accountPrimary.value)(processAcknowledgement);
+        }
+    </script>
 
 
 </head>

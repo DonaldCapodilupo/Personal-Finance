@@ -7,17 +7,20 @@ eel.start('main.html', block=False)
 
 
 @eel.expose
-def send(msg):
-    print("Received Message: " + msg)
+def send(accountName, accountValue,primaryAccountType):
+    print("Account Name: " + accountName)
+    print("Account Balance: " + accountValue)
+    print(primaryAccountType)
     return "ok"
 
 while True:
     text = eel.readTextBox()()
     value = eel.readValueBox()()
-    #accountType = eel.readRadioButtons()()
+    #radioButtons = eel.displayRadioValue()()
     print("Text box contents: {}".format(text))
-    eel.sleep(2.0)
     print("Value box contents: {}".format(value))
+    eel.sleep(2.0)
+    #print("Radio button contents: {}".format(radioButtons))
     eel.sleep(2.0)
 
 
