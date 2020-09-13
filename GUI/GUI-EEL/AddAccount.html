@@ -4,72 +4,9 @@
     <meta charset="utf-8">
     <title>Enter The Information</title>
 
-    <!--<script type="text/javascript" src="/eel.js"></script>-->
+    <script type="text/javascript" src="/eel.js"></script>
     <script type="text/javascript" src="Javascript/AddAccount.js"></script>
     <link rel="stylesheet" href="CSS/AddAccount.css">
-
-    <script>
-        eel.expose(readTextBox)
-        function readTextBox() {
-            var textbox = document.getElementById("accountNameBox");
-            return textbox.value;
-        }
-        function sendAccountNameMessage() {
-            var nameTextbox = document.getElementById("accountNameBox");
-            var valueTextbox = document.getElementById("accountValueBox");
-            eel.send(nameTextbox.value,valueTextbox.value)(processAcknowledgement);
-        }
-        function processAcknowledgement(result) {
-            if (result == "ok") {
-                var textbox = document.getElementById("accountNameBox");
-                textbox.value = "";
-            }
-        }
-    </script>
-
-    <script>
-        eel.expose(readValueBox)
-        function readValueBox() {
-            var textbox = document.getElementById("accountValueBox");
-            return textbox.value;
-        }
-        function sendAccountValueMessage() {
-            var textbox = document.getElementById("accountValueBox");
-            eel.send(valueTextbox.value)(processAcknowledgement);
-        }
-        function processAcknowledgement(result) {
-            if (result == "ok") {
-                var valueTextbox = document.getElementById("accountValueBox");
-                valueTextbox.value = "";
-            }
-        }
-    </script>
-
-    <script>
-        eel.expose(displayRadioValue)
-        function displayRadioValue() {
-            var ele = document.getElementsByType('radio');
-
-            for(i = 0; i < ele.length; i++) {
-                if(ele[i].checked)
-                    eel.send(ele[i].value)(processAcknowledgement);
-            }
-            function processAcknowledgement(result) {
-                if (result == "ok") {
-                    var valueTextbox = document.getElementById("accountValueBox");
-                    valueTextbox.value = "";
-                }
-            }
-        }
-        }
-        }
-
-        function sendAccountValueMessage() {
-            var accountPrimary = document.getElementById("accountValueBox");
-            eel.send(accountPrimary.value)(processAcknowledgement);
-        }
-    </script>
-
 
 </head>
 <body>
@@ -82,20 +19,23 @@
         <h3>What type of account would you like to add?</h3>
     </div>
     <div class="MainAccountTypeDiv">
-        <input id="Asset" name="PrimaryAccountType" type="radio" value="Asset"/> <label for="Asset">Asset</label>
-        <br>
-        <input id="Liability" name="PrimaryAccountType" type="radio" value="Liability"/> <label for="Liability">Liability</label>
-        <br>
-        <input id="Income" name="PrimaryAccountType" type="radio" value="Income"/> <label for="Income">Income</label>
-        <br>
-        <input id="Expense" name="PrimaryAccountType" type="radio" value="Expense"/> <label for="Expense">Expense</label>
-        <p><input type="button" value="Submit" onclick="accountPrimaryCheck()"></p>
+        <form>
+            <input id="Asset" name="PrimaryAccountType" type="radio" value="Asset"/> <label for="Asset">Asset</label>
+            <br>
+            <input id="Liability" name="PrimaryAccountType" type="radio" value="Liability"/> <label for="Liability">Liability</label>
+            <br>
+            <input id="Income" name="PrimaryAccountType" type="radio" value="Income"/> <label for="Income">Income</label>
+            <br>
+            <input id="Expense" name="PrimaryAccountType" type="radio" value="Expense"/> <label for="Expense">Expense</label>
+            <p><input type="button" value="Submit" onclick="accountPrimaryCheck()"></p>
+        </form>
     </div>
     <div class="AccountTermDiv" id="AccountTermID">
         <h3>Will the account balance be zero before the end of the year?</h3>
-        <div><input id="Current" name="AccountTerm" type="radio" value="True"/> <label for="Current">Yes</label></div>
-        <div><input id="NonCurrent" name="AccountTerm" type="radio" value="False"/> <label for="NonCurrent">No</label></div>
-
+        <form>
+            <div><input id="Current" name="AccountTerm" type="radio" value="Current"/> <label for="Current">Yes</label></div>
+            <div><input id="NonCurrent" name="AccountTerm" type="radio" value="NonCurrent"/> <label for="NonCurrent">No</label></div>
+        </form>
         <p><input type="button" value="Submit" onclick="getAccountType()"></p>
     </div>
     <div class="SpecificAccountTypeDiv" id="SpecificAccountTypeDiv">
@@ -143,13 +83,15 @@
         </div>
         <div class="FinalNonCurrentLiability" id="FinalNonCurrentLiability">
             <p>&nbsp;What NonCurrent Asset class would you like to add?</p>
-            <input id="Long_Term_Debt" name="Final_Account_Type" type="radio" value="Long_Term_Debt" /> <label for="Long_Term_Debt">Long Term Debt</label>
-            <br>
-            <input id="Deferred_Taxes_Liabilities" name="Final_Account_Type" type="radio" value="Deferred_Taxes_Liabilities" /> <label for="Deferred_Taxes_Liabilities">Deferred Taxes Liabilities</label>
-            <br>
-            <input id="NonCur_Deferred_Revenues" name="Final_Account_Type" type="radio" value="Deferred_Revenues" /> <label for="NonCur_Deferred_Revenues">Deferred Revenues</label>
-            <br>
-            <input id="Other_Long_Term_Liabilities" name="Final_Account_Type" type="radio" value="Other_Long_Term_Liabilities" /> <label for="Other_Long_Term_Liabilities">Other Long Term Liabilities</label>
+            <form>
+                <input id="Long_Term_Debt" name="Final_Account_Type" type="radio" value="Long_Term_Debt" /> <label for="Long_Term_Debt">Long Term Debt</label>
+                <br>
+                <input id="Deferred_Taxes_Liabilities" name="Final_Account_Type" type="radio" value="Deferred_Taxes_Liabilities" /> <label for="Deferred_Taxes_Liabilities">Deferred Taxes Liabilities</label>
+                <br>
+                <input id="NonCur_Deferred_Revenues" name="Final_Account_Type" type="radio" value="Deferred_Revenues" /> <label for="NonCur_Deferred_Revenues">Deferred Revenues</label>
+                <br>
+                <input id="Other_Long_Term_Liabilities" name="Final_Account_Type" type="radio" value="Other_Long_Term_Liabilities" /> <label for="Other_Long_Term_Liabilities">Other Long Term Liabilities</label>
+            </form>
         </div>
         <div class="AccountInformationDiv">
             <div class="Final_Account_Type finalBox">
@@ -158,7 +100,7 @@
                     <input type="text" id="accountNameBox" name="accountName"><br><br>
                     What is the current value of the new account?: $
                     <input type="text" id="accountValueBox" name="accountName"><br><br>
-                    <input type="button" value="Add Account" onclick="sendAccountNameMessage();sendAccountValueMessage()">
+                    <input type="button" value="Add Account" onclick="getRadioVal('PrimaryAccountType','AccountTerm','Final_Account_Type','accountNameBox','accountValueBox')">
                 </p>
             </div>
         </div>
