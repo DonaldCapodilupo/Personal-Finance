@@ -1,0 +1,53 @@
+body{
+    background-color: aqua;
+}
+
+.MainWrapper{
+    display: grid;
+    grid-template-rows: auto auto auto auto auto;
+    text-align: center;
+}
+
+.MainTitle{
+    background-color: lightblue;
+    border-radius: 15px;
+    font-weight: bold;
+}
+
+.SubTitle{
+    background-color: turquoise;
+    border-radius: 15px;
+}
+
+.MainAccountTypeDiv{
+    background-color: turquoise;
+    border-radius: 15px;
+
+}
+
+.AccountTermDiv{
+    background-color: mediumturquoise;
+    border-radius: 15px;
+    display: none;
+}
+
+.SpecificAccountTypeDiv{
+    background-color: darkturquoise;
+    border-radius: 15px;
+    display: none;
+    ;
+}
+
+.FinalCurrentAsset{
+    display: none;
+}
+.FinalNonCurrentAsset{
+    display: none;
+}
+
+.FinalCurrentLiability{
+    display: none;
+}
+.FinalNonCurrentLiability{
+    display: none;
+}

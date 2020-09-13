@@ -1,0 +1,23 @@
+body{
+    background-color: wheat;
+}
+.MainWrapper{
+    display: grid;
+    grid-template-rows: auto auto auto;
+    text-align: center;
+}
+.MainTitle{
+    background-color: lightgreen;
+    border-radius: 15px;
+    font-weight: bold;
+}
+
+.WelcomeText{
+    background-color: aqua;
+    border-radius: 15px;
+}
+
+.ButtonWrapper{
+    background-color: darkseagreen;
+    border-radius: 15px;
+}

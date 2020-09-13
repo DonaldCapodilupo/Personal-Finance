@@ -1,0 +1,20 @@
+body{
+    background-color: lightblue;
+}
+
+.wrapper{
+    background-color: turquoise;
+    display: grid;
+    grid-template-rows: auto auto auto;
+    text-align: center;
+
+}
+
+.MainTitle{
+    background-color: mediumturquoise;
+}
+
+.AccountScrollBox{
+    background-color: darkturquoise;
+    display: grid;
+}
