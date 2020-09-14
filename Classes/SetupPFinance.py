@@ -1,7 +1,8 @@
 class SetupTool:
     def __init__(self):
         self.neededDirectories = ['Historical Data', 'Databases']
-        self.databaseNames = ["Current_Assets", "NonCurrent_Assets", "Current_Liabilities", "NonCurrent_Liabilities"]
+        self.databaseNames = ["Current_Assets", "NonCurrent_Assets", "Current_Liabilities", "NonCurrent_Liabilities",
+                              "Income", "Expenses"]
         self.directorySetup()
         self.databaseSetup()
 
@@ -38,10 +39,14 @@ class SetupTool:
         for nameOfDatabase in self.databaseNames:
             conn = sqlite3.connect(nameOfDatabase + '.db')
             c = conn.cursor()
-            try:
+            if nameOfDatabase == "Current_Assets" or nameOfDatabase == "NonCurrent_Assets":
                 insertDatabaseTables(c, completeBalanceSheet["Assets"][nameOfDatabase])
-            except KeyError:
+            elif nameOfDatabase == "Current_Liabilities" or nameOfDatabase == "NonCurrent_Liabilities":
                 insertDatabaseTables(c, completeBalanceSheet["Liabilities"][nameOfDatabase])
+            elif nameOfDatabase == "Income":
+                insertDatabaseTables(c, completeBalanceSheet["Income"]["Income"])
+            else:
+                insertDatabaseTables(c, completeBalanceSheet["Expenses"]["Expenses"])
 
 
 
