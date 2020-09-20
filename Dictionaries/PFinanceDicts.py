@@ -9,8 +9,9 @@ completeBalanceSheet = {"Assets":{"Current_Assets":["Cash","Cash_Equivalent_Bank
                                        "NonCurrent_Liabilities":["Long_Term_Debt", "Deferred_Taxes_Liabilities",
                                                                   "Deferred_Revenues","Other_Long_Term_Liabilities"]},
                         "Equity":{"True_Equity":["Common_Stock", "Retained_Earnings", "Accumulated_Other_Comprehensive_Income"]},
-                        "Income":{"Income":["Income"]},
-                        "Expenses":{"Expenses":["Expenses"]}}
+                        "Income":{"Current_Incomes":["Main_Paycheck","Investment_Income","Business_Income","Gift_Income"]},
+                        "Expenses":{"Current_Expenses":["Rent_Expense","Insurance_Expense","Gas_Expense","Food_Expense",
+                                                "Education_Expense", "Alcohol_Expense", "Misc_Expense"]}}
 
 
 

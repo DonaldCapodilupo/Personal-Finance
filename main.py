@@ -39,16 +39,16 @@ if __name__ == "__main__":
     @eel.expose
     def addAccountToDatabase(genericType, term, specificType, description, value):
         import sqlite3, datetime, os
-        if term is None:
+        if term is None: #This means that the item was Income or Expense
             conn = sqlite3.connect(
                 "C:\\Users\Don\Documents\Github Folder\Personal-Finance\Databases\\" + genericType + ".db")
-        else:
+        else: #Item is asset/Liability/Equity
             conn = sqlite3.connect("C:\\Users\Don\Documents\Github Folder\Personal-Finance\Databases\\" + term + "_" + genericType + "s.db")
         c = conn.cursor()
         today = str(datetime.date.today())
 
         # Append the data to the proper table in the database. Confirm for the user. Return to main menu.
-        if specificType is None:
+        if specificType is None: #Ensures that Income and Expense are added to the database properly.
             specificType = genericType
 
         c.execute("INSERT INTO " + specificType + " VALUES (NULL, ?, ?, ?)",

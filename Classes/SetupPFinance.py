@@ -2,7 +2,7 @@ class SetupTool:
     def __init__(self):
         self.neededDirectories = ['Historical Data', 'Databases']
         self.databaseNames = ["Current_Assets", "NonCurrent_Assets", "Current_Liabilities", "NonCurrent_Liabilities",
-                              "Income", "Expenses"]
+                              "Current_Incomes", "Current_Expenses"]
         self.directorySetup()
         self.databaseSetup()
 
@@ -43,10 +43,10 @@ class SetupTool:
                 insertDatabaseTables(c, completeBalanceSheet["Assets"][nameOfDatabase])
             elif nameOfDatabase == "Current_Liabilities" or nameOfDatabase == "NonCurrent_Liabilities":
                 insertDatabaseTables(c, completeBalanceSheet["Liabilities"][nameOfDatabase])
-            elif nameOfDatabase == "Income":
-                insertDatabaseTables(c, completeBalanceSheet["Income"]["Income"])
+            elif nameOfDatabase == "Current_Incomes":
+                insertDatabaseTables(c, completeBalanceSheet["Income"]["Current_Incomes"])
             else:
-                insertDatabaseTables(c, completeBalanceSheet["Expenses"]["Expenses"])
+                insertDatabaseTables(c, completeBalanceSheet["Expenses"]["Current_Expenses"])
 
 
 

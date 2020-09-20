@@ -51,3 +51,9 @@ body{
 .FinalNonCurrentLiability{
     display: none;
 }
+.FinalIncome{
+    display: none;
+}
+.FinalExpenses{
+    display: none;
+}

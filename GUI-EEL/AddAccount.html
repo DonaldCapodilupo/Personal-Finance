@@ -93,14 +93,47 @@
                 <input id="Other_Long_Term_Liabilities" name="Final_Account_Type" type="radio" value="Other_Long_Term_Liabilities" /> <label for="Other_Long_Term_Liabilities">Other Long Term Liabilities</label>
             </form>
         </div>
-        <div class="AccountInformationDiv">
+
+        <div class="FinalIncome" id="IncomeSpecific">
+            <p>&nbsp;What Income Asset class would you like to add?</p>
+            <form>
+                <input id="Main_Paycheck" name="Final_Account_Type" type="radio" value="Main_Paycheck" /> <label for="Main_Paycheck">Main Paycheck</label>
+                <br>
+                <input id="Investment_Income" name="Final_Account_Type" type="radio" value="Investment_Income" /> <label for="Investment_Income">Investment Income</label>
+                <br>
+                <input id="Business_Income" name="Final_Account_Type" type="radio" value="Business_Income" /> <label for="Business_Income">Business Income</label>
+                <br>
+                <input id="Gift_Income" name="Final_Account_Type" type="radio" value="Gift_Income" /> <label for="Gift_Income">Gift Income</label>
+            </form>
+        </div>
+
+        <div class="FinalExpenses" id="ExpensesSpecific">
+            <p>&nbsp;What Expense class would you like to add?</p>
+            <form>
+                <input id="Rent_Expense" name="Final_Account_Type" type="radio" value="Rent_Expense" /> <label for="Rent_Expense">Rent Expense</label>
+                <br>
+                <input id="Insurance_Expense" name="Final_Account_Type" type="radio" value="Insurance_Expense" /> <label for="Insurance_Expense">Insurance Expense</label>
+                <br>
+                <input id="Gas_Expense" name="Final_Account_Type" type="radio" value="Gas_Expense" /> <label for="Gas_Expense">Gas Expense</label>
+                <br>
+                <input id="Food_Expense" name="Final_Account_Type" type="radio" value="Food_Expense" /> <label for="Food_Expense">Food Expense</label>
+                <input id="Education_Expense" name="Final_Account_Type" type="radio" value="Education_Expense" /> <label for="Education_Expense">Education Expense</label>
+                <br>
+                <input id="Alcohol_Expense" name="Final_Account_Type" type="radio" value="Alcohol_Expense" /> <label for="Alcohol_Expense">Alcohol Expense</label>
+                <br>
+                <input id="Misc_Expense" name="Final_Account_Type" type="radio" value="Misc_Expense" /> <label for="Misc_Expense">Misc Expense</label>
+                <br>
+            </form>
+        </div>
+
+        <div class="AccountInformationDiv" id="AccountInformationDiv">
             <div class="Final_Account_Type finalBox">
                 <p>
                     Please give the new account a name:
                     <input type="text" id="accountNameBox" name="accountName"><br><br>
                     What is the current value of the new account?: $
                     <input type="text" id="accountValueBox" name="accountName"><br><br>
-                    <input type="button" value="Add Account" onclick="getRadioVal('PrimaryAccountType','AccountTerm','Final_Account_Type','accountNameBox','accountValueBox')">
+                    <input type="button" value="Add Account" onclick="getPageValues()">
                 </p>
             </div>
         </div>
