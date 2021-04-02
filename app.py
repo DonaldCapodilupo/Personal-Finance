@@ -32,11 +32,13 @@ def update_Accounts():
 
 @app.route('/AddAnAccount', methods=["POST","GET"])
 def add_Account():
-    if request.method == "POST":
-        if request.form['btn_Go_Back'] == 'Go Back':
-            return redirect(url_for('main_Menu'))
-    else:
-        return render_template('AddAccount.html')
+    skip_Term_Div = ('Income','Expense')
+    #if request.method == "POST":
+    #    if request.form['submit'] == 'Go Back':
+    #        return redirect(url_for('main_Menu'))
+
+    #else:
+    return render_template('AddAccount.html')
 
 @app.route('/RemoveAnAccount', methods=["POST","GET"])
 def remove_Account():
