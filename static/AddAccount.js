@@ -1,10 +1,11 @@
-//Buttons
-function goBack() {
-    window.open("main.html","_self");
+function toggle_display() {
+  var x = document.getElementById("Account_Type_Term");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
 }
-
-
-//These functions reveal div tags based on a button click relative to which radio button is clicked.
 function getAccountType() {
     const asset = Boolean(document.getElementById("Asset").checked);
     const liability = Boolean(document.getElementById("Liability").checked);
@@ -70,6 +71,10 @@ function getAccountType() {
 }
 
 
+
+
+
+
 function hideSpecificAccountDivTags(){
     const currentAsset = document.getElementById("FinalCurrentAsset");
     const nonCurrentAsset = document.getElementById("FinalNonCurrentAsset");
@@ -87,17 +92,15 @@ function hideSpecificAccountDivTags(){
 }
 
 
-//Determine if the user needs to determine if the Asset/Liability is long term or not.
-//If the User selected Income/Expenses, then we automatically determine the item is current and not long term.
 function accountPrimaryCheck() {
     if ((document.getElementById('Asset').checked) || (document.getElementById('Liability').checked)) {
         hideSpecificAccountDivTags()
         document.getElementById('AccountInformationDiv').style.display = 'none';
-        document.getElementById('AccountTermID').style.display = 'grid';
+        document.getElementById('Account_Type_Term').style.display = 'grid';
     }
     else if((document.getElementById('Income').checked) || (document.getElementById('Expense').checked) ){
         document.getElementById('SpecificAccountTypeDiv').style.display = 'grid';
-        document.getElementById('AccountTermID').style.display = 'none';
+        document.getElementById('Account_Type_Term').style.display = 'none';
         document.getElementById("Current").checked = true;
 
         if ((document.getElementById('Income').checked)){
@@ -116,60 +119,3 @@ function accountPrimaryCheck() {
         }
     }
 }
-
-function getPageValues(){
-    const genericAccountType = document.getElementsByName('PrimaryAccountType');
-    const accountTerm = document.getElementsByName('AccountTerm');
-    const specificAccountType = document.getElementsByName('Final_Account_Type');
-    const userDescription = document.getElementById('accountNameBox').value;
-    const userValue = document.getElementById('accountValueBox').value;
-
-    let documentInformationArray = [genericAccountType,accountTerm, specificAccountType]
-
-    let finalGenericAccountType;
-    let finalAccountTerm;
-    let finalSpecificAccountType;
-
-    console.log(genericAccountType)
-
-
-    for (let i = 0, len = documentInformationArray.length; i < len; i++) {
-        for (let x = 0, xlen = documentInformationArray[i].length; x < xlen; x++) {
-            console.log(documentInformationArray[i])
-            console.log(documentInformationArray[i][x])
-            if (documentInformationArray[i][x].checked) { // radio checked?
-                documentInformationArray[i] = documentInformationArray[i][x].value; // if so, hold its value in val
-                console.log(documentInformationArray)
-                break; // and break out of for loop
-            }
-        }
-    }
-
-
-
-    console.log(
-        "Generic account type: " + documentInformationArray[0],
-        +"\nAccount term: " + documentInformationArray[1]
-        + "\nSpecific account type: " + documentInformationArray[2]
-        + "\nAccount description: " + userDescription
-        + "\nAccount value: " + userValue);
-
-    //Print output to Python
-    eel.printRadioButtonValues(
-        documentInformationArray[0],
-        documentInformationArray[1],
-        documentInformationArray[2],
-        userDescription,
-        userValue);
-
-    //Add all of the current values of the object into the database.
-    eel.addAccountToDatabase(
-        documentInformationArray[0],
-        documentInformationArray[1],
-        documentInformationArray[2],
-        userDescription,
-        userValue);
-
-
-}
-
