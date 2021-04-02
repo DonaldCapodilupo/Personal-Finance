@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Capbro Personal Finance Software</title>
+
+
+
+    <link rel="stylesheet" href="../static/main.css">
+
+</head>
+<body>
+
+<div class="MainWrapper">
+    <div class="MainTitle">
+        <h2>Personal Finance Calculator</h2>
+    </div>
+    <div class="WelcomeText">
+        <p>Please select which option you would like</p>
+    </div>
+    <div class="Update_Account_Wrapper">
+         <form action="{{ url_for('main_Menu') }}" method="POST">
+             <input type="submit" name="btn" value="Update Account Balances">
+        </form>
+
+    </div>
+    <div class="Add_Account_Wrapper">
+        <form action="{{ url_for('main_Menu') }}" method="POST">
+             <input type="submit" name="btn" value="Add an Account">
+        </form>
+    </div>
+
+    <div class="Remove_Account_Wrapper">
+        <form action="{{ url_for('main_Menu') }}" method="POST">
+             <input type="submit" name="btn" value="Remove an Account">
+        </form>
+    </div>
+
+    <div class="Remove_Account_Wrapper">
+        <form action="{{ url_for('main_Menu') }}" method="POST">
+             <input type="submit" name="btn" value="View Account Balances">
+        </form>
+    </div>
+
+    <div class="Close_Button_Wrapper">
+        <button type="button" onclick="window.close()">Close Tab</button>
+    </div>
+
+
+</div>
+</body>
+</html>
