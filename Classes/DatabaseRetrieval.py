@@ -68,7 +68,7 @@ class DatabaseManipulation:
         os.chdir(self.databaseDirectory)
         from Dictionaries.PFinanceDicts import completeBalanceSheet
         dataBaseNames = ["Current_Assets.db", "NonCurrent_Assets.db", "Current_Liabilities.db",
-                         "NonCurrent_Liabilities.db"]
+                         "NonCurrent_Liabilities.db","Current_Incomes.db","Current_Expenses.db"]
         rowObjDict = {}
 
 
