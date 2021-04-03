@@ -32,13 +32,14 @@ def update_Accounts():
 
 @app.route('/AddAnAccount', methods=["POST","GET"])
 def add_Account():
-    skip_Term_Div = ('Income','Expense')
-    #if request.method == "POST":
-    #    if request.form['submit'] == 'Go Back':
-    #        return redirect(url_for('main_Menu'))
-
-    #else:
-    return render_template('AddAccount.html')
+    if request.method == "POST":
+        if request.form['btn'] == 'Update Account Balances':
+            print('User selected to add a ' +request.form['AccountTerm'] +" " + request.form['PrimaryAccountType'] + " named " +
+                  request.form['accountName']  +" with a balance of $" + request.form['accountBalance'])
+            print("It has been given a specific category of " + request.form['Final_Account_Type'])
+            return redirect(url_for('main_Menu'))
+    else:
+        return render_template('AddAccount.html')
 
 @app.route('/RemoveAnAccount', methods=["POST","GET"])
 def remove_Account():

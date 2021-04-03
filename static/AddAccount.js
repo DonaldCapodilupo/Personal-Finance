@@ -1,11 +1,3 @@
-function toggle_display() {
-  var x = document.getElementById("Account_Type_Term");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
 function getAccountType() {
     const asset = Boolean(document.getElementById("Asset").checked);
     const liability = Boolean(document.getElementById("Liability").checked);
@@ -102,6 +94,7 @@ function accountPrimaryCheck() {
         document.getElementById('SpecificAccountTypeDiv').style.display = 'grid';
         document.getElementById('Account_Type_Term').style.display = 'none';
         document.getElementById("Current").checked = true;
+        document.getElementById('AccountInformationDiv').style.display = 'block';
 
         if ((document.getElementById('Income').checked)){
             hideSpecificAccountDivTags()
