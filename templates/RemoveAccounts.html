@@ -2,19 +2,45 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Remove an Account</title>
+
+    <link rel="stylesheet" href="../static/RemoveAccounts.css">
 </head>
 <body>
     <div class="wrapper">
-        <h1>Coming Soon</h1>
+            <h1 class="Main_Title">Remove An Account</h1>
+            <h3 class ='Sub_Title'>What type of account would you like to remove?</h3>
 
-        <div class="ButtonWrapper">
-            <form action="{{ url_for('add_Account') }}" method="POST">
-                <div class="Button_Wrapper">
-                    <input type="submit" name="btn_Go_Back" value="Go Back">
+            <form action="{{ url_for('remove_Account_From_Database') }}" method="POST">
+                <div class="Account_Type_Main">
+                        <input id="Asset" name="PrimaryAccountType" type="radio" value="Asset"/> <label for="Asset">Asset</label>
+                        <br>
+                        <input id="Liability" name="PrimaryAccountType" type="radio" value="Liability"/> <label for="Liability">Liability</label>
+                        <br>
+                        <input id="Income" name="PrimaryAccountType" type="radio" value="Income"/> <label for="Income">Income</label>
+                        <br>
+                        <input id="Expense" name="PrimaryAccountType" type="radio" value="Expense"/> <label for="Expense">Expense</label>
+                        <br>
+                        <input type="submit" name="btn" value="Get Database Values">
+                </div>
+
+
+                <div class="Database_Information_Wrapper">
+                    <div class="Current_Wrapper">
+                        {% for item in data %}
+                            <tr>
+                                <td>{{item}}</td>
+                                <br>
+                            </tr>
+                        {% endfor %}
+
+                    </div>
+
+                    <div class="NonCurrent_Wrapper">
+
+                    </div>
                 </div>
             </form>
-        </div>
     </div>
 </body>
 </html>
