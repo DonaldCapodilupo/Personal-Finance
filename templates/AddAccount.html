@@ -5,138 +5,133 @@
     <title>Title</title>
     <link rel="stylesheet" href="../static/AddAccount.css">
      <script type="text/javascript" src="../static/AddAccount.js"></script>
-
-
-
 </head>
 <body>
     <div class="wrapper">
-            <h1 class="Main_Title">Add An Account</h1>
-            <h3 class ='Sub_Title'>What type of account would you like to add?</h3>
+        <h1 class="Main_Title">Add An Account</h1>
+        <h3 class ='Sub_Title'>What type of account would you like to add?</h3>
 
-            <form action="{{ url_for('add_Account') }}" method="POST">
-
-                <div class="Account_Type_Main">
-                        <input id="Asset" name="PrimaryAccountType" type="radio" value="Asset"/> <label for="Asset">Asset</label>
-                        <br>
-                        <input id="Liability" name="PrimaryAccountType" type="radio" value="Liability"/> <label for="Liability">Liability</label>
-                        <br>
-                        <input id="Income" name="PrimaryAccountType" type="radio" value="Income"/> <label for="Income">Income</label>
-                        <br>
-                        <input id="Expense" name="PrimaryAccountType" type="radio" value="Expense"/> <label for="Expense">Expense</label>
-                        <br>
-                        <button type="button" onclick="accountPrimaryCheck()">Submit</button>
-                </div>
-
-                <div class="Account_Type_Term" id="Account_Type_Term" style="display:none;">
-                <h3>Will the account balance be zero before the end of the year?</h3>
-                <input id="Current" name="AccountTerm" type="radio" value="Current"/> <label for="Current">Yes</label>
+        <form action="{{ url_for('add_Account_To_Database') }}" method="POST">
+            <div class="Account_Type_Main">
+                <input id="Asset" name="PrimaryAccountType" type="radio" value="Asset"/> <label for="Asset">Asset</label>
                 <br>
-                <input id="NonCurrent" name="AccountTerm" type="radio" value="NonCurrent"/> <label for="NonCurrent">No</label>
+                <input id="Liability" name="PrimaryAccountType" type="radio" value="Liability"/> <label for="Liability">Liability</label>
                 <br>
-                <button type="button" onclick="getAccountType()">Submit</button>
+                <input id="Income" name="PrimaryAccountType" type="radio" value="Income"/> <label for="Income">Income</label>
+                <br>
+                <input id="Expense" name="PrimaryAccountType" type="radio" value="Expense"/> <label for="Expense">Expense</label>
+                <br>
+                <button type="button" onclick="accountPrimaryCheck()">Submit</button>
             </div>
-
-                <div class="SpecificAccountTypeDiv" id="SpecificAccountTypeDiv" style="display:none;">
-                        <div class="FinalCurrentAsset" id="FinalCurrentAsset"style="display:none;">
-                            <h3>&nbsp;What Current Asset class would you like to add?</h3>
-                            <input id="Cash" name="Final_Account_Type" type="radio" value="Cash" /> <label for="Cash">Cash</label>
-                            <br>
-                            <input id="Cash_Equivalent_Bank_Accounts" name="Final_Account_Type" type="radio" value="Cash_Equivalent_Bank_Accounts" /> <label for="Cash_Equivalent_Bank_Accounts">Cash Equivalent Bank Accounts</label>
-                            <br>
-                            <input id="Short_Term_Investments" name="Final_Account_Type" type="radio" value="Short_Term_Investments" /> <label for="Short_Term_Investments">Short Term Investments</label>
-                            <br>
-                            <input id="Net_Receivables" name="Final_Account_Type" type="radio" value="Net_Receivables" /> <label for="Net_Receivables">Net Receivables</label>
-                            <br>
-                            <input id="Inventory" name="Final_Account_Type" type="radio" value="Inventory" /> <label for="Inventory">Inventory</label>
-                            <br>
-                            <input id="Other_Current_Assets" name="Final_Account_Type" type="radio" value="Other_Current_Assets" /> <label for="Other_Current_Assets">Other Current Assets</label>
-                        </div >
-                        <div class="FinalNonCurrentAsset" id="FinalNonCurrentAsset" style="display:none;">
-                            <p>&nbsp;What NonCurrent Asset class would you like to add?</p>
-                            <input id="Property_Plant_and_Equipment" name="Final_Account_Type" type="radio" value="Property_Plant_and_Equipment" /> <label for="Property_Plant_and_Equipment">Property Plant and Equipment</label>
-                            <br>
-                            <input id="Accumulated_Depreciation" name="Final_Account_Type" type="radio" value="Accumulated_Depreciation" /> <label for="Accumulated_Depreciation">Accumulated Depreciation</label>
-                            <br>
-                            <input id="Equity_and_Other_Investments" name="Final_Account_Type" type="radio" value="Equity_and_Other_Investments" /> <label for="Equity_and_Other_Investments">Equity and Other Investments</label>
-                            <br>
-                            <input id="Goodwill" name="Final_Account_Type" type="radio" value="Goodwill" /> <label for="Goodwill">Goodwill</label>
-                            <br>
-                            <input id="Intangible_Assets" name="Final_Account_Type" type="radio" value="Intangible_Assets" /> <label for="Intangible_Assets">Intangible Assets</label>
-                            <br>
-                            <input id="Other_Long_Term_Assets" name="Final_Account_Type" type="radio" value="Other_Long_Term_Assets" /> <label for="Other_Long_Term_Assets">Other Long Term Assets</label>
-                        </div>
-                        <div class="FinalCurrentLiability" id="FinalCurrentLiability" style="display:none;">
-                            <p>&nbsp;What NonCurrent Asset class would you like to add?</p>
-                            <input id="Total_Revenue" name="Final_Account_Type" type="radio" value="Total_Revenue" /> <label for="Total_Revenue">Total Revenue</label>
-                            <br>
-                            <input id="Accounts_Payable" name="Final_Account_Type" type="radio" value="Accounts_Payable" /> <label for="Accounts_Payable">Accounts Payable</label>
-                            <br>
-                            <input id="Taxes_Payable" name="Final_Account_Type" type="radio" value="Taxes_Payable" /> <label for="Taxes_Payable">Taxes Payable</label>
-                            <br>
-                            <input id="Accrued_Liabilities" name="Final_Account_Type" type="radio" value="Accrued_Liabilities" /> <label for="Accrued_Liabilities">Accrued Liabilities</label>
-                            <br>
-                            <input id="Cur_Deferred_Revenues" name="Final_Account_Type" type="radio" value="Deferred_Revenues" /> <label for="Cur_Deferred_Revenues">Deferred Revenues</label>
-                            <br>
-                            <input id="Other_Current_Liabilities" name="Final_Account_Type" type="radio" value="Other_Current_Liabilities" /> <label for="Other_Current_Liabilities">Other Current Liabilities</label>
-                        </div>
-                        <div class="FinalNonCurrentLiability" id="FinalNonCurrentLiability" style="display:none;">
-                            <p>&nbsp;What NonCurrent Asset class would you like to add?</p>
-                            <form>
-                                <input id="Long_Term_Debt" name="Final_Account_Type" type="radio" value="Long_Term_Debt" /> <label for="Long_Term_Debt">Long Term Debt</label>
-                                <br>
-                                <input id="Deferred_Taxes_Liabilities" name="Final_Account_Type" type="radio" value="Deferred_Taxes_Liabilities" /> <label for="Deferred_Taxes_Liabilities">Deferred Taxes Liabilities</label>
-                                <br>
-                                <input id="NonCur_Deferred_Revenues" name="Final_Account_Type" type="radio" value="Deferred_Revenues" /> <label for="NonCur_Deferred_Revenues">Deferred Revenues</label>
-                                <br>
-                                <input id="Other_Long_Term_Liabilities" name="Final_Account_Type" type="radio" value="Other_Long_Term_Liabilities" /> <label for="Other_Long_Term_Liabilities">Other Long Term Liabilities</label>
-                            </form>
-                        </div>
-
-                        <div class="FinalIncome" id="IncomeSpecific" style="display:none;">
-                            <p>&nbsp;What Income Asset class would you like to add?</p>
-                            <form>
-                                <input id="Main_Paycheck" name="Final_Account_Type" type="radio" value="Main_Paycheck" /> <label for="Main_Paycheck">Main Paycheck</label>
-                                <br>
-                                <input id="Investment_Income" name="Final_Account_Type" type="radio" value="Investment_Income" /> <label for="Investment_Income">Investment Income</label>
-                                <br>
-                                <input id="Business_Income" name="Final_Account_Type" type="radio" value="Business_Income" /> <label for="Business_Income">Business Income</label>
-                                <br>
-                                <input id="Gift_Income" name="Final_Account_Type" type="radio" value="Gift_Income" /> <label for="Gift_Income">Gift Income</label>
-                            </form>
-                        </div>
-
-                        <div class="FinalExpenses" id="ExpensesSpecific" style="display:none;">
-                            <p>&nbsp;What Expense class would you like to add?</p>
-                            <form>
-                                <input id="Rent_Expense" name="Final_Account_Type" type="radio" value="Rent_Expense" /> <label for="Rent_Expense">Rent Expense</label>
-                                <br>
-                                <input id="Insurance_Expense" name="Final_Account_Type" type="radio" value="Insurance_Expense" /> <label for="Insurance_Expense">Insurance Expense</label>
-                                <br>
-                                <input id="Gas_Expense" name="Final_Account_Type" type="radio" value="Gas_Expense" /> <label for="Gas_Expense">Gas Expense</label>
-                                <br>
-                                <input id="Food_Expense" name="Final_Account_Type" type="radio" value="Food_Expense" /> <label for="Food_Expense">Food Expense</label>
-                                <input id="Education_Expense" name="Final_Account_Type" type="radio" value="Education_Expense" /> <label for="Education_Expense">Education Expense</label>
-                                <br>
-                                <input id="Alcohol_Expense" name="Final_Account_Type" type="radio" value="Alcohol_Expense" /> <label for="Alcohol_Expense">Alcohol Expense</label>
-                                <br>
-                                <input id="Misc_Expense" name="Final_Account_Type" type="radio" value="Misc_Expense" /> <label for="Misc_Expense">Misc Expense</label>
-                                <br>
-                            </form>
-                        </div>
-                        <div class="AccountInformationDiv" id="AccountInformationDiv" style="display:none;">
-                            <div class="Final_Account_Type finalBox">
-                                <p>
-                                    Please give the new account a name:
-                                    <input type="text" id="accountNameBox" name="accountName"><br><br>
-                                    What is the current value of the new account?: $
-                                    <input type="text" id="accountValueBox" name="accountBalance"><br><br>
-                                    <input type="submit" name="btn" value="Update Account Balances">
-                                </p>
-                            </div>
-                        </div>
+            <div class="Account_Type_Term" id="Account_Type_Term" style="display:none;">
+                <h3>Will the account balance be zero before the end of the year?</h3>
+                <div class="Term">
+                    <br>
+                    <input id="Current" name="AccountTerm" type="radio" value="Current"/> <label for="Current">Yes</label>
+                    <br>
+                    <input id="NonCurrent" name="AccountTerm" type="radio" value="NonCurrent"/> <label for="NonCurrent">No</label>
+                    <br>
+                    <button type="button" onclick="getAccountType()">Submit</button>
                 </div>
-            </form>
+            </div>
+            <div class="SpecificAccountTypeDiv" id="SpecificAccountTypeDiv" style="display:none;">
+                <div class="FinalCurrentAsset" id="FinalCurrentAsset"style="display:none;">
+                    <h3>&nbsp;What Current Asset class would you like to add?</h3>
+                    <input id="Cash" name="Final_Account_Type" type="radio" value="Cash" /> <label for="Cash">Cash</label>
+                    <br>
+                    <input id="Cash_Equivalent_Bank_Accounts" name="Final_Account_Type" type="radio" value="Cash_Equivalent_Bank_Accounts" /> <label for="Cash_Equivalent_Bank_Accounts">Cash Equivalent Bank Accounts</label>
+                    <br>
+                    <input id="Short_Term_Investments" name="Final_Account_Type" type="radio" value="Short_Term_Investments" /> <label for="Short_Term_Investments">Short Term Investments</label>
+                    <br>
+                    <input id="Net_Receivables" name="Final_Account_Type" type="radio" value="Net_Receivables" /> <label for="Net_Receivables">Net Receivables</label>
+                    <br>
+                    <input id="Inventory" name="Final_Account_Type" type="radio" value="Inventory" /> <label for="Inventory">Inventory</label>
+                    <br>
+                    <input id="Other_Current_Assets" name="Final_Account_Type" type="radio" value="Other_Current_Assets" /> <label for="Other_Current_Assets">Other Current Assets</label>
+                </div >
+                <div class="FinalNonCurrentAsset" id="FinalNonCurrentAsset" style="display:none;">
+                    <p>&nbsp;What NonCurrent Asset class would you like to add?</p>
+                    <input id="Property_Plant_and_Equipment" name="Final_Account_Type" type="radio" value="Property_Plant_and_Equipment" /> <label for="Property_Plant_and_Equipment">Property Plant and Equipment</label>
+                    <br>
+                    <input id="Accumulated_Depreciation" name="Final_Account_Type" type="radio" value="Accumulated_Depreciation" /> <label for="Accumulated_Depreciation">Accumulated Depreciation</label>
+                    <br>
+                    <input id="Equity_and_Other_Investments" name="Final_Account_Type" type="radio" value="Equity_and_Other_Investments" /> <label for="Equity_and_Other_Investments">Equity and Other Investments</label>
+                    <br>
+                    <input id="Goodwill" name="Final_Account_Type" type="radio" value="Goodwill" /> <label for="Goodwill">Goodwill</label>
+                    <br>
+                    <input id="Intangible_Assets" name="Final_Account_Type" type="radio" value="Intangible_Assets" /> <label for="Intangible_Assets">Intangible Assets</label>
+                    <br>
+                    <input id="Other_Long_Term_Assets" name="Final_Account_Type" type="radio" value="Other_Long_Term_Assets" /> <label for="Other_Long_Term_Assets">Other Long Term Assets</label>
+                </div>
+                <div class="FinalCurrentLiability" id="FinalCurrentLiability" style="display:none;">
+                    <p>&nbsp;What NonCurrent Asset class would you like to add?</p>
+                    <input id="Total_Revenue" name="Final_Account_Type" type="radio" value="Total_Revenue" /> <label for="Total_Revenue">Total Revenue</label>
+                    <br>
+                    <input id="Accounts_Payable" name="Final_Account_Type" type="radio" value="Accounts_Payable" /> <label for="Accounts_Payable">Accounts Payable</label>
+                    <br>
+                    <input id="Taxes_Payable" name="Final_Account_Type" type="radio" value="Taxes_Payable" /> <label for="Taxes_Payable">Taxes Payable</label>
+                    <br>
+                    <input id="Accrued_Liabilities" name="Final_Account_Type" type="radio" value="Accrued_Liabilities" /> <label for="Accrued_Liabilities">Accrued Liabilities</label>
+                    <br>
+                    <input id="Cur_Deferred_Revenues" name="Final_Account_Type" type="radio" value="Deferred_Revenues" /> <label for="Cur_Deferred_Revenues">Deferred Revenues</label>
+                    <br>
+                    <input id="Other_Current_Liabilities" name="Final_Account_Type" type="radio" value="Other_Current_Liabilities" /> <label for="Other_Current_Liabilities">Other Current Liabilities</label>
+                </div>
+                <div class="FinalNonCurrentLiability" id="FinalNonCurrentLiability" style="display:none;">
+                    <p>&nbsp;What NonCurrent Asset class would you like to add?</p>
+                    <form>
+                        <input id="Long_Term_Debt" name="Final_Account_Type" type="radio" value="Long_Term_Debt" /> <label for="Long_Term_Debt">Long Term Debt</label>
+                        <br>
+                        <input id="Deferred_Taxes_Liabilities" name="Final_Account_Type" type="radio" value="Deferred_Taxes_Liabilities" /> <label for="Deferred_Taxes_Liabilities">Deferred Taxes Liabilities</label>
+                        <br>
+                        <input id="NonCur_Deferred_Revenues" name="Final_Account_Type" type="radio" value="Deferred_Revenues" /> <label for="NonCur_Deferred_Revenues">Deferred Revenues</label>
+                        <br>
+                        <input id="Other_Long_Term_Liabilities" name="Final_Account_Type" type="radio" value="Other_Long_Term_Liabilities" /> <label for="Other_Long_Term_Liabilities">Other Long Term Liabilities</label>
+                    </form>
+                </div>
+                <div class="FinalIncome" id="IncomeSpecific" style="display:none;">
+                    <p>&nbsp;What Income Asset class would you like to add?</p>
+                    <form>
+                        <input id="Main_Paycheck" name="Final_Account_Type" type="radio" value="Main_Paycheck" /> <label for="Main_Paycheck">Main Paycheck</label>
+                        <br>
+                        <input id="Investment_Income" name="Final_Account_Type" type="radio" value="Investment_Income" /> <label for="Investment_Income">Investment Income</label>
+                        <br>
+                        <input id="Business_Income" name="Final_Account_Type" type="radio" value="Business_Income" /> <label for="Business_Income">Business Income</label>
+                        <br>
+                        <input id="Gift_Income" name="Final_Account_Type" type="radio" value="Gift_Income" /> <label for="Gift_Income">Gift Income</label>
+                    </form>
+                </div>
+                <div class="FinalExpenses" id="ExpensesSpecific" style="display:none;">
+                    <p>&nbsp;What Expense class would you like to add?</p>
+                    <form>
+                        <input id="Rent_Expense" name="Final_Account_Type" type="radio" value="Rent_Expense" /> <label for="Rent_Expense">Rent Expense</label>
+                        <br>
+                        <input id="Insurance_Expense" name="Final_Account_Type" type="radio" value="Insurance_Expense" /> <label for="Insurance_Expense">Insurance Expense</label>
+                        <br>
+                        <input id="Gas_Expense" name="Final_Account_Type" type="radio" value="Gas_Expense" /> <label for="Gas_Expense">Gas Expense</label>
+                        <br>
+                        <input id="Food_Expense" name="Final_Account_Type" type="radio" value="Food_Expense" /> <label for="Food_Expense">Food Expense</label>
+                        <input id="Education_Expense" name="Final_Account_Type" type="radio" value="Education_Expense" /> <label for="Education_Expense">Education Expense</label>
+                        <br>
+                        <input id="Alcohol_Expense" name="Final_Account_Type" type="radio" value="Alcohol_Expense" /> <label for="Alcohol_Expense">Alcohol Expense</label>
+                        <br>
+                        <input id="Misc_Expense" name="Final_Account_Type" type="radio" value="Misc_Expense" /> <label for="Misc_Expense">Misc Expense</label>
+                        <br>
+                    </form>
+                </div>
+                <div class="AccountInformationDiv" id="AccountInformationDiv" style="display:none;">
+                    <div class="Final_Account_Type finalBox">
+                        <p>
+                            Please give the new account a name:
+                            <input type="text" id="accountNameBox" name="accountName"><br><br>
+                            What is the current value of the new account?: $
+                            <input type="text" id="accountValueBox" name="accountBalance"><br><br>
+                            <input type="submit" name="btn" value="Update Account Balances">
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 </body>
 </html>
