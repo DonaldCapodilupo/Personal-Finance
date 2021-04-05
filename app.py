@@ -12,9 +12,9 @@ def main_Menu():
         if request.form['btn'] == 'Update Account Balances':
             return redirect(url_for('update_Accounts'))
         if request.form['btn'] == 'Add an Account':
-            return redirect(url_for('add_Account'))
+            return redirect(url_for('add_Account_To_Database'))
         if request.form['btn'] == 'Remove an Account':
-            return redirect(url_for('remove_Account'))
+            return redirect(url_for('remove_Account_From_Database'))
         if request.form['btn'] == 'View Account Balances':
             return redirect(url_for('view_Balances'))
     else:
@@ -31,21 +31,29 @@ def update_Accounts():
 
 
 @app.route('/AddAnAccount', methods=["POST","GET"])
-def add_Account():
+def add_Account_To_Database():
     if request.method == "POST":
         if request.form['btn'] == 'Update Account Balances':
-            print('User selected to add a ' +request.form['AccountTerm'] +" " + request.form['PrimaryAccountType'] + " named " +
-                  request.form['accountName']  +" with a balance of $" + request.form['accountBalance'])
-            print("It has been given a specific category of " + request.form['Final_Account_Type'])
+            from Backend import add_Account_To_Database
+            add_Account_To_Database(request.form['AccountTerm'], request.form['PrimaryAccountType'],request.form['accountName'],
+                        request.form['accountBalance'], request.form['Final_Account_Type'])
             return redirect(url_for('main_Menu'))
     else:
         return render_template('AddAccount.html')
 
 @app.route('/RemoveAnAccount', methods=["POST","GET"])
-def remove_Account():
+def remove_Account_From_Database():
     if request.method == "POST":
-        if request.form['btn_Go_Back'] == 'Go Back':
-            return redirect(url_for('main_Menu'))
+        #if request.form['btn_Go_Back'] == 'Go Back':
+        #    return redirect(url_for('main_Menu'))
+        if request.form['btn'] ==  "Get Database Values":
+            from Backend import get_Account_Names_From_Database
+
+            account_Information =  get_Account_Names_From_Database(request.form['PrimaryAccountType'], ("Current", "NonCurrent"))
+
+            return render_template('RemoveAccounts.html' ,data=account_Information)
+
+
     else:
         return render_template('RemoveAccounts.html')
 

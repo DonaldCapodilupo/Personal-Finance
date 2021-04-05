@@ -1,6 +1,6 @@
 class SetupTool:
     def __init__(self):
-        self.neededDirectories = ['Historical Data', 'Databases']
+        self.neededDirectories = ['Databases']
         self.databaseNames = ["Current_Assets", "NonCurrent_Assets", "Current_Liabilities", "NonCurrent_Liabilities",
                               "Current_Incomes", "Current_Expenses"]
         self.directorySetup()
@@ -22,7 +22,7 @@ class SetupTool:
     def databaseSetup(self):
         import os
         import sqlite3
-        os.chdir(os.getcwd()+"/Databases")
+        os.chdir("Databases")
 
         def insertDatabaseTables(cursor, i):
             for s in i:
