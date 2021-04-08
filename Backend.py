@@ -22,9 +22,15 @@ completeBalanceSheet = {"Asset":{"Current Asset":["Cash","Cash Equivalent Bank A
                         }
 
 
-def databaseSetup():
+def programSetup():
     import os
     import sqlite3
+    try:
+        os.mkdir("Databases")
+        print("Database Directory Created ")
+    except FileExistsError:
+        print("Database directory already exists")
+
     os.chdir("Databases")
 
     for primary_Account_Type in completeBalanceSheet.keys():
@@ -39,13 +45,11 @@ def databaseSetup():
                                                           "Value TEXT)")
                 except sqlite3.OperationalError:
                     print(table_Name + " already exists.")
-
-
-
+    os.chdir('..')
 
 def add_Account_To_Database(term, primary_account_type, name,balance, specific_account_type):
     os.chdir('Databases')
-    conn = sqlite3.connect(term + '_' + primary_account_type + 's.db')
+    conn = sqlite3.connect(term + '_' + primary_account_type + '.db')
     c = conn.cursor()
     today = str(datetime.date.today())
     c.execute("INSERT INTO " + specific_account_type.replace(' ','_') + " VALUES (NULL, ?, ?, ?)",
@@ -53,24 +57,24 @@ def add_Account_To_Database(term, primary_account_type, name,balance, specific_a
     os.chdir('..')
     conn.commit()
 
-def get_Account_Names_From_Database(primary_account_type,terms):
+def get_Account_Names_From_Database(primary_account_type):
     os.chdir('Databases')
 
+    name_To_List = primary_account_type.split()
+
     returnDict = {}
-    for term in terms:
-        conn = sqlite3.connect(term + '_' + primary_account_type + 's.db')
-        c = conn.cursor()
-        conn.row_factory = lambda cursor, row: row[0]
-        for table in completeBalanceSheet[primary_account_type + 's'][term + '_' + primary_account_type + 's']:
-            try:
-                possibleChoices = c.execute("SELECT * FROM  "+table).fetchall()
-                returnDict[table] = possibleChoices
-            except:
-                pass
 
+    conn = sqlite3.connect(primary_account_type.replace(" ","_") + '.db')
+    c = conn.cursor()
+    conn.row_factory = lambda cursor, row: row[0]
+    for table in completeBalanceSheet[name_To_List[1]][primary_account_type]:
+        possibleChoices = c.execute("SELECT * FROM  "+table.replace(" ","_")).fetchall()
+        try:
+            returnDict[table] = [possibleChoices[0][2],possibleChoices[0][3]]
+        except IndexError:
+            returnDict[table] = []
 
-
-
+    os.chdir('..')
     return returnDict
 
 def remove_Account_From_Database(term, primary_account_type, name, specific_account_type):
