@@ -18,3 +18,9 @@ body{
     background-color: darkturquoise;
     display: grid;
 }
+
+.Database_Information_Wrapper{
+    display: grid;
+    text-align: center;
+    grid-template-columns: 1fr 1fr;
+}
