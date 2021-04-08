@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Remove an Account</title>
 
-    <link rel="stylesheet" href="../static/RemoveAccounts.css">
+    <link rel="stylesheet" href="../static/RemoveAccount.css">
 </head>
 <body>
     <div class="wrapper">
@@ -13,33 +13,39 @@
 
             <form action="{{ url_for('remove_Account_From_Database') }}" method="POST">
                 <div class="Account_Type_Main">
-                        <input id="Asset" name="PrimaryAccountType" type="radio" value="Asset"/> <label for="Asset">Asset</label>
+                        <input id="Current Asset" name="PrimaryAccountType" type="radio" value="Current Asset"/> <label for="Current Asset">Current Asset</label>
                         <br>
-                        <input id="Liability" name="PrimaryAccountType" type="radio" value="Liability"/> <label for="Liability">Liability</label>
+                        <input id="NonCurrent Asset" name="PrimaryAccountType" type="radio" value="NonCurrent Asset"/> <label for="NonCurrent Asset">NonCurrent Asset</label>
+                        <br>
+                        <input id="Current Liability" name="PrimaryAccountType" type="radio" value="Current Liability"/> <label for="Current Liability">Current Liability</label>
+                        <br>
+                        <input id="NonCurrent Liability" name="PrimaryAccountType" type="radio" value="NonCurrent Liability"/> <label for="NonCurrent Liability">NonCurrent Liability</label>
                         <br>
                         <input id="Income" name="PrimaryAccountType" type="radio" value="Income"/> <label for="Income">Income</label>
                         <br>
                         <input id="Expense" name="PrimaryAccountType" type="radio" value="Expense"/> <label for="Expense">Expense</label>
                         <br>
-                        <input type="submit" name="btn" value="Get Database Values">
+                        <input type="submit" onclick="showRemoveAccountButton()" name="btn" value="Get Database Values">
                 </div>
-
-
+            </form>
+            <form action="{{ url_for('remove_Account_From_Database') }}" method="POST">
                 <div class="Database_Information_Wrapper">
-                    <div class="Current_Wrapper">
-                        {% for item in data %}
-                            <tr>
-                                <td>{{item}}</td>
-                                <br>
-                            </tr>
+                        {% for table, content in data.items() %}
+                            <div class="{{table}}">
+                                <h3>{{table}}</h3>
+                                <div class="Results_For_{{table}}">
+                                    <input id="{{row}}" name="SpecificAccount" type="checkbox" value="{{row}}"/> <label for="{{row}}">{{row}}</label>
+                                    {% for row in  content%}
+                                        <td>{{row}}</td>
+                                    {% endfor %}
+                                </div>
+
+                            </div>
                         {% endfor %}
-
-                    </div>
-
-                    <div class="NonCurrent_Wrapper">
-
-                    </div>
                 </div>
+                {% if show_Button == True %}
+                    <input type="submit" name="btn_Remove_Account" id="Remove_Account_Button" value="Remove Account {{table}}">
+                {% endif %}
             </form>
     </div>
 </body>
