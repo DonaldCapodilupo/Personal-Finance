@@ -2,22 +2,3 @@ body{
     background-color: wheat;
 }
 
-.wrapper{
-    display: grid;
-    grid-template-rows: auto auto auto;
-    text-align: center;
-}
-
-.mainTitle{
-    background-color: turquoise;
-    border-radius: 15px;
-}
-
-.AccountScrollBox{
-    background-color: mediumturquoise;
-}
-
-.buttonWrapper{
-    background-color: darkturquoise;
-    border-radius: 15px;
-}

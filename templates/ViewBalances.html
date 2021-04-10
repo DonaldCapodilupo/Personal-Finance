@@ -3,18 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="../static/ViewBalances.css">
 </head>
 <body>
     <div class="wrapper">
-        <h1>Coming Soon</h1>
+        <h1>View Balances</h1>
+        <form action="{{ url_for('view_Balances') }}" method="POST">
 
-        <div class="ButtonWrapper">
-            <form action="{{ url_for('add_Account') }}" method="POST">
-                <div class="Button_Wrapper">
-                    <input type="submit" name="btn_Go_Back" value="Go Back">
-                </div>
-            </form>
-        </div>
+            <div class="Balance_Sheet_Window">
+                {% for primary_Account_Type in data%}
+                    <div class="{{primary_Account_Type}}">
+                        {% for account_Type_Generic in data[primary_Account_Type]: %}
+                            <div class="{{account_Type_Generic}}">
+                                <table>
+                                    <th>{{account_Type_Generic}}</th>
+                                    {% for key, value in data[primary_Account_Type][account_Type_Generic].items(): %}
+                                        {% if key: %}
+                                            <div class="{{key}}">
+                                                <tr>
+                                                    <td>{{value[0]}}</td>
+                                                    <td>{{value[1]}}</td>
+                                                </tr>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                    <th>Total For {{account_Type_Generic}}</th>
+                                </table>
+                            </div>
+                        {% endfor %}
+                        <th style="font-weight: bold">Total For {{primary_Account_Type}}</th>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="Button_Wrapper">
+                <input type="submit" name="btn_Go_Back" value="Go Back">
+            </div>
+        </form>
     </div>
+
 </body>
 </html>
