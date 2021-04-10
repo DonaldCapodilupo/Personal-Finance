@@ -82,7 +82,7 @@ def add_Account_To_Database(term, primary_account_type, name,balance, specific_a
     os.chdir('..')
     conn.commit()
 
-def get_Account_Names_From_Database(primary_account_type):
+def get_Specific_Account_Names_From_Database(primary_account_type):
     os.chdir('Databases')
 
     name_To_List = primary_account_type.split()
@@ -102,20 +102,39 @@ def get_Account_Names_From_Database(primary_account_type):
     os.chdir('..')
     return returnDict
 
+
+def get_All_Account_Names_From_Database():
+    os.chdir('Databases')
+
+    returnDict = {}
+
+    for primary_Account_Type in completeBalanceSheet:
+        returnDict[primary_Account_Type] = { }  #{Asset:{}}
+        for generic_Account_Type in completeBalanceSheet[primary_Account_Type]:
+            returnDict[primary_Account_Type][generic_Account_Type] = {}
+            conn = sqlite3.connect(generic_Account_Type.replace(" ", "_") + '.db')
+            c = conn.cursor()
+            for table in completeBalanceSheet[primary_Account_Type][generic_Account_Type]:
+                possibleChoices = c.execute("SELECT * FROM  " + table.replace(" ", "_" )).fetchall()
+                try:
+                    returnDict[primary_Account_Type][generic_Account_Type][table] = [possibleChoices[0][2], possibleChoices[0][3]]
+                except IndexError:
+                    returnDict[primary_Account_Type][generic_Account_Type][table] = []
+
+    os.chdir('..')
+    return returnDict
+
+
+
 def remove_Account_From_Database(list_of_Items):
     os.chdir('Databases')
 
+    proper_Tuple = tuple(list_of_Items.replace('\\',"").replace('[',"").replace('\'',"").replace('(',"").replace(')',"").split(', '))
 
-    #'[\'Don\', \'420.69\']'
-    res = tuple(list_of_Items.replace('\\',"").replace('[',"").replace('\'',"").replace('(',"").replace(')',"").split(', '))
-    print(res)
-
-
-
-    conn = sqlite3.connect(balanceSheetSpecificToGeneral[res[0]].replace(" ", "_") + '.db')
+    conn = sqlite3.connect(balanceSheetSpecificToGeneral[proper_Tuple[0]].replace(" ", "_") + '.db')
     c = conn.cursor()
-    c.execute('DELETE FROM ' + res[0].replace(" ", "_") + ' WHERE Description = ?',
-              (res[1].replace(" ", "_"),))
+    c.execute('DELETE FROM ' + proper_Tuple[0].replace(" ", "_") + ' WHERE Description = ?',
+              (proper_Tuple[1].replace(" ", "_"),))
     os.chdir('..')
     conn.commit()
 
