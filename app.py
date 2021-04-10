@@ -46,10 +46,10 @@ def remove_Account_From_Database():
     if request.method == "POST":
 
         if request.form.get("btn", False) ==  "Get Database Values":
-            from Backend import get_Account_Names_From_Database
+            from Backend import get_Specific_Account_Names_From_Database
 
 
-            account_Information =  get_Account_Names_From_Database(request.form['PrimaryAccountType'])
+            account_Information =  get_Specific_Account_Names_From_Database(request.form['PrimaryAccountType'])
 
             return render_template('RemoveAccounts.html' ,data=account_Information, show_Button=True)
 
@@ -72,7 +72,9 @@ def view_Balances():
         if request.form['btn_Go_Back'] == 'Go Back':
             return redirect(url_for('main_Menu'))
     else:
-        return render_template('ViewBalances.html')
+        from Backend import get_All_Account_Names_From_Database
+
+        return render_template('ViewBalances.html', data = get_All_Account_Names_From_Database() )
 
 
 
