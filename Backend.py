@@ -21,6 +21,31 @@ completeBalanceSheet = {"Asset":{"Current Asset":["Cash","Cash Equivalent Bank A
                                     }
                         }
 
+balanceSheetSpecificToGeneral = {
+                        "Cash":"Current Asset",
+                       "Cash Equivalent_Bank_Accounts":"Current Asset",
+                       "Short Term Investments":"Current Asset",
+                       "Net Receivables":"Current Asset",
+                        "Inventory":"Current_Asset",
+                       "Other Current Assets":"Current Asset",
+                       "Property Plant and Equipment":"NonCurrent Asset",
+                       "Accumulated Depreciation":"NonCurrent Asset",
+                        "Equity and Other Investments":"NonCurrent Asset",
+                       "Goodwill":"NonCurrent Asset",
+                       "Intangible Assets":"NonCurrent Asset",
+                       "Other Long Term Assets":"NonCurrent Assets",
+                       "Total Revenue":"Current Liability" ,
+                       "Accounts Payable":"Current Liability" ,
+                       "Taxes Payable":"Current Liability",
+                       "Accrued Liabilities":"Current Liability",
+                        "Other Current_Liabilities":"Current Liability",
+                       "Long Term Debt":"NonCurrent Liability",
+                       "Deferred Taxes Liabilities":"NonCurrent Liability",
+                       "Deferred Revenues":"NonCurrent Liability",
+                        "Other Long Term Liabilities":"NonCurrent Liability",
+
+}
+
 
 def programSetup():
     import os
@@ -77,12 +102,20 @@ def get_Account_Names_From_Database(primary_account_type):
     os.chdir('..')
     return returnDict
 
-def remove_Account_From_Database(term, primary_account_type, name, specific_account_type):
+def remove_Account_From_Database(list_of_Items):
     os.chdir('Databases')
-    conn = sqlite3.connect(term + '_' + primary_account_type + 's.db')
+
+
+    #'[\'Don\', \'420.69\']'
+    res = tuple(list_of_Items.replace('\\',"").replace('[',"").replace('\'',"").replace('(',"").replace(')',"").split(', '))
+    print(res)
+
+
+
+    conn = sqlite3.connect(balanceSheetSpecificToGeneral[res[0]].replace(" ", "_") + '.db')
     c = conn.cursor()
-    c.execute('DELETE FROM ' + specific_account_type + ' WHERE Description = ?',
-              (name,))
+    c.execute('DELETE FROM ' + res[0].replace(" ", "_") + ' WHERE Description = ?',
+              (res[1].replace(" ", "_"),))
     os.chdir('..')
     conn.commit()
 

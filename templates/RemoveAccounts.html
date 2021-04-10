@@ -25,7 +25,7 @@
                         <br>
                         <input id="Expense" name="PrimaryAccountType" type="radio" value="Expense"/> <label for="Expense">Expense</label>
                         <br>
-                        <input type="submit" onclick="showRemoveAccountButton()" name="btn" value="Get Database Values">
+                        <input type="submit" name="btn" value="Get Database Values">
                 </div>
             </form>
             <form action="{{ url_for('remove_Account_From_Database') }}" method="POST">
@@ -34,12 +34,10 @@
                             <div class="{{table}}">
                                 <h3>{{table}}</h3>
                                 <div class="Results_For_{{table}}">
-                                    <input id="{{row}}" name="SpecificAccount" type="checkbox" value="{{row}}"/> <label for="{{row}}">{{row}}</label>
-                                    {% for row in  content%}
-                                        <td>{{row}}</td>
-                                    {% endfor %}
+                                    {% if content[0]: %}
+                                        <td><input name="SpecificAccount" type="checkbox" value="{{table,content[0],content[1]}}"/> <label>{{content[0],content[1]}}</label></td>
+                                    {% endif %}
                                 </div>
-
                             </div>
                         {% endfor %}
                 </div>
