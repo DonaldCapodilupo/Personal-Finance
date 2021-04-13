@@ -25,17 +25,20 @@ def main_Menu():
 def update_Accounts():
     if request.method == "POST":
         if request.form['btn_Go_Back'] == 'Go Back':
+            print(request.form['Bank Acct'])
             return redirect(url_for('main_Menu'))
     else:
-        return render_template('UpdateAccounts.html')
+        from Backend import get_All_Account_Names_From_Database
+        balances = get_All_Account_Names_From_Database()
+        return render_template('UpdateAccounts.html', data=balances)
 
 
 @app.route('/AddAnAccount', methods=["POST","GET"])
 def add_Account_To_Database():
     if request.method == "POST":
         if request.form['btn'] == 'Update Account Balances':
-            from Backend import add_Account_To_Database
-            add_Account_To_Database(request.form['AccountTerm'], request.form['PrimaryAccountType'],request.form['accountName'],
+            from Backend import add_Specific_Account_To_Database
+            add_Specific_Account_To_Database(request.form['AccountTerm'], request.form['PrimaryAccountType'],request.form['accountName'],
                         request.form['accountBalance'], request.form['Final_Account_Type'])
             return redirect(url_for('main_Menu'))
     else:

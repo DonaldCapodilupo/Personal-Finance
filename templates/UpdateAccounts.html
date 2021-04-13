@@ -8,8 +8,21 @@
     <div class="wrapper">
         <h1>Coming Soon</h1>
 
-        <div class="ButtonWrapper">
+        <div class="Information_Wrapper">
             <form action="{{ url_for('update_Accounts') }}" method="POST">
+
+
+                {% for primary_Account_Type in data: %}
+                    {% for account_Term in data[primary_Account_Type]: %}
+                        {% for specific_Account_Type, list_Of_Account_Details in data[primary_Account_Type][account_Term].items(): %}
+                            {% if list_Of_Account_Details: %}
+                                <td>{{list_Of_Account_Details[0]}} $</td><input name="{{list_Of_Account_Details[0]}}"><br>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                {% endfor %}
+
+
                 <div class="Button_Wrapper">
                     <input type="submit" name="btn_Go_Back" value="Go Back">
                 </div>
