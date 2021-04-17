@@ -1,4 +1,4 @@
-import sqlite3, datetime, os
+import sqlite3, datetime, os, _datetime
 
 completeBalanceSheet = {"Asset":{"Current Asset":["Cash","Cash Equivalent Bank Accounts", "Short Term Investments",
                                                     "Net Receivables","Inventory", "Other Current Assets"],
@@ -72,57 +72,45 @@ def programSetup():
                     print(table_Name + " already exists.")
     os.chdir('..')
 
-def add_Account_To_Database(term, primary_account_type, name,balance, specific_account_type):
-    os.chdir('Databases')
-    conn = sqlite3.connect(term + '_' + primary_account_type + '.db')
-    c = conn.cursor()
-    today = str(datetime.date.today())
-    c.execute("INSERT INTO " + specific_account_type.replace(' ','_') + " VALUES (NULL, ?, ?, ?)",
-              (today, name, balance))  # This line of code added a new row to the database.
-    os.chdir('..')
-    conn.commit()
-
-def get_Specific_Account_Names_From_Database(primary_account_type):
-    os.chdir('Databases')
-
-    name_To_List = primary_account_type.split()
-
-    returnDict = {}
-
-    conn = sqlite3.connect(primary_account_type.replace(" ","_") + '.db')
-    c = conn.cursor()
-    conn.row_factory = lambda cursor, row: row[0]
-    for table in completeBalanceSheet[name_To_List[1]][primary_account_type]:
-        possibleChoices = c.execute("SELECT * FROM  "+table.replace(" ","_")).fetchall()
-        try:
-            returnDict[table] = [possibleChoices[0][2],possibleChoices[0][3]]
-        except IndexError:
-            returnDict[table] = []
-
-    os.chdir('..')
-    return returnDict
-
-
-def get_All_Account_Names_From_Database():
+#{'Asset': {'Current Asset': {'Cash': ['Wallet Cash', '25.00']}}}
+def get_All_Account_Information_From_Database():
     os.chdir('Databases')
 
     returnDict = {}
 
     for primary_Account_Type in completeBalanceSheet:
         returnDict[primary_Account_Type] = { }  #{Asset:{}}
-        for generic_Account_Type in completeBalanceSheet[primary_Account_Type]:
-            returnDict[primary_Account_Type][generic_Account_Type] = {}
-            conn = sqlite3.connect(generic_Account_Type.replace(" ", "_") + '.db')
+        for account_Term in completeBalanceSheet[primary_Account_Type]:
+            returnDict[primary_Account_Type][account_Term] = {}
+            conn = sqlite3.connect(account_Term.replace(" ", "_") + '.db')
             c = conn.cursor()
-            for table in completeBalanceSheet[primary_Account_Type][generic_Account_Type]:
-                possibleChoices = c.execute("SELECT * FROM  " + table.replace(" ", "_" )).fetchall()
+            for specific_Account_Type in completeBalanceSheet[primary_Account_Type][account_Term]:
+                possibleChoices = c.execute("SELECT * FROM  " + specific_Account_Type.replace(" ", "_" )).fetchall()
                 try:
-                    returnDict[primary_Account_Type][generic_Account_Type][table] = [possibleChoices[0][2], possibleChoices[0][3]]
+                    returnDict[primary_Account_Type][account_Term][specific_Account_Type] = [possibleChoices[0][2], possibleChoices[0][3]]
                 except IndexError:
-                    returnDict[primary_Account_Type][generic_Account_Type][table] = []
+                    returnDict[primary_Account_Type][account_Term][specific_Account_Type] = []
 
     os.chdir('..')
     return returnDict
+
+
+#{'Asset': {'Current Asset': {'Cash': ['Wallet Cash', '25.00']}}}
+def update_Account_Balances(dict_Of_Values):
+    os.chdir('Databases')
+
+    today = str(datetime.date.today())
+
+    for primary_Account_Type in dict_Of_Values.keys():
+        for account_Term in dict_Of_Values[primary_Account_Type]:
+            conn = sqlite3.connect(account_Term.replace(" ", "_") + '.db')
+            for table_To_Update, value_List in dict_Of_Values[primary_Account_Type][account_Term].items():
+
+                c = conn.cursor()
+                c.execute("INSERT INTO "+ table_To_Update.replace(' ','_') + " VALUES (NULL, ?, ?, ?)", (today, value_List[0], value_List[1]))
+                conn.commit()
+
+    os.chdir('..')
 
 
 
