@@ -13,13 +13,19 @@
 
 
                 {% for primary_Account_Type in data: %}
+                <div class="{{primary_Account_Type}}">
+                    <h1>{{primary_Account_Type}}:</h1>
                     {% for account_Term in data[primary_Account_Type]: %}
+                        <div class="{{account_Term}}">
+                            <h3>{{account_Term}}</h3>
                         {% for specific_Account_Type, list_Of_Account_Details in data[primary_Account_Type][account_Term].items(): %}
                             {% if list_Of_Account_Details: %}
-                                <td>{{list_Of_Account_Details[0]}} $</td><input name="{{list_Of_Account_Details[0]}}"><br>
+                                <td>{{list_Of_Account_Details[0]}} $</td><input name="{{primary_Account_Type}},{{account_Term}},{{specific_Account_Type}},{{list_Of_Account_Details[0]}}"><br>
                             {% endif %}
                         {% endfor %}
+                        </div>
                     {% endfor %}
+                </div>
                 {% endfor %}
 
 
