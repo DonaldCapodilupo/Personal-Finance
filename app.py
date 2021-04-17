@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request,url_for,redirect
+from flask import Flask, render_template, request,url_for,redirect, jsonify
 
 app = Flask(__name__)
 
@@ -25,7 +25,13 @@ def main_Menu():
 def update_Accounts():
     if request.method == "POST":
         if request.form['btn_Go_Back'] == 'Go Back':
-            print(request.form['Bank Acct'])
+            user_Input = request.form.to_dict(flat=False)
+            from Backend import update_Account_Balances
+            for key, value in user_Input.items():
+                account_Information = tuple(map(str, key.split(', ')))
+                update_Account_Balances(account_Information)
+
+
             return redirect(url_for('main_Menu'))
     else:
         from Backend import get_All_Account_Names_From_Database
