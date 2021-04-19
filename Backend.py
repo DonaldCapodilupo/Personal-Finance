@@ -21,31 +21,6 @@ completeBalanceSheet = {"Asset":{"Current Asset":{"Cash": {},"Cash Equivalent Ba
                                     }
                         }
 
-balanceSheetSpecificToGeneral = {
-                        "Cash":"Current Asset",
-                       "Cash Equivalent_Bank_Accounts":"Current Asset",
-                       "Short Term Investments":"Current Asset",
-                       "Net Receivables":"Current Asset",
-                        "Inventory":"Current_Asset",
-                       "Other Current Assets":"Current Asset",
-                       "Property Plant and Equipment":"NonCurrent Asset",
-                       "Accumulated Depreciation":"NonCurrent Asset",
-                        "Equity and Other Investments":"NonCurrent Asset",
-                       "Goodwill":"NonCurrent Asset",
-                       "Intangible Assets":"NonCurrent Asset",
-                       "Other Long Term Assets":"NonCurrent Assets",
-                       "Total Revenue":"Current Liability" ,
-                       "Accounts Payable":"Current Liability" ,
-                       "Taxes Payable":"Current Liability",
-                       "Accrued Liabilities":"Current Liability",
-                        "Other Current_Liabilities":"Current Liability",
-                       "Long Term Debt":"NonCurrent Liability",
-                       "Deferred Taxes Liabilities":"NonCurrent Liability",
-                       "Deferred Revenues":"NonCurrent Liability",
-                        "Other Long Term Liabilities":"NonCurrent Liability",
-
-}
-
 
 def programSetup():
     import os
