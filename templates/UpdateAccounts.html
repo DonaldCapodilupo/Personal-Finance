@@ -25,7 +25,7 @@
                                             {% for account, balance in data[primary_Account_Type][account_Term][specific_Account_Type].items(): %}
                                                 {% if balance: %}
                                                     <div class="{{account}}">
-                                                        <td>{{account}} $</td><input name="{{primary_Account_Type}},{{account_Term}},{{specific_Account_Type}},{{account}},{{balance}}"><br>
+                                                        <td>{{account}} $</td><input name="{{primary_Account_Type}},{{account_Term}},{{specific_Account_Type}},{{account}},{{balance}}" value="{{balance}}"><br>
                                                     </div>
                                                 {% endif %}
                                             {% endfor %}
