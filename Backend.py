@@ -1,16 +1,16 @@
 import sqlite3, datetime, os, _datetime
 
-completeBalanceSheet = {"Asset":{"Current Asset":["Cash","Cash Equivalent Bank Accounts", "Short Term Investments",
-                                                    "Net Receivables","Inventory", "Other Current Assets"],
-                                  "NonCurrent Asset":["Property Plant and Equipment", "Accumulated Depreciation",
-                                                        "Equity and Other Investments","Goodwill", "Intangible Assets",
-                                                        "Other Long Term Assets"]
+completeBalanceSheet = {"Asset":{"Current Asset":{"Cash": {},"Cash Equivalent Bank Accounts":{}, "Short Term Investments":{},
+                                                    "Net Receivables":{},"Inventory":{}, "Other Current Assets":{}},
+                                  "NonCurrent Asset":{"Property Plant and Equipment":{}, "Accumulated Depreciation":{},
+                                                        "Equity and Other Investments":{},"Goodwill":{}, "Intangible Assets":{},
+                                                        "Other Long Term Assets":{}}
                                   },
-                        "Liability":{"Current Liability":["Total Revenue", "Accounts Payable", "Taxes Payable",
-                                                              "Accrued Liabilities", "Deferred Revenues",
-                                                              "Other Current Liabilities"],
-                                       "NonCurrent Liability":["Long Term Debt", "Deferred Taxes Liabilities",
-                                                                  "Deferred Revenues","Other Long Term Liabilities"]
+                        "Liability":{"Current Liability":{"Total Revenue":{}, "Accounts Payable":{}, "Taxes Payable":{},
+                                                              "Accrued Liabilities":{}, "Deferred Revenues":{},
+                                                              "Other Current Liabilities":{}},
+                                       "NonCurrent Liability":{"Long Term Debt":{}, "Deferred Taxes Liabilities":{},
+                                                                  "Deferred Revenues":{},"Other Long Term Liabilities":{}}
                                      },
                         "Equity":{"True Equity":["Common Stock", "Retained Earnings", "Accumulated Other Comprehensive Income"]
                                   },
@@ -72,30 +72,24 @@ def programSetup():
                     print(table_Name + " already exists.")
     os.chdir('..')
 
-#{'Asset': {'Current Asset': {'Cash': ['Wallet Cash', '25.00']}}}
-def get_All_Account_Information_From_Database():
+#{'Asset': {'Current Asset': {'Cash': {'Wallet Cash': '1 mill', 'Spare Change': '0.35'}, 'Cash Equivalent Bank Accounts': {'Bank Acct': '100.00', 'Chase Bank': '1000'} } } }
+def get_Current_Balance_Information_From_Database():
     os.chdir('Databases')
 
-    returnDict = {}
+    returnDict = completeBalanceSheet
 
-    for primary_Account_Type in completeBalanceSheet:
-        returnDict[primary_Account_Type] = { }  #{Asset:{}}
-        for account_Term in completeBalanceSheet[primary_Account_Type]:
-            returnDict[primary_Account_Type][account_Term] = {}
+    for primary_Account_Type in returnDict:
+        for account_Term in returnDict[primary_Account_Type]:
             conn = sqlite3.connect(account_Term.replace(" ", "_") + '.db')
             c = conn.cursor()
-            for specific_Account_Type in completeBalanceSheet[primary_Account_Type][account_Term]:
-                possibleChoices = c.execute("SELECT * FROM  " + specific_Account_Type.replace(" ", "_" )).fetchall()
-                try:
-                    returnDict[primary_Account_Type][account_Term][specific_Account_Type] = [possibleChoices[0][2], possibleChoices[0][3]]
-                except IndexError:
-                    returnDict[primary_Account_Type][account_Term][specific_Account_Type] = []
-
+            for specific_Account_Type in returnDict[primary_Account_Type][account_Term]:
+                for row in c.execute("SELECT * FROM  " + specific_Account_Type.replace(" ", "_" ) + " ORDER BY Date"):
+                    returnDict[primary_Account_Type][account_Term][specific_Account_Type][row[2]] = row[3]
     os.chdir('..')
     return returnDict
 
 
-#{'Asset': {'Current Asset': {'Cash': ['Wallet Cash', '25.00']}}}
+#{'Asset': {'Current Asset': {'Cash': {'Wallet Cash': '1 mill', 'Spare Change': '0.35'}, 'Cash Equivalent Bank Accounts': {'Bank Acct': '100.00', 'Chase Bank': '1000'} } } }
 def update_Account_Balances(dict_Of_Values):
     os.chdir('Databases')
 
@@ -105,10 +99,10 @@ def update_Account_Balances(dict_Of_Values):
         for account_Term in dict_Of_Values[primary_Account_Type]:
             conn = sqlite3.connect(account_Term.replace(" ", "_") + '.db')
             for table_To_Update, value_List in dict_Of_Values[primary_Account_Type][account_Term].items():
-
-                c = conn.cursor()
-                c.execute("INSERT INTO "+ table_To_Update.replace(' ','_') + " VALUES (NULL, ?, ?, ?)", (today, value_List[0], value_List[1]))
-                conn.commit()
+                for name, balance in value_List.items():
+                    c = conn.cursor()
+                    c.execute("INSERT INTO "+ table_To_Update.replace(' ','_') + " VALUES (NULL, ?, ?, ?)", (today, name, balance))
+                    conn.commit()
 
     os.chdir('..')
 
