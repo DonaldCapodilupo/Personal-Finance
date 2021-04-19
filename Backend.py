@@ -96,16 +96,27 @@ def update_Account_Balances(dict_Of_Values):
     today = str(datetime.date.today())
 
     for primary_Account_Type in dict_Of_Values.keys():
-        for account_Term in dict_Of_Values[primary_Account_Type]:
-            conn = sqlite3.connect(account_Term.replace(" ", "_") + '.db')
-            for table_To_Update, value_List in dict_Of_Values[primary_Account_Type][account_Term].items():
-                for name, balance in value_List.items():
-                    c = conn.cursor()
-                    c.execute("INSERT INTO "+ table_To_Update.replace(' ','_') + " VALUES (NULL, ?, ?, ?)", (today, name, balance))
-                    conn.commit()
+        if primary_Account_Type in ['Asset', 'Liability']:
+            for account_Term in dict_Of_Values[primary_Account_Type]:
+                conn = sqlite3.connect(account_Term.replace(" ", "_") + '.db')
+                for table_To_Update, value_List in dict_Of_Values[primary_Account_Type][account_Term].items():
+                    for name, balance in value_List.items():
+                        c = conn.cursor()
+                        c.execute("INSERT INTO "+ table_To_Update.replace(' ','_') + " VALUES (NULL, ?, ?, ?)", (today, name, balance))
+                        conn.commit()
 
     os.chdir('..')
 
+
+def add_Account_To_Database(term, primary_account_type, name,balance, specific_account_type):
+    os.chdir('Databases')
+    conn = sqlite3.connect(term + '_' + primary_account_type + '.db')
+    c = conn.cursor()
+    today = str(datetime.date.today())
+    c.execute("INSERT INTO " + specific_account_type.replace(' ','_') + " VALUES (NULL, ?, ?, ?)",
+              (today, name, balance))  # This line of code added a new row to the database.
+    os.chdir('..')
+    conn.commit()
 
 
 def remove_Account_From_Database(list_of_Items):
