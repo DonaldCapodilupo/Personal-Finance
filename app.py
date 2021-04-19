@@ -20,23 +20,22 @@ def main_Menu():
     else:
         return render_template('main.html')
 
-
 @app.route('/UpdateAccountBalances', methods=["POST","GET"])
 def update_Accounts():
     if request.method == "POST":
         if request.form['btn_Go_Back'] == 'Go Back':
-            from Backend import update_Account_Balances, completeBalanceSheetB
+            from Backend import update_Account_Balances, completeBalanceSheet
             user_Input = request.form.to_dict()
 
 
-            update_Dict = completeBalanceSheetB
+            update_Dict = completeBalanceSheet
 
 
             for key, value in user_Input.items():
                 account_Information = tuple(map(str, key.split(',')))
                 if len(account_Information) > 1:
-                    # {'Asset': {'Current Asset': {'Cash': ['Wallet Cash', '25.00']}}}
-                    update_Dict[account_Information[0]][account_Information[1]][account_Information[2]].append((account_Information[3], value))
+                    #{'Asset': {'Current Asset': {'Cash': {'Wallet Cash': '1 mill', 'Spare Change': '0.35'}, 'Cash Equivalent Bank Accounts': {'Bank Acct': '100.00', 'Chase Bank': '1000'} } } }
+                    update_Dict[account_Information[0]][account_Information[1]][account_Information[2]][account_Information[3]] = value
             update_Account_Balances(update_Dict)
 
 
@@ -47,13 +46,12 @@ def update_Accounts():
         print(balances)
         return render_template('UpdateAccounts.html', data=balances)
 
-
 @app.route('/AddAnAccount', methods=["POST","GET"])
 def add_Account_To_Database():
     if request.method == "POST":
         if request.form['btn'] == 'Update Account Balances':
-            from Backend import add_Specific_Account_To_Database
-            add_Specific_Account_To_Database(request.form['AccountTerm'], request.form['PrimaryAccountType'],request.form['accountName'],
+            from Backend import add_Account_To_Database
+            add_Account_To_Database(request.form['AccountTerm'], request.form['PrimaryAccountType'],request.form['accountName'],
                         request.form['accountBalance'], request.form['Final_Account_Type'])
             return redirect(url_for('main_Menu'))
     else:
@@ -64,10 +62,8 @@ def remove_Account_From_Database():
     if request.method == "POST":
 
         if request.form.get("btn", False) ==  "Get Database Values":
-            from Backend import get_Specific_Account_Names_From_Database
-
-
-            account_Information =  get_Specific_Account_Names_From_Database(request.form['PrimaryAccountType'])
+            from Backend import get_Current_Balance_Information_From_Database
+            account_Information =  get_Current_Balance_Information_From_Database()
 
             return render_template('RemoveAccounts.html' ,data=account_Information, show_Button=True)
 
@@ -90,15 +86,17 @@ def view_Balances():
         if request.form['btn_Go_Back'] == 'Go Back':
             return redirect(url_for('main_Menu'))
     else:
-        from Backend import get_All_Account_Names_From_Database
+        from Backend import get_Current_Balance_Information_From_Database
 
-        return render_template('ViewBalances.html', data = get_All_Account_Names_From_Database() )
+        return render_template('ViewBalances.html', data = get_Current_Balance_Information_From_Database() )
 
 
 
 
 if __name__ == '__main__':
     import random, threading, webbrowser
+    from Backend import programSetup
+    programSetup()
 
     port = 5000 + random.randint(0, 999)
     url = "http://127.0.0.1:{0}".format(port)
