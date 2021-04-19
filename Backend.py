@@ -1,4 +1,4 @@
-import sqlite3, datetime, os, _datetime
+import sqlite3, datetime, os
 
 completeBalanceSheet = {"Asset":{"Current Asset":{"Cash": {},"Cash Equivalent Bank Accounts":{}, "Short Term Investments":{},
                                                     "Net Receivables":{},"Inventory":{}, "Other Current Assets":{}},
@@ -75,8 +75,9 @@ def programSetup():
 #{'Asset': {'Current Asset': {'Cash': {'Wallet Cash': '1 mill', 'Spare Change': '0.35'}, 'Cash Equivalent Bank Accounts': {'Bank Acct': '100.00', 'Chase Bank': '1000'} } } }
 def get_Current_Balance_Information_From_Database():
     os.chdir('Databases')
+    import copy
 
-    returnDict = completeBalanceSheet
+    returnDict = copy.deepcopy(dict(completeBalanceSheet))
 
     for primary_Account_Type in returnDict:
         for account_Term in returnDict[primary_Account_Type]:
@@ -124,10 +125,10 @@ def remove_Account_From_Database(list_of_Items):
 
     proper_Tuple = tuple(list_of_Items.replace('\\',"").replace('[',"").replace('\'',"").replace('(',"").replace(')',"").split(', '))
 
-    conn = sqlite3.connect(balanceSheetSpecificToGeneral[proper_Tuple[0]].replace(" ", "_") + '.db')
+    conn = sqlite3.connect(proper_Tuple[1].replace(" ", "_") + '.db')
     c = conn.cursor()
-    c.execute('DELETE FROM ' + proper_Tuple[0].replace(" ", "_") + ' WHERE Description = ?',
-              (proper_Tuple[1].replace(" ", "_"),))
+    c.execute('DELETE FROM ' + proper_Tuple[2].replace(" ", "_") + ' WHERE Description = ?',
+              (proper_Tuple[3],))
     os.chdir('..')
     conn.commit()
 

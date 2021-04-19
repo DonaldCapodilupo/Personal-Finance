@@ -25,10 +25,11 @@ def update_Accounts():
     if request.method == "POST":
         if request.form['btn_Go_Back'] == 'Go Back':
             from Backend import update_Account_Balances, completeBalanceSheet
+            import copy
             user_Input = request.form.to_dict()
 
 
-            update_Dict = completeBalanceSheet
+            update_Dict = copy.deepcopy(completeBalanceSheet)
 
 
             for key, value in user_Input.items():
@@ -60,14 +61,7 @@ def add_Account_To_Database():
 @app.route('/RemoveAnAccount', methods=["POST","GET"])
 def remove_Account_From_Database():
     if request.method == "POST":
-
-        if request.form.get("btn", False) ==  "Get Database Values":
-            from Backend import get_Current_Balance_Information_From_Database
-            account_Information =  get_Current_Balance_Information_From_Database()
-
-            return render_template('RemoveAccounts.html' ,data=account_Information, show_Button=True)
-
-        elif "Remove Account" in request.form.get("btn_Remove_Account", False):
+        if request.form['btn_Go_Back'] == 'Go Back':
             from Backend import remove_Account_From_Database
             selected = request.form.getlist('SpecificAccount')
             print(selected)
@@ -78,7 +72,9 @@ def remove_Account_From_Database():
             return redirect(url_for('main_Menu'))
 
     else:
-        return render_template('RemoveAccounts.html',data={})
+        from Backend import get_Current_Balance_Information_From_Database
+        account_Information = get_Current_Balance_Information_From_Database()
+        return render_template('RemoveAccounts.html', data=account_Information)
 
 @app.route('/ViewAccountBalances', methods=["POST","GET"])
 def view_Balances():

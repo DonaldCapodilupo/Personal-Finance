@@ -8,43 +8,39 @@
 </head>
 <body>
     <div class="wrapper">
-            <h1 class="Main_Title">Remove An Account</h1>
-            <h3 class ='Sub_Title'>What type of account would you like to remove?</h3>
-
-            <form action="{{ url_for('remove_Account_From_Database') }}" method="POST">
-                <div class="Account_Type_Main">
-                        <input id="Current Asset" name="PrimaryAccountType" type="radio" value="Current Asset"/> <label for="Current Asset">Current Asset</label>
-                        <br>
-                        <input id="NonCurrent Asset" name="PrimaryAccountType" type="radio" value="NonCurrent Asset"/> <label for="NonCurrent Asset">NonCurrent Asset</label>
-                        <br>
-                        <input id="Current Liability" name="PrimaryAccountType" type="radio" value="Current Liability"/> <label for="Current Liability">Current Liability</label>
-                        <br>
-                        <input id="NonCurrent Liability" name="PrimaryAccountType" type="radio" value="NonCurrent Liability"/> <label for="NonCurrent Liability">NonCurrent Liability</label>
-                        <br>
-                        <input id="Income" name="PrimaryAccountType" type="radio" value="Income"/> <label for="Income">Income</label>
-                        <br>
-                        <input id="Expense" name="PrimaryAccountType" type="radio" value="Expense"/> <label for="Expense">Expense</label>
-                        <br>
-                        <input type="submit" name="btn" value="Get Database Values">
-                </div>
-            </form>
-            <form action="{{ url_for('remove_Account_From_Database') }}" method="POST">
-                <div class="Database_Information_Wrapper">
-                        {% for table, content in data.items() %}
-                            <div class="{{table}}">
-                                <h3>{{table}}</h3>
-                                <div class="Results_For_{{table}}">
-                                    {% if content[0]: %}
-                                        <td><input name="SpecificAccount" type="checkbox" value="{{table,content[0],content[1]}}"/> <label>{{content[0],content[1]}}</label></td>
-                                    {% endif %}
+        <h1 class="Main_Title">Remove An Account</h1>
+        <h3 class ='Sub_Title'>What type of account would you like to remove?</h3>
+        <form action="{{ url_for('remove_Account_From_Database') }}" method="POST">
+            <div class="Account_Type_Main">
+                {% for primary_Account_Type in data: %}
+                    {% if primary_Account_Type in ['Asset', 'Liability']: %}
+                        <div class="{{primary_Account_Type}}">
+                            <h1>{{primary_Account_Type}}</h1>
+                            {% for account_Term in data[primary_Account_Type]: %}
+                                <div class="{{account_Term}}">
+                                    <h2>{{account_Term}}</h2>
+                                    {% for specific_Account_Type in data[primary_Account_Type][account_Term]: %}
+                                        <div class="{{specific_Account_Type}}">
+                                            <h3>{{specific_Account_Type}}</h3>
+                                            {% for account, balance in data[primary_Account_Type][account_Term][specific_Account_Type].items(): %}
+                                                {% if balance: %}
+                                                    <div class="{{account}}">
+                                                        <input id="{{account}}" name="SpecificAccount" type="radio" value="({{primary_Account_Type}}, {{account_Term}}, {{specific_Account_Type}}, {{account}})"/><td>{{account}} $</td><td>{{balance}}</td>
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    {% endfor %}
                                 </div>
-                            </div>
-                        {% endfor %}
-                </div>
-                {% if show_Button == True %}
-                    <input type="submit" name="btn_Remove_Account" id="Remove_Account_Button" value="Remove Account {{table}}">
-                {% endif %}
-            </form>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="Button_Wrapper">
+                <input type="submit" name="btn_Go_Back" value="Go Back">
+            </div>
+        </form>
     </div>
 </body>
 </html>

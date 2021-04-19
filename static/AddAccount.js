@@ -62,11 +62,6 @@ function getAccountType() {
     }
 }
 
-
-
-
-
-
 function hideSpecificAccountDivTags(){
     const currentAsset = document.getElementById("FinalCurrentAsset");
     const nonCurrentAsset = document.getElementById("FinalNonCurrentAsset");
@@ -82,7 +77,6 @@ function hideSpecificAccountDivTags(){
         hideDivsArray[eachItemInArray].style.display = "none"
     }
 }
-
 
 function accountPrimaryCheck() {
     if ((document.getElementById('Asset').checked) || (document.getElementById('Liability').checked)) {

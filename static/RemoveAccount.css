@@ -5,22 +5,5 @@ body{
 .wrapper{
     background-color: turquoise;
     display: grid;
-    grid-template-rows: auto auto auto;
-    text-align: center;
-
 }
 
-.MainTitle{
-    background-color: mediumturquoise;
-}
-
-.AccountScrollBox{
-    background-color: darkturquoise;
-    display: grid;
-}
-
-.Database_Information_Wrapper{
-    display: grid;
-    text-align: center;
-    grid-template-columns: 1fr 1fr;
-}
