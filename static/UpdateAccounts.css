@@ -1,5 +1,5 @@
-body{
-    background-color: wheat;
+.body{
+    background: ghostwhite;
 }
 
 .Asset{
@@ -8,4 +8,8 @@ body{
 
 .Liability{
     background: indianred;
+}
+
+.Current.Asset{
+
 }

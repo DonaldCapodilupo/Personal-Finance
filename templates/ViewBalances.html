@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>View Account Balances</title>
     <link rel="stylesheet" href="../static/ViewBalances.css">
 </head>
 <body>
@@ -20,7 +20,6 @@
                                     <h2>{{account_Term}}</h2>
                                     {% for specific_Account_Type in data[primary_Account_Type][account_Term]: %}
                                         <div class="{{specific_Account_Type}}">
-                                            <h3>{{specific_Account_Type}}</h3>
                                             {% for account, balance in data[primary_Account_Type][account_Term][specific_Account_Type].items(): %}
                                                 {% if balance: %}
                                                     <div class="{{account}}">
