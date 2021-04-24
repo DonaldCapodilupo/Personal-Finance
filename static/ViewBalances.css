@@ -2,6 +2,20 @@ body{
     background-color: wheat;
 }
 
+.Main_Wrapper {
+    display: grid;
+    grid-template-rows: auto auto auto auto auto auto;
+}
+.At_A_Glance_Balances{
+    display: grid;
+    grid-template-columns: auto auto;
+    text-align: center;
+}
+
+.Values_Table{
+    align-content: center;
+}
+
 .Asset{
     background: aqua;
 }
@@ -9,3 +23,4 @@ body{
 .Liability{
     background: indianred;
 }
+

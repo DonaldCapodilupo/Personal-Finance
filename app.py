@@ -83,8 +83,9 @@ def view_Balances():
             return redirect(url_for('main_Menu'))
     else:
         from Backend import get_Current_Balance_Information_From_Database
+        from ViewBalances_Backend import table_Of_Values, get_Database_Values
 
-        return render_template('ViewBalances.html', data = get_Current_Balance_Information_From_Database() )
+        return render_template('ViewBalances.html', data = get_Current_Balance_Information_From_Database(), table_Of_Values = table_Of_Values(get_Database_Values()))
 
 
 
