@@ -11,26 +11,10 @@
 
         <div class="At_A_Glance_Balances">
             <div class="Values_Table">
-
-                     <table style="width:100%">
-                         <tr>
-                            <th></th>
-                            <th>EOY Values</th>
-                            <th>EOQ Values</th>
-                             <th>Current Values</th>
-                         </tr>
-                         <tr>
-                         <th></th>
-                             {% for value in table_Of_Values.values(): %}
-                                 <td>{{ value }}</td>
-
-                         </tr>
-                     </table>
-
-                {% endfor %}
+                     {% include 'table_Of_Values.html' %}
             </div>
             <div class="Changes_In_Balances">
-
+                {% include 'table_Of_Changes_In_Values.html' %}
             </div>
         </div>
 

@@ -83,14 +83,15 @@ def view_Balances():
             return redirect(url_for('main_Menu'))
     else:
         from Backend import get_Current_Balance_Information_From_Database
-        from ViewBalances_Backend import table_Of_Values, get_Database_Values
+        from ViewBalances_Backend import table_Of_Values, table_Of_Changes_In_Values
 
-        return render_template('ViewBalances.html', data = get_Current_Balance_Information_From_Database(), table_Of_Values = table_Of_Values(get_Database_Values()))
-
-
+        return render_template('ViewBalances.html', data = get_Current_Balance_Information_From_Database(), table_Of_Values = table_Of_Values(), changes_In_Values=table_Of_Changes_In_Values())
 
 
+
+import os
 if __name__ == '__main__':
+    print(os.getcwd())
     import random, threading, webbrowser
     from Backend import programSetup
     programSetup()
