@@ -82,10 +82,11 @@ def view_Balances():
         if request.form['btn_Go_Back'] == 'Go Back':
             return redirect(url_for('main_Menu'))
     else:
-        from Backend import get_Current_Balance_Information_From_Database
-        from ViewBalances_Backend import table_Of_Values, table_Of_Changes_In_Values
+        from Getting_Database_Balances import get_Current_Balance_Information_From_Database
+        from Getting_Database_Balances import table_Of_Values
+        table_Of_Values()
 
-        return render_template('ViewBalances.html', data = get_Current_Balance_Information_From_Database(), table_Of_Values = table_Of_Values(), changes_In_Values=table_Of_Changes_In_Values())
+        return render_template('ViewBalances.html', data = get_Current_Balance_Information_From_Database())
 
 
 

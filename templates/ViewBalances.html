@@ -42,7 +42,7 @@
                                 <h3>{{account_Term}}</h3>
                                 {% for specific_Account_Type in data[primary_Account_Type][account_Term]: %}
                                     <div class="{{specific_Account_Type}}">
-                                        {% for account, balance in data[primary_Account_Type][account_Term][specific_Account_Type].items(): %}
+                                        {% for account, balance in data[primary_Account_Type][account_Term][specific_Account_Type]["Current"].items(): %}
                                             {% if balance: %}
                                                 <div class="{{account}}">
                                                     <td>{{account}} $</td><td>{{balance}}</td>
