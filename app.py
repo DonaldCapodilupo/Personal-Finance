@@ -50,10 +50,23 @@ def update_Accounts():
 @app.route('/AddAnAccount', methods=["POST","GET"])
 def add_Account_To_Database():
     if request.method == "POST":
-        if request.form['btn'] == 'Update Account Balances':
-            from Backend import add_Account_To_Database
-            add_Account_To_Database(request.form['AccountTerm'], request.form['PrimaryAccountType'],request.form['accountName'],
-                        request.form['accountBalance'], request.form['Final_Account_Type'])
+        if request.form['submit_button'] == 'Add New Account':
+            from Backend import create_Database_Row
+            import datetime
+
+
+            create_Database_Row("Account_Balances.db","Accounts",(str(datetime.date.today()),
+                                                                  request.form['account_Type'],
+                                                                  request.form['account_Name'],
+                                                                  request.form['account_Balance'],
+                                                                  )
+                                )
+            create_Database_Row("Backup_Account_Balances.db", "Accounts", (str(datetime.date.today()),
+                                                                    request.form['account_Type'],
+                                                                    request.form['account_Name'],
+                                                                    request.form['account_Balance'],
+                                                                    )
+                                )
             return redirect(url_for('main_Menu'))
     else:
         return render_template('AddAccount.html')
@@ -92,11 +105,9 @@ def view_Balances():
 
 import os
 if __name__ == '__main__':
-
-    print(os.getcwd())
     import random, threading, webbrowser
     from Backend import programSetup
-    programSetup()
+    programSetup(("Databases",),("Account_Balances.db","Backup_Account_Balances.db"),("Accounts",))
 
     port = 5000 + random.randint(0, 999)
     url = "http://127.0.0.1:{0}".format(port)

@@ -22,29 +22,32 @@ completeBalanceSheet = {"Asset":{"Current Asset":{"Cash": {},"Cash Equivalent Ba
                         }
 
 
-def programSetup():
+def programSetup(directories:tuple, databases:tuple,tables:tuple):
     import os
     import sqlite3
-    try:
-        os.mkdir("Databases")
-        print("Database Directory Created ")
-    except FileExistsError:
-        print("Database directory already exists")
+
+    for directory in directories:
+        try:
+            os.mkdir(directory)
+            print("Database " + directory + " Created ")
+        except FileExistsError:
+            print(directory+" directory already exists")
 
     os.chdir("Databases")
 
-    for primary_Account_Type in completeBalanceSheet.keys():
-        for database_Name in completeBalanceSheet[primary_Account_Type]:
-            conn = sqlite3.connect(database_Name.replace(" ","_") + '.db')
-            c = conn.cursor()
-            for table_Name in completeBalanceSheet[primary_Account_Type][database_Name]:
-                try:
-                    c.execute("CREATE TABLE  " + table_Name.replace(" ", "_") + "(ID INTEGER PRIMARY KEY, "
-                                                          "Date TEXT, "
-                                                          "Description TEXT,"
-                                                          "Value TEXT)")
-                except sqlite3.OperationalError:
-                    print(table_Name + " already exists.")
+    for database in databases:
+        conn = sqlite3.connect(database)
+        c = conn.cursor()
+        for table_Name in tables:
+            try:
+                c.execute("CREATE TABLE  " + table_Name + "(ID INTEGER PRIMARY KEY, "
+                                                                            "Date TEXT, "
+                                                                            "Account_Type TEXT, "
+                                                                            "Account_Name TEXT, "
+                                                                            "Value TEXT)")
+            except sqlite3.OperationalError:
+                print(table_Name + " already exists.")
+
     os.chdir('..')
 
 #{'Asset': {'Current Asset': {'Cash': {'Wallet Cash': '1 mill', 'Spare Change': '0.35'}, 'Cash Equivalent Bank Accounts': {'Bank Acct': '100.00', 'Chase Bank': '1000'} } } }
@@ -108,3 +111,43 @@ def remove_Account_From_Database(list_of_Items):
     conn.commit()
 
     
+def create_Database_Row(database, table, tuple_Of_Values_To_Add):
+    import os
+    import sqlite3
+    os.chdir("Databases")
+
+    conn = sqlite3.connect(database)
+    c = conn.cursor()
+
+    tuple_To_Database_Syntax = "?, " * (len(tuple_Of_Values_To_Add)-1)
+
+    c.execute("INSERT INTO "+table+" VALUES (NULL,"+tuple_To_Database_Syntax +"?)",tuple_Of_Values_To_Add)
+    os.chdir('..')
+    conn.commit()
+
+def read_Database(database, table):
+    import pandas as pd
+    import sqlite3, os
+
+    os.chdir("Databases")
+
+    con = sqlite3.connect(database)
+    df = pd.read_sql_query("SELECT * from "+ table, con)
+    con.close()
+    os.chdir("..")
+    return df
+
+def update_Database_Information():
+    pass
+
+def delete_Database_Row(database, table, value_To_Remove):
+    import os
+    import sqlite3
+    os.chdir("Databases")
+
+    conn = sqlite3.connect(database)
+    c = conn.cursor()
+
+    c.execute("DELETE FROM "+ table +" where Stock_ID = ?", [value_To_Remove])
+    os.chdir('..')
+    conn.commit()
