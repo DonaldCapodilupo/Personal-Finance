@@ -92,6 +92,7 @@ def view_Balances():
 
 import os
 if __name__ == '__main__':
+
     print(os.getcwd())
     import random, threading, webbrowser
     from Backend import programSetup
