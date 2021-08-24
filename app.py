@@ -23,29 +23,27 @@ def main_Menu():
 @app.route('/UpdateAccountBalances', methods=["POST","GET"])
 def update_Accounts():
     if request.method == "POST":
-        if request.form['btn_Go_Back'] == 'Go Back':
-            from Backend import update_Account_Balances, completeBalanceSheet
-            import copy
-            user_Input = request.form.to_dict()
+        if request.form['submit_button'] == 'Update Balances':
+            from Backend import read_Database, update_Database_Information
+
+            old_Values = read_Database("Account_Balances.db","Accounts")
+
+            new_Values = request.form.getlist("new_Balances")
+
+            new_Dataframe = old_Values.assign(Value=new_Values)
+            print(new_Dataframe)
 
 
-            update_Dict = copy.deepcopy(completeBalanceSheet)
 
 
-            for key, value in user_Input.items():
-                account_Information = tuple(map(str, key.split(',')))
-                if len(account_Information) > 1:
-                    #{'Asset': {'Current Asset': {'Cash': {'Wallet Cash': '1 mill', 'Spare Change': '0.35'}, 'Cash Equivalent Bank Accounts': {'Bank Acct': '100.00', 'Chase Bank': '1000'} } } }
-                    update_Dict[account_Information[0]][account_Information[1]][account_Information[2]][account_Information[3]] = value
-            update_Account_Balances(update_Dict)
-
+            update_Database_Information("Account_Balances.db", new_Dataframe)
 
             return redirect(url_for('main_Menu'))
     else:
-        from Backend import get_Current_Balance_Information_From_Database
-        balances = get_Current_Balance_Information_From_Database()
-        print(balances)
-        return render_template('UpdateAccounts.html', data=balances)
+        from Backend import read_Database
+        account_Information = read_Database("Account_Balances.db", "Accounts")
+
+        return render_template('UpdateAccounts.html', data=account_Information)
 
 @app.route('/AddAnAccount', methods=["POST","GET"])
 def add_Account_To_Database():
@@ -88,7 +86,7 @@ def remove_Account_From_Database():
 
     else:
         from Backend import read_Database
-        account_Information =read_Database("Account_Balances.db","Accounts")
+        account_Information = read_Database("Account_Balances.db","Accounts")
         return render_template('RemoveAccounts.html', data=account_Information)
 
 @app.route('/ViewAccountBalances', methods=["POST","GET"])

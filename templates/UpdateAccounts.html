@@ -7,38 +7,86 @@
 </head>
 <body>
     <div class="wrapper">
-        <div class="Information_Wrapper">
-            <form action="{{ url_for('update_Accounts') }}" method="POST">
+        <h1 class="Main_Title">Remove An Account</h1>
+        <form action="{{ url_for('update_Accounts') }}" method="POST">
+        <h2>Current Assets</h2>
+            {% for accounts in data.values %}
+                {% if accounts[2] == "Current Asset" %}
+                    <table style="width:75%">
+                        <tr>
+                            <th>Date Last Updated</th>
+                            <th>Account Name</th>
+                            <th>Account Balance</th>
+                            <th>New Balance</th>
+                        </tr>
+
+                        <tr>
+                        <td>{{ accounts[1] }}</td>
+                        <td>{{ accounts[3] }}</td>
+                        <td>{{ accounts[4] }}</td>
+                        <th><input type="text" name="new_Balances" value="{{ accounts[4] }}"></th>
+                        </tr>
+                    </table>
+                {% endif %}
+            {% endfor %}
+
+        <h2>NonCurrent Assets</h2>
+            {% for accounts in data.values %}
+                {% if accounts[2] == "NonCurrent Asset" %}
+                    <table style="width:75%">
+                        <tr>
+                            <th>Date Last Updated</th>
+                            <th>Account Name</th>
+                            <th>Account Balance</th>
+                            <th>New Balance</th>
+                        </tr>
+
+                        <tr>
+                        <td>{{ accounts[1] }}</td>
+                        <td>{{ accounts[3] }}</td>
+                        <td>{{ accounts[4] }}</td>
+                        <th><input type="text" name="new_Balances" value="{{ accounts[4] }}"></th>
+                        </tr>
+                    </table>
+                {% endif %}
+            {% endfor %}
+
+        <h2>Current Liabilities</h2>
+            {% for accounts in data.values %}
+                {% if accounts[2] == "Current Liability" %}
+                    <table style="width:75%">
+
+                        <tr>
+                        <td>{{ accounts[1] }}</td>
+                        <td>{{ accounts[3] }}</td>
+                        <td>{{ accounts[4] }}</td>
+                        <th><input type="text" name="new_Balances" value="{{ accounts[4] }}"></th>
+                        </tr>
+                    </table>
+                {% endif %}
+            {% endfor %}
+
+        <h2>NonCurrent Liabilities</h2>
+            {% for accounts in data.values %}
+                {% if accounts[2] == "NonCurrent Liability" %}
+                    <table style="width:75%">
 
 
-                {% for primary_Account_Type in data: %}
-                    {% if primary_Account_Type in ['Asset', 'Liability']: %}
-                        <div class="{{primary_Account_Type}}">
-                            <h1>{{primary_Account_Type}}:</h1>
-                            {% for account_Term in data[primary_Account_Type]: %}
-                                <div class="{{account_Term}}">
-                                    <h2>{{account_Term}}</h2>
-                                    {% for specific_Account_Type in data[primary_Account_Type][account_Term]: %}
-                                        <div class="{{specific_Account_Type}}">
-                                            {% for account, balance in data[primary_Account_Type][account_Term][specific_Account_Type].items(): %}
-                                                {% if balance: %}
-                                                    <div class="{{account}}">
-                                                        <td>{{account}} $</td><input name="{{primary_Account_Type}},{{account_Term}},{{specific_Account_Type}},{{account}},{{balance}}" value="{{balance}}"><br>
-                                                    </div>
-                                                {% endif %}
-                                            {% endfor %}
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-                {% endfor %}
-                <div class="Button_Wrapper">
-                    <input type="submit" name="btn_Go_Back" value="Go Back">
-                </div>
-            </form>
-        </div>
+                        <tr>
+                        <td>{{ accounts[1] }}</td>
+                        <td>{{ accounts[3] }}</td>
+                        <td>{{ accounts[4] }}</td>
+                        <th><input type="text" name="new_Balances" value="{{ accounts[4] }}"></th>
+                        </tr>
+                    </table>
+                {% endif %}
+            {% endfor %}
+
+
+            <button type="submit" name="submit_button" value="Update Balances">Update Balances</button>
+
+            <input type="submit" name="submit_button" value="Go Back">
+        </form>
     </div>
 </body>
 </html>

@@ -137,8 +137,24 @@ def read_Database(database, table):
     os.chdir("..")
     return df
 
-def update_Database_Information():
-    pass
+def update_Database_Information(database, dataframe):
+    import os
+    import sqlite3
+    os.chdir("Databases")
+
+    conn = sqlite3.connect(database)
+
+    print(dataframe)
+    print(dataframe)
+
+    dataframe.to_sql('Accounts', con=conn, if_exists='replace', index=False)
+
+
+
+
+
+    os.chdir('..')
+    conn.commit()
 
 def delete_Database_Row(database, table, value_To_Remove):
     import os
