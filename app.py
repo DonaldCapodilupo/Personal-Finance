@@ -31,14 +31,14 @@ def update_Accounts():
             new_Values = request.form.getlist("new_Balances")
 
             new_Dataframe = old_Values.assign(Value=new_Values)
-            print(new_Dataframe)
-
-
-
 
             update_Database_Information("Account_Balances.db", new_Dataframe)
 
             return redirect(url_for('main_Menu'))
+
+        elif request.form['submit_button'] == 'Go Back':
+            return redirect(url_for('main_Menu'))
+
     else:
         from Backend import read_Database
         account_Information = read_Database("Account_Balances.db", "Accounts")
@@ -95,15 +95,12 @@ def view_Balances():
         if request.form['btn_Go_Back'] == 'Go Back':
             return redirect(url_for('main_Menu'))
     else:
-        from Getting_Database_Balances import get_Current_Balance_Information_From_Database
-        from Getting_Database_Balances import table_Of_Values
-        table_Of_Values()
-
-        return render_template('ViewBalances.html', data = get_Current_Balance_Information_From_Database())
+        from Backend import read_Database
+        return render_template('ViewBalances.html', data = read_Database("Account_Balances.db","Accounts"))
 
 
 
-import os
+
 if __name__ == '__main__':
     import random, threading, webbrowser
     from Backend import programSetup
