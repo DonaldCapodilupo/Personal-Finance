@@ -148,6 +148,6 @@ def delete_Database_Row(database, table, value_To_Remove):
     conn = sqlite3.connect(database)
     c = conn.cursor()
 
-    c.execute("DELETE FROM "+ table +" where Stock_ID = ?", [value_To_Remove])
+    c.execute("DELETE FROM "+ table +" where Account_Name = ?", [value_To_Remove])
     os.chdir('..')
     conn.commit()

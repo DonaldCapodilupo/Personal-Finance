@@ -74,19 +74,21 @@ def add_Account_To_Database():
 @app.route('/RemoveAnAccount', methods=["POST","GET"])
 def remove_Account_From_Database():
     if request.method == "POST":
-        if request.form['btn_Go_Back'] == 'Go Back':
-            from Backend import remove_Account_From_Database
-            selected = request.form.getlist('SpecificAccount')
-            print(selected)
-            for row in selected:
-                remove_Account_From_Database(row)
+        if request.form['submit_button'] == "Remove Item":
+            from Backend import delete_Database_Row
+            selected = request.form.getlist('checkbox')
 
+            for row in selected:
+                delete_Database_Row("Account_Balances.db","Accounts",row)
 
             return redirect(url_for('main_Menu'))
 
+        if request.form['submit_button'] == 'Go Back':
+            return redirect(url_for('main_Menu'))
+
     else:
-        from Backend import get_Current_Balance_Information_From_Database
-        account_Information = get_Current_Balance_Information_From_Database()
+        from Backend import read_Database
+        account_Information =read_Database("Account_Balances.db","Accounts")
         return render_template('RemoveAccounts.html', data=account_Information)
 
 @app.route('/ViewAccountBalances', methods=["POST","GET"])
