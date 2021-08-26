@@ -32,7 +32,8 @@ def update_Accounts():
 
             new_Dataframe = old_Values.assign(Value=new_Values)
 
-            update_Database_Information("Account_Balances.db", new_Dataframe)
+            update_Database_Information("Account_Balances.db", new_Dataframe, True)
+            update_Database_Information("Backup_Balances.db", new_Dataframe, False)
 
             return redirect(url_for('main_Menu'))
 
@@ -49,8 +50,9 @@ def update_Accounts():
 def add_Account_To_Database():
     if request.method == "POST":
         if request.form['submit_button'] == 'Add New Account':
-            from Backend import create_Database_Row
+            from Backend import create_Database_Row, prior_Report_Dates
             import datetime
+
 
 
             create_Database_Row("Account_Balances.db","Accounts",(str(datetime.date.today()),
@@ -59,12 +61,17 @@ def add_Account_To_Database():
                                                                   request.form['account_Balance'],
                                                                   )
                                 )
-            create_Database_Row("Backup_Account_Balances.db", "Accounts", (str(datetime.date.today()),
+            create_Database_Row("Backup_Accounts.db", "Accounts", (str(datetime.date.today()),
                                                                     request.form['account_Type'],
                                                                     request.form['account_Name'],
                                                                     request.form['account_Balance'],
                                                                     )
                                 )
+
+
+                
+
+
             return redirect(url_for('main_Menu'))
     else:
         return render_template('AddAccount.html')
@@ -104,7 +111,7 @@ def view_Balances():
 if __name__ == '__main__':
     import random, threading, webbrowser
     from Backend import programSetup
-    programSetup(("Databases",),("Account_Balances.db","Backup_Account_Balances.db"),("Accounts",))
+    programSetup(("Databases",),("Account_Balances.db","Backup_Accounts.db", 'Backup_Balances.db'),("Accounts",))
 
     port = 5000 + random.randint(0, 999)
     url = "http://127.0.0.1:{0}".format(port)

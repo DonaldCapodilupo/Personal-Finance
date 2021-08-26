@@ -2,9 +2,6 @@ import sqlite3, datetime, os
 
 
 def programSetup(directories:tuple, databases:tuple,tables:tuple):
-    import os
-    import sqlite3
-
     for directory in directories:
         try:
             os.mkdir(directory)
@@ -30,8 +27,6 @@ def programSetup(directories:tuple, databases:tuple,tables:tuple):
     os.chdir('..')
 
 def create_Database_Row(database, table, tuple_Of_Values_To_Add):
-    import os
-    import sqlite3
     os.chdir("Databases")
 
     conn = sqlite3.connect(database)
@@ -45,31 +40,30 @@ def create_Database_Row(database, table, tuple_Of_Values_To_Add):
 
 def read_Database(database, table):
     import pandas as pd
-    import sqlite3, os
 
     os.chdir("Databases")
 
     con = sqlite3.connect(database)
     df = pd.read_sql_query("SELECT * from "+ table, con)
     con.close()
+
     os.chdir("..")
     return df
 
-def update_Database_Information(database, dataframe):
-    import os
-    import sqlite3
+def update_Database_Information(database, dataframe, replace):
     os.chdir("Databases")
 
     conn = sqlite3.connect(database)
 
-    dataframe.to_sql('Accounts', con=conn, if_exists='replace', index=False)
+    if replace:
+        dataframe.to_sql('Accounts', con=conn, if_exists='replace', index=False)
+    else:
+        dataframe.to_sql('Accounts', con=conn, if_exists='append', index_label='id')
 
     os.chdir('..')
     conn.commit()
 
 def delete_Database_Row(database, table, value_To_Remove):
-    import os
-    import sqlite3
     os.chdir("Databases")
 
     conn = sqlite3.connect(database)
@@ -78,3 +72,21 @@ def delete_Database_Row(database, table, value_To_Remove):
     c.execute("DELETE FROM "+ table +" where Account_Name = ?", [value_To_Remove])
     os.chdir('..')
     conn.commit()
+
+
+def prior_Report_Dates():
+    today = str(datetime.date.today())
+    end_Of_Year = today[0:2] + str(int(today[2:4]) - 1) + '-12-31'
+
+    ref = datetime.date.today()
+    if ref.month < 4:
+        return today, end_Of_Year, str(datetime.date(ref.year - 1, 12, 31))
+    elif ref.month < 7:
+        return today, end_Of_Year, str(datetime.date(ref.year, 3, 31))
+    elif ref.month < 10:
+        return today, end_Of_Year, str( datetime.date(ref.year, 6, 30))
+    return today, end_Of_Year, str(datetime.date(ref.year, 9, 30))
+
+
+
+
