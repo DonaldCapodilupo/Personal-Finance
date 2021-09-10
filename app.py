@@ -107,11 +107,16 @@ def view_Balances():
         print(list(read_Database("Account_Balances.db","Accounts")))
         dataframe = read_Database("Account_Balances.db","Accounts")
 
+        html = dataframe.to_html(classes=["table-bordered", "table-striped", "table-hover"])
 
+        text_file = open("templates/index.html", "w")
+        text_file.write(html)
+        text_file.close()
 
 
         return render_template('ViewBalances.html', data = dataframe,
-                               headers=list(read_Database("Account_Balances.db","Accounts")))
+                               column_Names=list(read_Database("Account_Balances.db","Accounts")),
+                               current_Balances_Table=html)
 
 
 

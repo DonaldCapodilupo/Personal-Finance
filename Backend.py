@@ -178,7 +178,7 @@ def get_Account_Percentages():
 
 
 
-print(prior_Account_Balances())
+print()
 
 
 #get_Account_Percentages()

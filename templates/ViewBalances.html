@@ -269,40 +269,49 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <table class="table">
-                    <thead class="thead-light">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
-                    </tr>
-                    </tbody>
-                </table>
+                <div w3-include-html="index.html"></div>
+                <script>
+                    function includeHTML() {
+                        var z, i, elmnt, file, xhttp;
+                        /* Loop through a collection of all HTML elements: */
+                        z = document.getElementsByTagName("*");
+                        for (i = 0; i < z.length; i++) {
+                            elmnt = z[i];
+                            /*search for elements with a certain atrribute:*/
+                            file = elmnt.getAttribute("w3-include-html");
+                            if (file) {
+                                /* Make an HTTP request using the attribute value as the file name: */
+                                xhttp = new XMLHttpRequest();
+                                xhttp.onreadystatechange = function () {
+                                    if (this.readyState == 4) {
+                                        if (this.status == 200) {
+                                            elmnt.innerHTML = this.responseText;
+                                        }
+                                        if (this.status == 404) {
+                                            elmnt.innerHTML = "Page not found.";
+                                        }
+                                        /* Remove the attribute, and call this function once more: */
+                                        elmnt.removeAttribute("w3-include-html");
+                                        includeHTML();
+                                    }
+                                }
+                                xhttp.open("GET", file, true);
+                                xhttp.send();
+                                /* Exit the function: */
+                                return;
+                            }
+                        }
+                    }
+                </script>
+
             </div>
         </div>
     </div>
 </div>
+
+ <script>
+includeHTML();
+</script>
 
 </body>
 </html>
