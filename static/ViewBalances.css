@@ -1,37 +1,11 @@
-body{
-    background-color: wheat;
-}
-
-.Main_Wrapper {
-    display: grid;
-    grid-template-rows: auto auto auto auto auto auto;
-}
-.At_A_Glance_Balances{
-    display: grid;
-    grid-template-columns: auto auto;
+canvas {
+  width: 50%;
+  height: 50%;
+  display: block;
 
 }
 
-.Values_Table{
-}
+.chart-container{
 
-.Asset{
-    background: aqua;
-}
 
-.Liability{
-    background: indianred;
-}
-
-caption{
-    text-align: left;
-    font-weight: bold;
-}
-
-h1{
-    text-align: center;
-}
-
-table{
-    text-align: center;
 }

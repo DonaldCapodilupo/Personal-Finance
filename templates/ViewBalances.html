@@ -1,77 +1,308 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>View Account Balances</title>
-    <link rel="stylesheet" href="../static/ViewBalances.css">
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>Simple Sidebar - Start Bootstrap Template</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico"/>
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="../static/sidebar.css" rel="stylesheet"/>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../static/sidebar.js"></script>
+    <link href="../static/ViewBalances.css" rel="stylesheet"/>
+
+
 </head>
 <body>
-    <div class="Main_Wrapper">
-        <h1>View Balances</h1>
 
-        <div class="At_A_Glance_Balances">
-            <div class="Values_Table">
-                <caption>YTD Balances:</caption>
-                {% include 'table_Of_Values.html' %}
-            </div>
-            <div class="Changes_In_Balances">
-                <caption>YTD Changes In Values:</caption>
-                {% include 'table_Of_Changes_In_Values.html' %}
-            </div>
+<div class="d-flex" id="wrapper">
+    <!-- Sidebar-->
+    <div class="border-end bg-white" id="sidebar-wrapper">
+        <div class="sidebar-heading border-bottom bg-light">Options</div>
+        <div class="list-group list-group-flush">
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Dashboard</a>
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="UpdateAccounts.html">Update
+                Balances</a>
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="AddAccount.html">Add An
+                Account</a>
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="RemoveAccounts.html">Remove
+                An Account</a>
         </div>
-
-        <div class="Line_Chart_Wrapper">
-            <div class="Equity_Row">
-
-            </div>
-            <div class="Asset_Row">
-
-            </div>
-            <div class="Liability_Row">
-
-            </div>
-        </div>
-
-        <div class="Balance_Sheet_Window">
-            {% for primary_Account_Type in data:%}
-                {% if primary_Account_Type in ['Asset', 'Liability']:%}
-                    <div class="{{primary_Account_Type}}">
-                        <h2>{{primary_Account_Type}}:</h2>
-                        {% for account_Term in data[primary_Account_Type]:%}
-                            <div class="{{account_Term}}">
-                                <h3>{{account_Term}}</h3>
-                                {% for specific_Account_Type in data[primary_Account_Type][account_Term]: %}
-                                    <div class="{{specific_Account_Type}}">
-                                        {% for account, balance in data[primary_Account_Type][account_Term][specific_Account_Type]["Current"].items(): %}
-                                            {% if balance: %}
-                                                <div class="{{account}}">
-                                                    <td>{{account}} $</td><td>{{balance}}</td>
-                                                </div>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            {% endfor %}
-        </div>
-
-
-
-        <div class="Pie_Chart_Wrapper">
-
-        </div>
-
-
-        <form action="{{ url_for('view_Balances') }}" method="POST">
-
-            <div class="Button_Wrapper">
-                <input type="submit" name="btn_Go_Back" value="Go Back">
-            </div>
-        </form>
     </div>
+
+    <!-- Page content wrapper-->
+    <div id="page-content-wrapper">
+
+
+        <!-- Page content-->
+        <div class="button_Wrapper">
+            <button class="btn btn-primary" id="sidebarToggle">Toggle Menu</button>
+        </div>
+        <div class="row">
+            <div class="chart-container" align="center">
+                <div class="col-lg-5">
+                    <canvas id="equityChart" style="border:1px solid"></canvas>
+                    <script>
+                        var ctx = document.getElementById('equityChart').getContext('2d');
+                        var myChart = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: ['Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May'],
+                                datasets: [{
+                                    label: 'Equity',
+                                    data: [23420.60, 22985.00, 22707.67, 25999.00, 28051.78, 28778.16],
+                                    fill: false,
+                                    borderColor: 'rgb(75, 192, 192)',
+                                    tension: 0.1,
+
+                                    borderWidth: 1
+                                }]
+                            },
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <table class="table">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Account Type</th>
+                        <th scope="col">EOY Balances</th>
+                        <th scope="col">EOQ Balances</th>
+                        <th scope="col">Current Balances</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th scope="row">Current Assets</th>
+                        <td>$813.08</td>
+                        <td>$1,386.07</td>
+                        <td>$1412.61</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">NonCurrent Assets</th>
+                        <td>$22,619.05</td>
+                        <td>$27,919.84</td>
+                        <td>$31,094.17</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Total Assets</th>
+                        <td>$24,918.12</td>
+                        <td>$29,305.91</td>
+                        <td>$32,506.78</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Current Liabilities</th>
+                        <td>$1,497.52</td>
+                        <td>$188.68</td>
+                        <td>$224.28</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">NonCurrent Liabilities</th>
+                        <td>$0.00</td>
+                        <td>$0.00</td>
+                        <td>$0.00</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Total Liabilities</th>
+                        <td>$1,497.52</td>
+                        <td>$188.68</td>
+                        <td>$224.28</td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Equity</th>
+                        <td>$12,420.60</td>
+                        <td>$29,117.23</td>
+                        <td>$32,282.50</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-6">
+                                <table class="table">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">YTD $ Change</th>
+                        <th scope="col">YTD % Change</th>
+                        <th scope="col">QTD $ Change</th>
+                        <th scope="col">QTD % Change</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>$599.53</td>
+                        <td>73.74%</td>
+                        <td>$26.54</td>
+                        <td>1.91%</td>
+                    </tr>
+                    <tr>
+                        <td>$8,475.12</td>
+                        <td>37.47%</td>
+                        <td>$3,174.33</td>
+                        <td>11.37%</td>
+                    </tr>
+                    <tr>
+                        <td>$7,588.66</td>
+                        <td>30.45%</td>
+                        <td>$3,200.87</td>
+                        <td>10.92%</td>
+                    </tr>
+                    <tr>
+                        <td>$(1,273.24)</td>
+                        <td>-85.02%</td>
+                        <td>$35.60</td>
+                        <td>18.87%</td>
+                    </tr>
+                    <tr>
+                        <td>$0.00</td>
+                        <td>0%</td>
+                        <td>$0.00</td>
+                        <td>0%</td>
+                    </tr>
+                    <tr>
+                        <td>$(1,273.24)</td>
+                        <td>-85.02%</td>
+                        <td>$35.60</td>
+                        <td>18.87%</td>
+                    </tr>
+
+                    <tr>
+                        <td>$8,861.90</td>
+                        <td>37.84%</td>
+                        <td>$3,165.27</td>
+                        <td>10.87%</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+
+                <div class="chart-container">
+                    <div class="col-lg-auto">
+                        <canvas id="currentAssetChart" style="border:1px solid"></canvas>
+                        <script>
+                            var ctx = document.getElementById('currentAssetChart').getContext('2d');
+                            var myChart = new Chart(ctx, {
+                                type: 'line',
+                                data: {
+                                    labels: ['Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May'],
+                                    datasets: [{
+                                        label: 'Current Assets',
+                                        data: [813.08, 1194.30, 783.90, 3489.03, 2866.52, 1998.79],
+                                        fill: false,
+                                        borderColor: 'rgb(75, 192, 192)',
+                                        tension: 0.1,
+                                        borderWidth: 1
+                                    }]
+                                },
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-4">
+                <div class="chart-container">
+                    <div class="col-lg-auto">
+                        <canvas id="currentLiabilityChart" style="border:1px solid"></canvas>
+                        <script>
+                            var ctx = document.getElementById('currentLiabilityChart').getContext('2d');
+                            var myChart = new Chart(ctx, {
+                                type: 'line',
+                                data: {
+                                    labels: ['Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May'],
+                                    datasets: [{
+                                        label: 'Current Liabilities',
+                                        data: [ 1497.52, 1085.33, 1762.72, 73.12, 62.77, 196.64 ],
+                                        fill: false,
+                                        borderColor: 'rgb(75, 192, 192)',
+                                        tension: 0.1,
+                                        borderWidth: 1
+                                    }]
+                                },
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-4">
+                <div class="chart-container">
+                    <div class="col-lg-auto">
+                        <canvas id="nonCurrentLiabilitiesChart" style="border:1px solid"></canvas>
+                        <script>
+                            var ctx = document.getElementById('nonCurrentLiabilitiesChart').getContext('2d');
+                            var myChart = new Chart(ctx, {
+                                type: 'line',
+                                data: {
+                                    labels: ['Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May'],
+                                    datasets: [{
+                                        label: 'NonCurrent Liabilities',
+                                        data: [ 0.00, 0.00, 0.00, 0.00, 0.00, 0.00 ],
+                                        fill: false,
+                                        borderColor: 'rgb(75, 192, 192)',
+                                        tension: 0.1,
+                                        borderWidth: 1
+                                    }]
+                                },
+                                options: {
+                                    beginAtZero: true
+                                }
+
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <table class="table">
+                    <thead class="thead-light">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">First</th>
+                        <th scope="col">Last</th>
+                        <th scope="col">Handle</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>@fat</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Larry</td>
+                        <td>the Bird</td>
+                        <td>@twitter</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

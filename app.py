@@ -103,7 +103,15 @@ def view_Balances():
             return redirect(url_for('main_Menu'))
     else:
         from Backend import read_Database
-        return render_template('ViewBalances.html', data = read_Database("Account_Balances.db","Accounts"))
+
+        print(list(read_Database("Account_Balances.db","Accounts")))
+        dataframe = read_Database("Account_Balances.db","Accounts")
+
+
+
+
+        return render_template('ViewBalances.html', data = dataframe,
+                               headers=list(read_Database("Account_Balances.db","Accounts")))
 
 
 

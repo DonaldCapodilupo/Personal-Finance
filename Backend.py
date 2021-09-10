@@ -77,16 +77,108 @@ def delete_Database_Row(database, table, value_To_Remove):
 def prior_Report_Dates():
     today = str(datetime.date.today())
     end_Of_Year = today[0:2] + str(int(today[2:4]) - 1) + '-12-31'
+    date_Current_Balances =""
+
+    current_Balances = read_Database("Account_Balances.db", "Accounts")
+    for row in current_Balances.values:
+        date_Current_Balances = row[1]
+        break
+
 
     ref = datetime.date.today()
     if ref.month < 4:
-        return today, end_Of_Year, str(datetime.date(ref.year - 1, 12, 31))
+        return end_Of_Year, str(datetime.date(ref.year - 1, 12, 31))
     elif ref.month < 7:
-        return today, end_Of_Year, str(datetime.date(ref.year, 3, 31))
+        return end_Of_Year, str(datetime.date(ref.year, 3, 31))
     elif ref.month < 10:
-        return today, end_Of_Year, str( datetime.date(ref.year, 6, 30))
-    return today, end_Of_Year, str(datetime.date(ref.year, 9, 30))
+        return end_Of_Year, str( datetime.date(ref.year, 6, 30))
+    return end_Of_Year, str(datetime.date(ref.year, 9, 30))
 
 
 
+def prior_Account_Balances():
 
+    balances = {
+        "Current":{"Equity": 0},
+        "EOQ": {"Equity": 0},
+        "EOY": {"Equity": 0},
+
+    }
+
+    account_Types = ("Current Asset", "NonCurrent Asset", "Current Liability", "NonCurrent Liability")
+
+    previous_Balances = read_Database("Backup_Balances.db", "Accounts")
+    current_Balances = read_Database("Account_Balances.db", "Accounts")
+    the_Balances = (current_Balances, previous_Balances)
+
+    tuple_Of_Balance_Dataframes = (previous_Balances,current_Balances)
+
+    list_Of_Previous_Date_Dataframes = [date for dates, date in previous_Balances.groupby('Date')]
+
+    for df in list_Of_Previous_Date_Dataframes:
+        if df["Date"].values[0] == prior_Report_Dates()[1]:
+            balance_Sheet = df.groupby('Account_Type')['Value'].sum()
+            for account in account_Types:
+                try:
+                    balances["EOQ"][account] = int(balance_Sheet[account])
+                    if "Asset" in account:
+                        balances["EOQ"]["Equity"] += int(balance_Sheet[account])
+                    else:
+                        balances["EOQ"]["Equity"] -= int(balance_Sheet[account])
+                except KeyError:
+                    print("Wow, are there really no occurrences of " + account + " in the database?")
+                    balances["EOQ"][account] = 0
+        elif df["Date"].values[0] == prior_Report_Dates()[0]:
+            balance_Sheet = df.groupby('Account_Type')['Value'].sum()
+            for account in account_Types:
+                try:
+                    balances["EOY"][account] = int(balance_Sheet[account])
+                    if "Asset" in account:
+                        balances["EOY"]["Equity"] += int(balance_Sheet[account])
+                    else:
+                        balances["EOY"]["Equity"] -= int(balance_Sheet[account])
+                except KeyError:
+                    print("Wow, are there really no occurrences of " + account + " in the database?")
+                    balances["EOY"][account] = 0
+
+
+    #Current
+    current_Account_Balances = current_Balances.groupby('Account_Type')['Value'].sum()
+    for account in account_Types:
+        try:
+            balances["Current"][account] = current_Account_Balances[account]
+            if "Asset" in account:
+                balances["Current"]["Equity"] += int(current_Account_Balances[account])
+            else:
+                balances["Current"]["Equity"] -= int(current_Account_Balances[account])
+        except KeyError:
+            print("Wow, are there really no occurrences of " + account + " in the database?")
+            balances["Current"][account] = 0
+
+    import pandas as pd
+    pd.set_option("display.max_rows", None, "display.max_columns", None)
+    print(pd.DataFrame.from_dict(balances))
+
+    return balances
+
+
+def get_Account_Percentages():
+    import pandas as pd
+    balances_Dict = prior_Account_Balances()
+    current_Balances = read_Database("Account_Balances.db","Accounts")
+
+    for key in balances_Dict.keys():
+
+
+        balances_Items = balances_Dict[key].items()
+        balances_List = list(balances_Items)
+
+        df = pd.DataFrame(balances_List)
+        print(df)
+
+
+
+print(prior_Account_Balances())
+
+
+#get_Account_Percentages()
