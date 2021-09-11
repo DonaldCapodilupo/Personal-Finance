@@ -25,7 +25,7 @@
     <div class="border-end bg-white" id="sidebar-wrapper">
         <div class="sidebar-heading border-bottom bg-light">Options</div>
         <div class="list-group list-group-flush">
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Dashboard</a>
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="ViewBalances.html">Dashboard</a>
             <a class="list-group-item list-group-item-action list-group-item-light p-3" href="UpdateAccounts.html">Update
                 Balances</a>
             <a class="list-group-item list-group-item-action list-group-item-light p-3" href="AddAccount.html">Add An
@@ -37,7 +37,6 @@
 
     <!-- Page content wrapper-->
     <div id="page-content-wrapper">
-
 
         <!-- Page content-->
         <div class="button_Wrapper">
@@ -127,7 +126,7 @@
                 </table>
             </div>
             <div class="col-6">
-                                <table class="table">
+                <table class="table">
                     <thead class="thead-dark">
                     <tr>
                         <th scope="col">YTD $ Change</th>
@@ -223,7 +222,7 @@
                                     labels: ['Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May'],
                                     datasets: [{
                                         label: 'Current Liabilities',
-                                        data: [ 1497.52, 1085.33, 1762.72, 73.12, 62.77, 196.64 ],
+                                        data: [1497.52, 1085.33, 1762.72, 73.12, 62.77, 196.64],
                                         fill: false,
                                         borderColor: 'rgb(75, 192, 192)',
                                         tension: 0.1,
@@ -248,7 +247,7 @@
                                     labels: ['Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May'],
                                     datasets: [{
                                         label: 'NonCurrent Liabilities',
-                                        data: [ 0.00, 0.00, 0.00, 0.00, 0.00, 0.00 ],
+                                        data: [0.00, 0.00, 0.00, 0.00, 0.00, 0.00],
                                         fill: false,
                                         borderColor: 'rgb(75, 192, 192)',
                                         tension: 0.1,
@@ -268,50 +267,46 @@
 
         </div>
         <div class="row">
-            <div class="col-12">
-                <div w3-include-html="index.html"></div>
-                <script>
-                    function includeHTML() {
-                        var z, i, elmnt, file, xhttp;
-                        /* Loop through a collection of all HTML elements: */
-                        z = document.getElementsByTagName("*");
-                        for (i = 0; i < z.length; i++) {
-                            elmnt = z[i];
-                            /*search for elements with a certain atrribute:*/
-                            file = elmnt.getAttribute("w3-include-html");
-                            if (file) {
-                                /* Make an HTTP request using the attribute value as the file name: */
-                                xhttp = new XMLHttpRequest();
-                                xhttp.onreadystatechange = function () {
-                                    if (this.readyState == 4) {
-                                        if (this.status == 200) {
-                                            elmnt.innerHTML = this.responseText;
+            <div class="col-4"></div>
+            <div class="col-4">
+                <div w3-include-html=" index.html">
+                    <script>
+                        function includeHTML() {
+                            var z, i, elmnt, file, xhttp;
+                            /* Loop through a collection of all HTML elements: */
+                            z = document.getElementsByTagName("*");
+                            for (i = 0; i < z.length; i++) {
+                                elmnt = z[i];
+                                /*search for elements with a certain atrribute:*/
+                                file = elmnt.getAttribute("w3-include-html");
+                                if (file) {
+                                    /* Make an HTTP request using the attribute value as the file name: */
+                                    xhttp = new XMLHttpRequest();
+                                    xhttp.onreadystatechange = function () {
+                                        if (this.readyState == 4) {
+                                            if (this.status == 200) {
+                                                elmnt.innerHTML = this.responseText;
+                                            }
+                                            if (this.status == 404) {
+                                                elmnt.innerHTML = "Page not found.";
+                                            }
+                                            /* Remove the attribute, and call this function once more: */
+                                            elmnt.removeAttribute("w3-include-html");
+                                            includeHTML();
                                         }
-                                        if (this.status == 404) {
-                                            elmnt.innerHTML = "Page not found.";
-                                        }
-                                        /* Remove the attribute, and call this function once more: */
-                                        elmnt.removeAttribute("w3-include-html");
-                                        includeHTML();
                                     }
+                                    xhttp.open("GET", file, true);
+                                    xhttp.send();
+                                    /* Exit the function: */
+                                    return;
                                 }
-                                xhttp.open("GET", file, true);
-                                xhttp.send();
-                                /* Exit the function: */
-                                return;
                             }
                         }
-                    }
-                </script>
-
-            </div>
+                    </script>
+                </div><script>includeHTML();</script></div>
+            <div class="col-4"></div>
         </div>
     </div>
 </div>
-
- <script>
-includeHTML();
-</script>
-
 </body>
 </html>

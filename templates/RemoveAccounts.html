@@ -1,56 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Remove an Account</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>Simple Sidebar - Start Bootstrap Template</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico"/>
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="../static/sidebar.css" rel="stylesheet"/>
 
-    <link rel="stylesheet" href="../static/RemoveAccount.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../static/sidebar.js"></script>
+
 </head>
 <body>
-    <div class="wrapper">
-        <h1 class="Main_Title">Remove An Account</h1>
-        <form action="{{ url_for('remove_Account_From_Database') }}" method="POST">
-        <h2>Current Assets</h2>
-            {% for accounts in data.values %}
-                {% if accounts[2] == "Current Asset" %}
-                    <td><input type="checkbox" name="checkbox" value="{{ accounts[3] }}"></td>
-                    {{ accounts[1] }} {{ accounts[2] }} {{ accounts[3] }} ${{ accounts[4] }}
-                    <br>
-                {% endif %}
-            {% endfor %}
 
-        <h2>NonCurrent Assets</h2>
-            {% for accounts in data.values %}
-                {% if accounts[2] == "NonCurrent Asset" %}
-                    <input type="checkbox" name="checkbox" value="{{ accounts[3] }}"></td>
-                    {{ accounts[1] }} {{ accounts[2] }} {{ accounts[3] }} ${{ accounts[4] }}
-                    <br>
-                {% endif %}
-            {% endfor %}
-
-        <h2>Current Liabilities</h2>
-            {% for accounts in data.values %}
-                {% if accounts[2] == "Current Liability" %}
-                    <input type="checkbox" name="checkbox" value="{{ accounts[3] }}"></td>
-                    {{ accounts[1] }} {{ accounts[2] }} {{ accounts[3] }} ${{ accounts[4] }}
-                    <br>
-                {% endif %}
-            {% endfor %}
-
-        <h2>NonCurrent Liabilities</h2>
-            {% for accounts in data.values %}
-                {% if accounts[2] == "NonCurrent Liability" %}
-                    <input type="checkbox" name="checkbox" value="{{ accounts[3] }}"></td>
-                    {{ accounts[1] }} {{ accounts[2] }} {{ accounts[3] }} ${{ accounts[4] }}
-                    <br>
-                {% endif %}
-            {% endfor %}
-
-
-            <button type="submit" name="submit_button" value="Remove Item">Remove Item</button>
-
-            <input type="submit" name="submit_button" value="Go Back">
-        </form>
+<div class="d-flex" id="wrapper">
+    <!-- Sidebar-->
+    <div class="border-end bg-white" id="sidebar-wrapper">
+        <div class="sidebar-heading border-bottom bg-light">Options</div>
+        <div class="list-group list-group-flush">
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="ViewBalances.html">Dashboard</a>
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="UpdateAccounts.html">Update
+                Balances</a>
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="AddAccount.html">Add An
+                Account</a>
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="RemoveAccounts.html">Remove
+                An Account</a>
+        </div>
     </div>
+
+    <!-- Page content wrapper-->
+    <div id="page-content-wrapper">
+        <div class="button_Wrapper">
+            <button class="btn btn-primary" id="sidebarToggle">Toggle Menu</button>
+        </div>
+        <div class="row">
+            <div class="row">
+                <h1 class="Main_Title">Remove An Account</h1>
+            </div>
+            <form action="{{ url_for('remove_Account_From_Database') }}" method="POST">
+                <div class="row">
+                    <div class="col-6">
+                        <h2>Current Assets</h2>
+                        {% for accounts in data.values %}
+                            {% if accounts[2] == "Current Asset" %}
+                                <td><input type="checkbox" name="checkbox" value="{{ accounts[3] }}"></td>
+                                {{ accounts[1] }} {{ accounts[2] }} {{ accounts[3] }} ${{ accounts[4] }}
+                                <br>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-6">
+                        <h2>NonCurrent Assets</h2>
+                        {% for accounts in data.values %}
+                            {% if accounts[2] == "NonCurrent Asset" %}
+                                <input type="checkbox" name="checkbox" value="{{ accounts[3] }}"></td>
+                                {{ accounts[1] }} {{ accounts[2] }} {{ accounts[3] }} ${{ accounts[4] }}
+                                <br>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <h2>Current Liabilities</h2>
+                        {% for accounts in data.values %}
+                            {% if accounts[2] == "Current Liability" %}
+                                <input type="checkbox" name="checkbox" value="{{ accounts[3] }}"></td>
+                                {{ accounts[1] }} {{ accounts[2] }} {{ accounts[3] }} ${{ accounts[4] }}
+                                <br>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-6">
+                        <h2>NonCurrent Liabilities</h2>
+                        {% for accounts in data.values %}
+                            {% if accounts[2] == "NonCurrent Liability" %}
+                                <input type="checkbox" name="checkbox" value="{{ accounts[3] }}"></td>
+                                {{ accounts[1] }} {{ accounts[2] }} {{ accounts[3] }} ${{ accounts[4] }}
+                                <br>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-4">
+
+                    </div>
+                    <div class="col-4">
+                        <button type="submit" name="submit_button" value="Remove Item">Remove Item</button>
+
+                        <input type="submit" name="submit_button" value="Go Back">
+                    </div>
+                    <div class="col-4">
+
+                    </div>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+</div>
 </body>
 </html>
