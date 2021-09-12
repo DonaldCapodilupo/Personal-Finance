@@ -1,0 +1,54 @@
+{% block doc %}
+    {% block html %}
+        {% block html_attribs %}
+            <html lang="en">{% endblock %}
+
+        {% block head %}
+            <meta charset="utf-8"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+            <meta name="description" content=""/>
+            <meta name="author" content=""/>
+            <title>Simple Sidebar - Start Bootstrap Template</title>
+            <!-- Favicon-->
+            <link rel="icon" type="image/x-icon" href="../assets/favicon.ico"/>
+            <!-- Core theme CSS (includes Bootstrap)-->
+            <link href="../static/sidebar.css" rel="stylesheet"/>
+
+            <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+
+        {% endblock %}
+    {% endblock %}
+
+    {% block body %}
+        <div class="d-flex" id="wrapper">
+            <!-- Sidebar-->
+            {% block navbar %}
+                <div class="border-end bg-white" id="sidebar-wrapper">
+                    <div class="sidebar-heading border-bottom bg-light">Options</div>
+                    <div class="list-group list-group-flush">
+                        {{ nav.mynavbar.render() }}
+                    </div>
+                </div>
+            {% endblock %}
+
+
+            <!-- Page content wrapper-->
+            <div id="page-content-wrapper">
+                {% block content %}
+                    <div class="row">
+                        <div class="col-2">
+                            <button class="btn btn-primary" id="sidebarToggle">Toggle Menu</button>
+                        </div>
+                    </div>
+
+                {% endblock %}
+            </div>
+        </div>
+    {% endblock %}
+
+{% endblock %}
+
+
+
+

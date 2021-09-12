@@ -1,44 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <meta name="description" content=""/>
-    <meta name="author" content=""/>
-    <title>Simple Sidebar - Start Bootstrap Template</title>
-    <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico"/>
-    <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="../static/sidebar.css" rel="stylesheet"/>
+{% extends "layout.html" %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    {{ super() }}
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../static/sidebar.js"></script>
 
-</head>
-<body>
-
-<div class="d-flex" id="wrapper">
-    <!-- Sidebar-->
-    <div class="border-end bg-white" id="sidebar-wrapper">
-        <div class="sidebar-heading border-bottom bg-light">Options</div>
-        <div class="list-group list-group-flush">
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="ViewBalances.html">Dashboard</a>
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="UpdateAccounts.html">Update
-                Balances</a>
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="AddAccount.html">Add An
-                Account</a>
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="RemoveAccounts.html">Remove
-                An Account</a>
-        </div>
-    </div>
-
-    <!-- Page content wrapper-->
-    <div id="page-content-wrapper">
-        <div class="button_Wrapper">
-            <button class="btn btn-primary" id="sidebarToggle">Toggle Menu</button>
-        </div>
-        <div class="row">
+    <!-- Page content-->
+    <div class="row">
             <div class="row">
                 <h1 class="Main_Title">Remove An Account</h1>
             </div>
@@ -108,7 +77,5 @@
 
             </form>
         </div>
-    </div>
-</div>
-</body>
-</html>
+
+{% endblock %}

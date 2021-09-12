@@ -1,8 +1,19 @@
 from flask import Flask, render_template, request,url_for,redirect
+from flask_nav import Nav
+from flask_nav.elements import Navbar, View
 
 app = Flask(__name__)
 
-
+nav = Nav()
+@nav.navigation()
+def mynavbar():
+    return Navbar(
+        'mysite',
+        View('Dashboard', 'main_Menu'),
+        View('Add An Account', 'add_Account_To_Database'),
+        View('Remove An Account', 'remove_Account_From_Database'),
+        View('Update Account Balances', 'update_Accounts'),
+    )
 
 
 
@@ -130,5 +141,7 @@ if __name__ == '__main__':
     url = "http://127.0.0.1:{0}".format(port)
 
     threading.Timer(1.25, lambda: webbrowser.open(url)).start()
+
+    nav.init_app(app)
 
     app.run(port=port, debug=False)

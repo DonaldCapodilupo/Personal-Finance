@@ -1,52 +1,276 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Capbro Personal Finance Software</title>
+{% extends "layout.html" %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    {{ super() }}
 
 
+    <!-- Page content-->
+    <div class="row">
+        <div class="chart-container" align="center">
+            <div class="col-lg-5">
+                <canvas id="equityChart" style="border:1px solid"></canvas>
+                <script>
+                    var ctx = document.getElementById('equityChart').getContext('2d');
+                    var myChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: ['Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May'],
+                            datasets: [{
+                                label: 'Equity',
+                                data: [23420.60, 22985.00, 22707.67, 25999.00, 28051.78, 28778.16],
+                                fill: false,
+                                borderColor: 'rgb(75, 192, 192)',
+                                tension: 0.1,
 
-    <link rel="stylesheet" href="../static/main.css">
-
-</head>
-<body>
-
-<div class="MainWrapper">
-    <div class="MainTitle">
-        <h2>Personal Finance Calculator</h2>
+                                borderWidth: 1
+                            }]
+                        },
+                    });
+                </script>
+            </div>
+        </div>
     </div>
-    <div class="WelcomeText">
-        <p>Please select which option you would like</p>
+    <div class="row">
+        <div class="col-6">
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Account Type</th>
+                    <th scope="col">EOY Balances</th>
+                    <th scope="col">EOQ Balances</th>
+                    <th scope="col">Current Balances</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">Current Assets</th>
+                    <td>$813.08</td>
+                    <td>$1,386.07</td>
+                    <td>$1412.61</td>
+                </tr>
+                <tr>
+                    <th scope="row">NonCurrent Assets</th>
+                    <td>$22,619.05</td>
+                    <td>$27,919.84</td>
+                    <td>$31,094.17</td>
+                </tr>
+                <tr>
+                    <th scope="row">Total Assets</th>
+                    <td>$24,918.12</td>
+                    <td>$29,305.91</td>
+                    <td>$32,506.78</td>
+                </tr>
+                <tr>
+                    <th scope="row">Current Liabilities</th>
+                    <td>$1,497.52</td>
+                    <td>$188.68</td>
+                    <td>$224.28</td>
+                </tr>
+                <tr>
+                    <th scope="row">NonCurrent Liabilities</th>
+                    <td>$0.00</td>
+                    <td>$0.00</td>
+                    <td>$0.00</td>
+                </tr>
+                <tr>
+                    <th scope="row">Total Liabilities</th>
+                    <td>$1,497.52</td>
+                    <td>$188.68</td>
+                    <td>$224.28</td>
+                </tr>
+
+                <tr>
+                    <th scope="row">Equity</th>
+                    <td>$12,420.60</td>
+                    <td>$29,117.23</td>
+                    <td>$32,282.50</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-6">
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">YTD $ Change</th>
+                    <th scope="col">YTD % Change</th>
+                    <th scope="col">QTD $ Change</th>
+                    <th scope="col">QTD % Change</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>$599.53</td>
+                    <td>73.74%</td>
+                    <td>$26.54</td>
+                    <td>1.91%</td>
+                </tr>
+                <tr>
+                    <td>$8,475.12</td>
+                    <td>37.47%</td>
+                    <td>$3,174.33</td>
+                    <td>11.37%</td>
+                </tr>
+                <tr>
+                    <td>$7,588.66</td>
+                    <td>30.45%</td>
+                    <td>$3,200.87</td>
+                    <td>10.92%</td>
+                </tr>
+                <tr>
+                    <td>$(1,273.24)</td>
+                    <td>-85.02%</td>
+                    <td>$35.60</td>
+                    <td>18.87%</td>
+                </tr>
+                <tr>
+                    <td>$0.00</td>
+                    <td>0%</td>
+                    <td>$0.00</td>
+                    <td>0%</td>
+                </tr>
+                <tr>
+                    <td>$(1,273.24)</td>
+                    <td>-85.02%</td>
+                    <td>$35.60</td>
+                    <td>18.87%</td>
+                </tr>
+
+                <tr>
+                    <td>$8,861.90</td>
+                    <td>37.84%</td>
+                    <td>$3,165.27</td>
+                    <td>10.87%</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div class="Update_Account_Wrapper">
-         <form action="{{ url_for('main_Menu') }}" method="POST">
-             <input type="submit" name="btn" value="Update Account Balances">
-        </form>
+    <div class="row">
+        <div class="col-4">
+
+            <div class="chart-container">
+                <div class="col-lg-auto">
+                    <canvas id="currentAssetChart" style="border:1px solid"></canvas>
+                    <script>
+                        var ctx = document.getElementById('currentAssetChart').getContext('2d');
+                        var myChart = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: ['Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May'],
+                                datasets: [{
+                                    label: 'Current Assets',
+                                    data: [813.08, 1194.30, 783.90, 3489.03, 2866.52, 1998.79],
+                                    fill: false,
+                                    borderColor: 'rgb(75, 192, 192)',
+                                    tension: 0.1,
+                                    borderWidth: 1
+                                }]
+                            },
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4">
+            <div class="chart-container">
+                <div class="col-lg-auto">
+                    <canvas id="currentLiabilityChart" style="border:1px solid"></canvas>
+                    <script>
+                        var ctx = document.getElementById('currentLiabilityChart').getContext('2d');
+                        var myChart = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: ['Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May'],
+                                datasets: [{
+                                    label: 'Current Liabilities',
+                                    data: [1497.52, 1085.33, 1762.72, 73.12, 62.77, 196.64],
+                                    fill: false,
+                                    borderColor: 'rgb(75, 192, 192)',
+                                    tension: 0.1,
+                                    borderWidth: 1
+                                }]
+                            },
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4">
+            <div class="chart-container">
+                <div class="col-lg-auto">
+                    <canvas id="nonCurrentLiabilitiesChart" style="border:1px solid"></canvas>
+                    <script>
+                        var ctx = document.getElementById('nonCurrentLiabilitiesChart').getContext('2d');
+                        var myChart = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: ['Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May'],
+                                datasets: [{
+                                    label: 'NonCurrent Liabilities',
+                                    data: [0.00, 0.00, 0.00, 0.00, 0.00, 0.00],
+                                    fill: false,
+                                    borderColor: 'rgb(75, 192, 192)',
+                                    tension: 0.1,
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                beginAtZero: true
+                            }
+
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+
 
     </div>
-    <div class="Add_Account_Wrapper">
-        <form action="{{ url_for('main_Menu') }}" method="POST">
-             <input type="submit" name="btn" value="Add an Account">
-        </form>
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <div w3-include-html=" index.html">
+                <script>
+                    function includeHTML() {
+                        var z, i, elmnt, file, xhttp;
+                        /* Loop through a collection of all HTML elements: */
+                        z = document.getElementsByTagName("*");
+                        for (i = 0; i < z.length; i++) {
+                            elmnt = z[i];
+                            /*search for elements with a certain atrribute:*/
+                            file = elmnt.getAttribute("w3-include-html");
+                            if (file) {
+                                /* Make an HTTP request using the attribute value as the file name: */
+                                xhttp = new XMLHttpRequest();
+                                xhttp.onreadystatechange = function () {
+                                    if (this.readyState == 4) {
+                                        if (this.status == 200) {
+                                            elmnt.innerHTML = this.responseText;
+                                        }
+                                        if (this.status == 404) {
+                                            elmnt.innerHTML = "Page not found.";
+                                        }
+                                        /* Remove the attribute, and call this function once more: */
+                                        elmnt.removeAttribute("w3-include-html");
+                                        includeHTML();
+                                    }
+                                }
+                                xhttp.open("GET", file, true);
+                                xhttp.send();
+                                /* Exit the function: */
+                                return;
+                            }
+                        }
+                    }
+                </script>
+            </div>
+            <script>includeHTML();</script>
+        </div>
+        <div class="col-4"></div>
     </div>
-
-    <div class="Remove_Account_Wrapper">
-        <form action="{{ url_for('main_Menu') }}" method="POST">
-             <input type="submit" name="btn" value="Remove an Account">
-        </form>
-    </div>
-
-    <div class="Remove_Account_Wrapper">
-        <form action="{{ url_for('main_Menu') }}" method="POST">
-             <input type="submit" name="btn" value="View Account Balances">
-        </form>
-    </div>
-
-    <div class="Close_Button_Wrapper">
-        <button type="button" onclick="window.close()">Close Tab</button>
-    </div>
-
-
-</div>
-</body>
-</html>
+{% endblock %}
