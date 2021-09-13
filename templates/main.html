@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block head %}
     {{ super() }}
+     <script src="../static/main.js"></script>
 {% endblock %}
 {% block content %}
     {{ super() }}
@@ -231,46 +232,43 @@
 
 
     </div>
+        <div class="row">
+        <div class="col-3">
+        </div>
+
+        <div class="col-6">
+            <div class="chart-container">
+                <div class="col-lg-auto">
+                    <canvas id="nonCurrentAssetschart" style="border:1px solid">
+
+                    </canvas>
+                    <script>
+                        make_Chart('nonCurrentAssetschart',
+                            {{ heads|tojson }},
+                            {{ data|tojson }})
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-3">
+        </div>
+
+
+    </div>
     <div class="row">
         <div class="col-4"></div>
         <div class="col-4">
-            <div w3-include-html=" index.html">
-                <script>
-                    function includeHTML() {
-                        var z, i, elmnt, file, xhttp;
-                        /* Loop through a collection of all HTML elements: */
-                        z = document.getElementsByTagName("*");
-                        for (i = 0; i < z.length; i++) {
-                            elmnt = z[i];
-                            /*search for elements with a certain atrribute:*/
-                            file = elmnt.getAttribute("w3-include-html");
-                            if (file) {
-                                /* Make an HTTP request using the attribute value as the file name: */
-                                xhttp = new XMLHttpRequest();
-                                xhttp.onreadystatechange = function () {
-                                    if (this.readyState == 4) {
-                                        if (this.status == 200) {
-                                            elmnt.innerHTML = this.responseText;
-                                        }
-                                        if (this.status == 404) {
-                                            elmnt.innerHTML = "Page not found.";
-                                        }
-                                        /* Remove the attribute, and call this function once more: */
-                                        elmnt.removeAttribute("w3-include-html");
-                                        includeHTML();
-                                    }
-                                }
-                                xhttp.open("GET", file, true);
-                                xhttp.send();
-                                /* Exit the function: */
-                                return;
-                            }
-                        }
-                    }
-                </script>
-            </div>
-            <script>includeHTML();</script>
+            {% include 'Current_Balances.html' %}
         </div>
         <div class="col-4"></div>
     </div>
+
+    <script type='text/javascript'>
+  window.onload = function() {
+    const thead = document.querySelectorAll('.table > thead');
+    thead.forEach(e => e.classList.add('thead-dark'));
+  }
+</script>
+
 {% endblock %}

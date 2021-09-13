@@ -177,8 +177,3 @@ def get_Account_Percentages():
         print(df)
 
 
-
-print()
-
-
-#get_Account_Percentages()

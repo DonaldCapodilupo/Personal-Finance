@@ -3,13 +3,13 @@ from flask_nav import Nav
 from flask_nav.elements import Navbar, View
 
 app = Flask(__name__)
-
 nav = Nav()
+
 @nav.navigation()
 def mynavbar():
     return Navbar(
         'mysite',
-        View('Dashboard', 'main_Menu'),
+        View('Dashboard', 'dashboard'),
         View('Add An Account', 'add_Account_To_Database'),
         View('Remove An Account', 'remove_Account_From_Database'),
         View('Update Account Balances', 'update_Accounts'),
@@ -18,18 +18,22 @@ def mynavbar():
 
 
 @app.route('/', methods=["POST","GET"])
-def main_Menu():
-    if request.method == "POST":
-        if request.form['btn'] == 'Update Account Balances':
-            return redirect(url_for('update_Accounts'))
-        if request.form['btn'] == 'Add an Account':
-            return redirect(url_for('add_Account_To_Database'))
-        if request.form['btn'] == 'Remove an Account':
-            return redirect(url_for('remove_Account_From_Database'))
-        if request.form['btn'] == 'View Account Balances':
-            return redirect(url_for('view_Balances'))
-    else:
-        return render_template('main.html')
+def dashboard():
+    if request.method == "GET":
+        from Backend import read_Database
+        current_Balances_Table = read_Database("Account_Balances.db", "Accounts")
+        updated_Table = current_Balances_Table.drop(['ID','Account_Type'], axis=1)
+
+
+        updated_Table.to_html("templates/Current_Balances.html", index=False, classes="table")
+
+        headers = ('Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May')
+        nonCurrent_Asset_Data = [1497.52, 1085.33, 1762.72, 73.12, 62.77, 196.64]
+
+
+        return render_template('main.html', balance_Sheet = current_Balances_Table.to_html(),
+                               heads = headers,
+                               data = nonCurrent_Asset_Data)
 
 @app.route('/UpdateAccountBalances', methods=["POST","GET"])
 def update_Accounts():
@@ -46,10 +50,10 @@ def update_Accounts():
             update_Database_Information("Account_Balances.db", new_Dataframe, True)
             update_Database_Information("Backup_Balances.db", new_Dataframe, False)
 
-            return redirect(url_for('main_Menu'))
+            return redirect(url_for('dashboard'))
 
         elif request.form['submit_button'] == 'Go Back':
-            return redirect(url_for('main_Menu'))
+            return redirect(url_for('dashboard'))
 
     else:
         from Backend import read_Database
@@ -61,7 +65,7 @@ def update_Accounts():
 def add_Account_To_Database():
     if request.method == "POST":
         if request.form['submit_button'] == 'Add New Account':
-            from Backend import create_Database_Row, prior_Report_Dates
+            from Backend import create_Database_Row
             import datetime
 
 
@@ -83,7 +87,7 @@ def add_Account_To_Database():
                 
 
 
-            return redirect(url_for('main_Menu'))
+            return redirect(url_for('dashboard'))
     else:
         return render_template('AddAccount.html')
 
@@ -97,37 +101,15 @@ def remove_Account_From_Database():
             for row in selected:
                 delete_Database_Row("Account_Balances.db","Accounts",row)
 
-            return redirect(url_for('main_Menu'))
+            return redirect(url_for('dashboard'))
 
         if request.form['submit_button'] == 'Go Back':
-            return redirect(url_for('main_Menu'))
+            return redirect(url_for('dashboard'))
 
     else:
         from Backend import read_Database
         account_Information = read_Database("Account_Balances.db","Accounts")
         return render_template('RemoveAccounts.html', data=account_Information)
-
-@app.route('/ViewAccountBalances', methods=["POST","GET"])
-def view_Balances():
-    if request.method == "POST":
-        if request.form['btn_Go_Back'] == 'Go Back':
-            return redirect(url_for('main_Menu'))
-    else:
-        from Backend import read_Database
-
-        print(list(read_Database("Account_Balances.db","Accounts")))
-        dataframe = read_Database("Account_Balances.db","Accounts")
-
-        html = dataframe.to_html(classes=["table-bordered", "table-striped", "table-hover"])
-
-        text_file = open("templates/index.html", "w")
-        text_file.write(html)
-        text_file.close()
-
-
-        return render_template('ViewBalances.html', data = dataframe,
-                               column_Names=list(read_Database("Account_Balances.db","Accounts")),
-                               current_Balances_Table=html)
 
 
 
@@ -137,11 +119,11 @@ if __name__ == '__main__':
     from Backend import programSetup
     programSetup(("Databases",),("Account_Balances.db","Backup_Accounts.db", 'Backup_Balances.db'),("Accounts",))
 
-    port = 5000 + random.randint(0, 999)
+    port = 5420
     url = "http://127.0.0.1:{0}".format(port)
 
     threading.Timer(1.25, lambda: webbrowser.open(url)).start()
 
     nav.init_app(app)
 
-    app.run(port=port, debug=False)
+    app.run(port=port, debug=True, use_reloader=False)
