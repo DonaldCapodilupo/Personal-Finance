@@ -13,22 +13,10 @@
             <div class="col-lg-5">
                 <canvas id="equityChart" style="border:1px solid"></canvas>
                 <script>
-                    var ctx = document.getElementById('equityChart').getContext('2d');
-                    var myChart = new Chart(ctx, {
-                        type: 'line',
-                        data: {
-                            labels: ['Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May'],
-                            datasets: [{
-                                label: 'Equity',
-                                data: [23420.60, 22985.00, 22707.67, 25999.00, 28051.78, 28778.16],
-                                fill: false,
-                                borderColor: 'rgb(75, 192, 192)',
-                                tension: 0.1,
-
-                                borderWidth: 1
-                            }]
-                        },
-                    });
+                        make_Chart('equityChart',
+                            {{ heads|tojson }},
+                            {{ data["Equity"]|tojson }},
+                        "Equity")
                 </script>
             </div>
         </div>
@@ -156,21 +144,10 @@
                 <div class="col-lg-auto">
                     <canvas id="currentAssetChart" style="border:1px solid"></canvas>
                     <script>
-                        var ctx = document.getElementById('currentAssetChart').getContext('2d');
-                        var myChart = new Chart(ctx, {
-                            type: 'line',
-                            data: {
-                                labels: ['Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May'],
-                                datasets: [{
-                                    label: 'Current Assets',
-                                    data: [813.08, 1194.30, 783.90, 3489.03, 2866.52, 1998.79],
-                                    fill: false,
-                                    borderColor: 'rgb(75, 192, 192)',
-                                    tension: 0.1,
-                                    borderWidth: 1
-                                }]
-                            },
-                        });
+                        make_Chart('currentAssetChart',
+                            {{ heads|tojson }},
+                            {{ data["Current Assets"]|tojson }},
+                            "Current Assets")
                     </script>
                 </div>
             </div>
@@ -181,21 +158,10 @@
                 <div class="col-lg-auto">
                     <canvas id="currentLiabilityChart" style="border:1px solid"></canvas>
                     <script>
-                        var ctx = document.getElementById('currentLiabilityChart').getContext('2d');
-                        var myChart = new Chart(ctx, {
-                            type: 'line',
-                            data: {
-                                labels: ['Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May'],
-                                datasets: [{
-                                    label: 'Current Liabilities',
-                                    data: [1497.52, 1085.33, 1762.72, 73.12, 62.77, 196.64],
-                                    fill: false,
-                                    borderColor: 'rgb(75, 192, 192)',
-                                    tension: 0.1,
-                                    borderWidth: 1
-                                }]
-                            },
-                        });
+                        make_Chart('currentLiabilityChart',
+                            {{ heads|tojson }},
+                            {{ data["Current Liabilities"]|tojson }},
+                            "Current Liabilities")
                     </script>
                 </div>
             </div>
@@ -206,25 +172,10 @@
                 <div class="col-lg-auto">
                     <canvas id="nonCurrentLiabilitiesChart" style="border:1px solid"></canvas>
                     <script>
-                        var ctx = document.getElementById('nonCurrentLiabilitiesChart').getContext('2d');
-                        var myChart = new Chart(ctx, {
-                            type: 'line',
-                            data: {
-                                labels: ['Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May'],
-                                datasets: [{
-                                    label: 'NonCurrent Liabilities',
-                                    data: [0.00, 0.00, 0.00, 0.00, 0.00, 0.00],
-                                    fill: false,
-                                    borderColor: 'rgb(75, 192, 192)',
-                                    tension: 0.1,
-                                    borderWidth: 1
-                                }]
-                            },
-                            options: {
-                                beginAtZero: true
-                            }
-
-                        });
+                        make_Chart('nonCurrentLiabilitiesChart',
+                            {{ heads|tojson }},
+                            {{ data["NonCurrent Liabilities"]|tojson }},
+                            "NonCurrent Liabilities")
                     </script>
                 </div>
             </div>
@@ -232,7 +183,7 @@
 
 
     </div>
-        <div class="row">
+    <div class="row">
         <div class="col-3">
         </div>
 
@@ -245,7 +196,8 @@
                     <script>
                         make_Chart('nonCurrentAssetschart',
                             {{ heads|tojson }},
-                            {{ data|tojson }})
+                            {{ data["NonCurrent Assets"]|tojson }},
+                        "NonCurrent Assets")
                     </script>
                 </div>
             </div>

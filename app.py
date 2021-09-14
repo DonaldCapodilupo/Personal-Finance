@@ -27,13 +27,24 @@ def dashboard():
 
         updated_Table.to_html("templates/Current_Balances.html", index=False, classes="table")
 
-        headers = ('Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May')
-        nonCurrent_Asset_Data = [1497.52, 1085.33, 1762.72, 73.12, 62.77, 196.64]
+        headers = ('Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul','Aug')
+
+        hardcoded_Data = {
+            "Current Assets":(813.08,1194.3,783.9,3489.03,2866.52,1998.79,1386.07,1795.42,1136.83),
+            "NonCurrent Assets": (22619.05,22876.03,23686.49,22583.09,25248.03,26976.007,27919.84,29305.22,30706.34),
+            "Current Liabilities": (1497.52,1085.33,1762.72,73.12,62.77,196.64,188.68,862.49,93.64),
+            "NonCurrent Liabilities": (0,0,0,0,0,0,0,0,0),
+            "Equity":(23420.6,22985,22707.67,25999,28051.78,28778.157,29117.23,30238.15,31749.53)
+        }
+
+
+
+
 
 
         return render_template('main.html', balance_Sheet = current_Balances_Table.to_html(),
-                               heads = headers,
-                               data = nonCurrent_Asset_Data)
+                               heads=headers,
+                               data = hardcoded_Data)
 
 @app.route('/UpdateAccountBalances', methods=["POST","GET"])
 def update_Accounts():
