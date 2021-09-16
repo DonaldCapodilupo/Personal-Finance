@@ -176,4 +176,43 @@ def get_Account_Percentages():
         df = pd.DataFrame(balances_List)
         print(df)
 
+def raw_Num_To_Currency(raw_Number):
+    return "${:,.2f}".format(raw_Number)
+
+def create_Balance_Sheet_HTML():
+    current_Balances_Database = read_Database("Account_Balances.db", "Accounts")
+
+
+
+    #Rearange to current assets, noncurrent assets, total assets, etc.
+    account_Type_Nums = {
+        "Current Asset":1,
+        "NonCurrent Asset": 2,
+        "Current Liability": 3,
+        "NonCurrent Liability": 4,
+    }
+    current_Balances_Database["Account Type Number"] = [account_Type_Nums[account] for account in current_Balances_Database["Account_Type"].values]
+    current_Balances_Database = current_Balances_Database.sort_values(by=["Account Type Number"])
+
+
+
+    #Add the "currenct balance in $" column
+    current_Balances_Database["Current Value"] = [raw_Num_To_Currency(float(dollar_Amount)) for dollar_Amount in current_Balances_Database["Value"].values]
+
+
+    #drop unneeded columns
+    balance_Sheet = current_Balances_Database.drop(['ID', 'Account_Type', 'Value', 'Account Type Number'], axis=1)
+
+    #save file
+    balance_Sheet.to_html("templates/Balance_Sheet.html", index=False, classes="table")
+
+
+
+
+
+
+
+
+
+
 

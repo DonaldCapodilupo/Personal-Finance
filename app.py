@@ -20,12 +20,11 @@ def mynavbar():
 @app.route('/', methods=["POST","GET"])
 def dashboard():
     if request.method == "GET":
-        from Backend import read_Database
-        current_Balances_Table = read_Database("Account_Balances.db", "Accounts")
-        updated_Table = current_Balances_Table.drop(['ID','Account_Type'], axis=1)
+        from Backend import create_Balance_Sheet_HTML
 
 
-        updated_Table.to_html("templates/Current_Balances.html", index=False, classes="table")
+
+
 
         headers = ('Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul','Aug')
 
@@ -37,12 +36,19 @@ def dashboard():
             "Equity":(23420.6,22985,22707.67,25999,28051.78,28778.157,29117.23,30238.15,31749.53)
         }
 
+        #turn accounts column from 550000 into "$5,500.00"
+
+
+        create_Balance_Sheet_HTML()
 
 
 
 
 
-        return render_template('main.html', balance_Sheet = current_Balances_Table.to_html(),
+
+
+
+        return render_template('main.html',
                                heads=headers,
                                data = hardcoded_Data)
 
@@ -79,18 +85,22 @@ def add_Account_To_Database():
             from Backend import create_Database_Row
             import datetime
 
+            scrub_Comma = request.form['account_Balance'].replace(",","")
+            clean_Data = float(scrub_Comma.replace("$",""))
+
+
 
 
             create_Database_Row("Account_Balances.db","Accounts",(str(datetime.date.today()),
                                                                   request.form['account_Type'],
                                                                   request.form['account_Name'],
-                                                                  request.form['account_Balance'],
+                                                                  clean_Data,
                                                                   )
                                 )
             create_Database_Row("Backup_Accounts.db", "Accounts", (str(datetime.date.today()),
                                                                     request.form['account_Type'],
                                                                     request.form['account_Name'],
-                                                                    request.form['account_Balance'],
+                                                                    clean_Data,
                                                                     )
                                 )
 
