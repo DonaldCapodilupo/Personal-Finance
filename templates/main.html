@@ -23,61 +23,7 @@
     </div>
     <div class="row">
         <div class="col-6">
-            <table class="table">
-                <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Account Type</th>
-                    <th scope="col">EOY Balances</th>
-                    <th scope="col">EOQ Balances</th>
-                    <th scope="col">Current Balances</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <th scope="row">Current Assets</th>
-                    <td>$813.08</td>
-                    <td>$1,386.07</td>
-                    <td>$1412.61</td>
-                </tr>
-                <tr>
-                    <th scope="row">NonCurrent Assets</th>
-                    <td>$22,619.05</td>
-                    <td>$27,919.84</td>
-                    <td>$31,094.17</td>
-                </tr>
-                <tr>
-                    <th scope="row">Total Assets</th>
-                    <td>$24,918.12</td>
-                    <td>$29,305.91</td>
-                    <td>$32,506.78</td>
-                </tr>
-                <tr>
-                    <th scope="row">Current Liabilities</th>
-                    <td>$1,497.52</td>
-                    <td>$188.68</td>
-                    <td>$224.28</td>
-                </tr>
-                <tr>
-                    <th scope="row">NonCurrent Liabilities</th>
-                    <td>$0.00</td>
-                    <td>$0.00</td>
-                    <td>$0.00</td>
-                </tr>
-                <tr>
-                    <th scope="row">Total Liabilities</th>
-                    <td>$1,497.52</td>
-                    <td>$188.68</td>
-                    <td>$224.28</td>
-                </tr>
-
-                <tr>
-                    <th scope="row">Equity</th>
-                    <td>$12,420.60</td>
-                    <td>$29,117.23</td>
-                    <td>$32,282.50</td>
-                </tr>
-                </tbody>
-            </table>
+            {% include "Account_Balances_Table.html" %}
         </div>
         <div class="col-6">
             <table class="table">

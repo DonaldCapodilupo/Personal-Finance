@@ -77,7 +77,7 @@ def delete_Database_Row(database, table, value_To_Remove):
 def prior_Report_Dates():
     today = str(datetime.date.today())
     end_Of_Year = today[0:2] + str(int(today[2:4]) - 1) + '-12-31'
-    date_Current_Balances =""
+
 
     current_Balances = read_Database("Account_Balances.db", "Accounts")
     for row in current_Balances.values:
@@ -87,79 +87,78 @@ def prior_Report_Dates():
 
     ref = datetime.date.today()
     if ref.month < 4:
-        return end_Of_Year, str(datetime.date(ref.year - 1, 12, 31))
+        return end_Of_Year, str(datetime.date(ref.year - 1, 12, 31)), today
     elif ref.month < 7:
-        return end_Of_Year, str(datetime.date(ref.year, 3, 31))
+        return end_Of_Year, str(datetime.date(ref.year, 3, 31)), today
     elif ref.month < 10:
-        return end_Of_Year, str( datetime.date(ref.year, 6, 30))
-    return end_Of_Year, str(datetime.date(ref.year, 9, 30))
+        return end_Of_Year, str( datetime.date(ref.year, 6, 30)), today
+    return end_Of_Year, str(datetime.date(ref.year, 9, 30)), today
 
 
 
-def prior_Account_Balances():
+def create_Account_Balances_HTML_Table():
+    import pandas as pd
+
+
 
     balances = {
-        "Current":{"Equity": 0},
-        "EOQ": {"Equity": 0},
-        "EOY": {"Equity": 0},
+        "Current": {"Current Asset": 0,
+                    "NonCurrent Asset": 0,
+                    "Total Assets": 0,
+                    "Current Liability": 0,
+                    "NonCurrent Liability": 0,
+                    "Total Liabilities":0,
+                    "Equity": 0},
+        "EOQ": {"Current Asset": 0,
+                    "NonCurrent Asset": 0,
+                    "Total Assets": 0,
+                    "Current Liability": 0,
+                    "NonCurrent Liability": 0,
+                    "Total Liabilities":0,
+                    "Equity": 0},
+        "EOY": {"Current Asset": 0,
+                    "NonCurrent Asset": 0,
+                    "Total Assets": 0,
+                    "Current Liability": 0,
+                    "NonCurrent Liability": 0,
+                    "Total Liabilities":0,
+                    "Equity": 0},
 
     }
 
-    account_Types = ("Current Asset", "NonCurrent Asset", "Current Liability", "NonCurrent Liability")
-
-    previous_Balances = read_Database("Backup_Balances.db", "Accounts")
-    current_Balances = read_Database("Account_Balances.db", "Accounts")
-    the_Balances = (current_Balances, previous_Balances)
-
-    tuple_Of_Balance_Dataframes = (previous_Balances,current_Balances)
-
-    list_Of_Previous_Date_Dataframes = [date for dates, date in previous_Balances.groupby('Date')]
-
-    for df in list_Of_Previous_Date_Dataframes:
-        if df["Date"].values[0] == prior_Report_Dates()[1]:
-            balance_Sheet = df.groupby('Account_Type')['Value'].sum()
-            for account in account_Types:
-                try:
-                    balances["EOQ"][account] = int(balance_Sheet[account])
-                    if "Asset" in account:
-                        balances["EOQ"]["Equity"] += int(balance_Sheet[account])
-                    else:
-                        balances["EOQ"]["Equity"] -= int(balance_Sheet[account])
-                except KeyError:
-                    print("Wow, are there really no occurrences of " + account + " in the database?")
-                    balances["EOQ"][account] = 0
-        elif df["Date"].values[0] == prior_Report_Dates()[0]:
-            balance_Sheet = df.groupby('Account_Type')['Value'].sum()
-            for account in account_Types:
-                try:
-                    balances["EOY"][account] = int(balance_Sheet[account])
-                    if "Asset" in account:
-                        balances["EOY"]["Equity"] += int(balance_Sheet[account])
-                    else:
-                        balances["EOY"]["Equity"] -= int(balance_Sheet[account])
-                except KeyError:
-                    print("Wow, are there really no occurrences of " + account + " in the database?")
-                    balances["EOY"][account] = 0
 
 
-    #Current
-    current_Account_Balances = current_Balances.groupby('Account_Type')['Value'].sum()
-    for account in account_Types:
-        try:
-            balances["Current"][account] = current_Account_Balances[account]
-            if "Asset" in account:
-                balances["Current"]["Equity"] += int(current_Account_Balances[account])
-            else:
-                balances["Current"]["Equity"] -= int(current_Account_Balances[account])
-        except KeyError:
-            print("Wow, are there really no occurrences of " + account + " in the database?")
-            balances["Current"][account] = 0
+    #[raw_Num_To_Currency(float(dollar_Amount)) for dollar_Amount in current_Balances_Database["Value"].values]
 
-    import pandas as pd
-    pd.set_option("display.max_rows", None, "display.max_columns", None)
-    print(pd.DataFrame.from_dict(balances))
+    for row in read_Database("Backup_Balances.db", "Accounts").values:
+        print(prior_Report_Dates())
+        #EOY
+        if row[1] == prior_Report_Dates()[0]:
+            print(prior_Report_Dates()[0])
+            balances["EOY"][row[2]] += float(row[4])
+        elif row[1] == prior_Report_Dates()[1]:
+            balances["EOQ"][row[2]] += float(row[4])
 
-    return balances
+    for row in read_Database("Account_Balances.db", "Accounts").values:
+        balances["Current"][row[2]] += float(row[4])
+
+    #Totals
+    for key in balances:
+        balances[key]["Total Assets"] = balances[key]["Current Asset"] + balances[key]["NonCurrent Asset"]
+        balances[key]["Total Liabilities"] = balances[key]["Current Liability"] + balances[key]["NonCurrent Liability"]
+        balances[key]["Equity"] = balances[key]["Total Assets"] - balances[key]["Total Liabilities"]
+
+
+    for key in balances:
+        for cat in balances[key]:
+            balances[key][cat] = raw_Num_To_Currency(float(balances[key][cat]))
+
+
+
+
+    balances = pd.DataFrame.from_dict(balances)
+    balances.to_html("templates/Account_Balances_Table.html", classes="table")
+
 
 
 def get_Account_Percentages():
@@ -176,8 +175,11 @@ def get_Account_Percentages():
         df = pd.DataFrame(balances_List)
         print(df)
 
-def raw_Num_To_Currency(raw_Number):
+def raw_Num_To_Currency(raw_Number:float):
     return "${:,.2f}".format(raw_Number)
+
+def raw_Num_To_Percentage(raw_Number:float):
+    return "%{:,.2f}".format(raw_Number)
 
 def create_Balance_Sheet_HTML():
     current_Balances_Database = read_Database("Account_Balances.db", "Accounts")
@@ -206,7 +208,24 @@ def create_Balance_Sheet_HTML():
     #save file
     balance_Sheet.to_html("templates/Balance_Sheet.html", index=False, classes="table")
 
+def create_Current_Balances_Table_HTML():
+    import pandas as pd
+    balances = {
+        "Current": {"Current Asset": 0,
+                    "NonCurrent Asset": 0,
+                    "Current Liability": 0,
+                    "NonCurrent Liability": 0,
+                    "Equity": 0},
+        }
 
+    # [raw_Num_To_Currency(float(dollar_Amount)) for dollar_Amount in current_Balances_Database["Value"].values]
+
+    for row in read_Database("Account_Balances.db", "Accounts").values:
+        balances["Current"][row[2]] += float(row[4])
+
+
+    current_Balances_Table = pd.DataFrame.from_dict(balances)
+    current_Balances_Table.to_html("templates/Current_Balances.html", classes="table")
 
 
 
