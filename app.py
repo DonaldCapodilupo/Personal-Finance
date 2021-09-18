@@ -20,7 +20,7 @@ def mynavbar():
 @app.route('/', methods=["POST","GET"])
 def dashboard():
     if request.method == "GET":
-        from Backend import create_Balance_Sheet_HTML, create_Account_Balances_HTML_Table
+        from Backend import create_Balance_Sheet_HTML, create_Account_Balances_HTML_Table, get_Account_Percentages
 
 
 
@@ -41,6 +41,7 @@ def dashboard():
 
         create_Balance_Sheet_HTML()
         create_Account_Balances_HTML_Table()
+        get_Account_Percentages()
 
 
 
