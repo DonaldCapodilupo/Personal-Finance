@@ -8,8 +8,8 @@
 
     <!-- Page content-->
     <div class="row">
+        <div class="col-4"><h1 class="Main_Title">Update Accounts</h1></div>
         <div class="col-4"></div>
-        <div class="col-4"><h1 class="Main_Title">Remove An Account</h1></div>
         <div class="col-4"></div>
     </div>
     <div class="row">
@@ -21,16 +21,9 @@
                         {% if accounts[2] == "Current Asset" %}
                             <table style="width:75%">
                                 <tr>
-                                    <th>Date Last Updated</th>
-                                    <th>Account Name</th>
-                                    <th>Account Balance</th>
-                                    <th>New Balance</th>
-                                </tr>
-
-                                <tr>
                                     <td>{{ accounts[1] }}</td>
                                     <td>{{ accounts[3] }}</td>
-                                    <td>{{ accounts[4] }}</td>
+                                    <td>${{ accounts[4] }}</td>
                                     <th><input type="text" name="new_Balances" value="{{ accounts[4] }}"></th>
                                 </tr>
                             </table>
@@ -43,13 +36,6 @@
                     {% for accounts in data.values %}
                         {% if accounts[2] == "NonCurrent Asset" %}
                             <table style="width:75%">
-                                <tr>
-                                    <th>Date Last Updated</th>
-                                    <th>Account Name</th>
-                                    <th>Account Balance</th>
-                                    <th>New Balance</th>
-                                </tr>
-
                                 <tr>
                                     <td>{{ accounts[1] }}</td>
                                     <td>{{ accounts[3] }}</td>

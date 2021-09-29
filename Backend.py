@@ -26,6 +26,25 @@ def programSetup(directories: tuple, databases: tuple, tables: tuple):
 
     os.chdir('..')
 
+def organize_Database(dataframe):
+    account_Type_Nums = {
+        "Current Asset": 0,
+        "NonCurrent Asset": 1,
+        "Current Liability": 2,
+        "NonCurrent Liability": 3,
+    }
+
+
+
+    dataframe["Account Type Number"] = [account_Type_Nums[account] for account in
+                                                dataframe["Account_Type"].values]
+
+    organized_Dataframe = dataframe.sort_values(by=["Account Type Number", "Date"])
+    organized_Dataframe = organized_Dataframe.drop(["Account Type Number"], axis=1)
+
+    return organized_Dataframe
+
+
 
 def create_Database_Row(database, table, tuple_Of_Values_To_Add):
     os.chdir("Databases")
@@ -49,19 +68,27 @@ def read_Database(database, table):
     df = pd.read_sql_query("SELECT * from " + table, con)
     con.close()
 
+    clean_Data = organize_Database(df)
+
     os.chdir("..")
-    return df
+    return organize_Database(clean_Data)
 
 
-def update_Database_Information(database, dataframe, replace):
+def update_Database_Information(database, list_Of_New_Values, replace):
+
+
+    current_Data = read_Database("Account_Balances.db", "Accounts")
+
+    current_Data["Value"] = list_Of_New_Values
     os.chdir("Databases")
 
     conn = sqlite3.connect(database)
 
     if replace:
-        dataframe.to_sql('Accounts', con=conn, if_exists='replace', index=False)
+        current_Data.to_sql('Accounts', con=conn, if_exists='replace', index=False)
     else:
-        dataframe.to_sql('Accounts', con=conn, if_exists='append', index_label='id')
+        current_Data = current_Data.drop(["ID"], axis=1)
+        current_Data.to_sql('Accounts', con=conn, if_exists='append', index=False)
 
     os.chdir('..')
     conn.commit()
@@ -100,7 +127,7 @@ def difference_Between_Percentage_Calculator(previous_Value: float, current_Valu
     import decimal
     try:
         return "%{:,.2f}".format(((current_Value - previous_Value) / previous_Value) * 100)
-    except decimal.DivisionByZero:
+    except (decimal.DivisionByZero, decimal.InvalidOperation):
         return "0.00%"
 
 def raw_Num_To_Currency(raw_Number: float):
@@ -146,8 +173,6 @@ def create_Account_Balances_HTML_Table():
     }
 
     for row in read_Database("Backup_Balances.db", "Accounts").values:
-        print(prior_Report_Dates())
-        # EOY
         if row[1] == prior_Report_Dates()[0]:
             balances["EOY"][row[2]] += float(row[4])
         elif row[1] == prior_Report_Dates()[1]:
@@ -207,32 +232,39 @@ def get_Account_Percentages():
                                     "Equity": ""}
                    }
 
-    print(balances)
+
     for table_Column in percentages:
-        if "YTD" in table_Column:
+        if "YTD %" in table_Column:
             for table_Row in percentages[table_Column]:
 
                 percentages[table_Column][table_Row] = difference_Between_Percentage_Calculator(
                     percentage_Or_Currency_To_Float(balances["EOY"][table_Row]),
                     percentage_Or_Currency_To_Float(balances["Current"][table_Row])
                 )
-
-
-
-        elif "QTD" in table_Column:
+        elif "YTD $" in table_Column:
+            for table_Row in percentages[table_Column]:
+                percentages[table_Column][table_Row] = raw_Num_To_Currency (
+                            percentage_Or_Currency_To_Float(balances["Current"][table_Row]) -
+                            percentage_Or_Currency_To_Float(balances["EOY"][table_Row])
+                            )
+        elif "QTD %" in table_Column:
             for table_Row in percentages[table_Column]:
 
                 percentages[table_Column][table_Row] = difference_Between_Percentage_Calculator(
                     percentage_Or_Currency_To_Float(balances["EOQ"][table_Row]),
                     percentage_Or_Currency_To_Float(balances["Current"][table_Row])
                 )
+        elif "QTD $" in table_Column:
+            for table_Row in percentages[table_Column]:
+                percentages[table_Column][table_Row] = raw_Num_To_Currency(
+                    percentage_Or_Currency_To_Float(balances["Current"][table_Row]) -
+                    percentage_Or_Currency_To_Float(balances["EOQ"][table_Row])
+                )
 
     percentages_HTML = pd.DataFrame.from_dict(percentages)
-    percentages_HTML.to_html("templates/Account_Percentages_Table.html", classes="table")
+    percentages_HTML.to_html("templates/Account_Percentages_Table.html", classes="table", index=False)
 
     return percentages
-
-
 
 
 def create_Balance_Sheet_HTML():
@@ -254,10 +286,35 @@ def create_Balance_Sheet_HTML():
                                                   current_Balances_Database["Value"].values]
 
     # drop unneeded columns
-    balance_Sheet = current_Balances_Database.drop(['ID', 'Account_Type', 'Value', 'Account Type Number'], axis=1)
+    balance_Sheet = current_Balances_Database.drop(['Account_Type', 'Value'], axis=1)
 
     # save file
     balance_Sheet.to_html("templates/Balance_Sheet.html", index=False, classes="table")
 
+def get_Monthly_Account_Balances_Dict():
+    import pandas as pd
 
-#print(get_Account_Percentages())
+    prior_Balances = read_Database("Backup_Balances.db", "Accounts")
+
+    return_Dict = {}
+
+
+    prior_Months = pd.date_range(prior_Report_Dates()[0], str(datetime.date.today()),
+                  freq='MS').strftime("%Y-%b").tolist()
+
+
+    #for row in
+
+
+
+    for row in prior_Months:
+        return_Dict[row[5:]] = ""
+
+    daterange = pd.date_range(prior_Report_Dates()[0], str(datetime.date.today()), freq='1M').tolist()
+    daterange = [d.strftime('%y-%b') for d in daterange]
+    print(daterange)
+
+
+    print(return_Dict)
+
+

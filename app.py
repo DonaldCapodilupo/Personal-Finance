@@ -61,14 +61,11 @@ def update_Accounts():
         if request.form['submit_button'] == 'Update Balances':
             from Backend import read_Database, update_Database_Information
 
-            old_Values = read_Database("Account_Balances.db","Accounts")
-
             new_Values = request.form.getlist("new_Balances")
 
-            new_Dataframe = old_Values.assign(Value=new_Values)
+            update_Database_Information("Account_Balances.db", new_Values, replace=True)
+            update_Database_Information("Backup_Balances.db", new_Values, replace=False)
 
-            update_Database_Information("Account_Balances.db", new_Dataframe, True)
-            update_Database_Information("Backup_Balances.db", new_Dataframe, False)
 
             return redirect(url_for('dashboard'))
 

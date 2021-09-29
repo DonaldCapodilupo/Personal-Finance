@@ -13,9 +13,9 @@
             <div class="col-lg-5">
                 <canvas id="equityChart" style="border:1px solid"></canvas>
                 <script>
-                        make_Chart('equityChart',
-                            {{ heads|tojson }},
-                            {{ data["Equity"]|tojson }},
+                    make_Chart('equityChart',
+                        {{ heads|tojson }},
+                        {{ data["Equity"]|tojson }},
                         "Equity")
                 </script>
             </div>
@@ -23,6 +23,15 @@
     </div>
     <div class="row">
         <div class="col-6">
+            <style>
+                table {
+                    text-align: center;
+                }
+                table thead th {
+                    text-align: center;
+                }
+            </style>
+
             {% include "Account_Balances_Table.html" %}
         </div>
         <div class="col-6">
