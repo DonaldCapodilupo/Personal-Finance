@@ -126,7 +126,7 @@ def prior_Report_Dates():
 def difference_Between_Percentage_Calculator(previous_Value: float, current_Value: float):
     import decimal
     try:
-        return "%{:,.2f}".format(((current_Value - previous_Value) / previous_Value) * 100)
+        return "{:,.2f}%".format(((current_Value - previous_Value) / previous_Value) * 100)
     except (decimal.DivisionByZero, decimal.InvalidOperation):
         return "0.00%"
 
@@ -135,7 +135,7 @@ def raw_Num_To_Currency(raw_Number: float):
 
 
 def raw_Num_To_Percentage(raw_Number: float):
-    return "%{:,.2f}".format(raw_Number)
+    return "{:,.2f}%".format(raw_Number)
 
 
 def percentage_Or_Currency_To_Float(input_String: str):
