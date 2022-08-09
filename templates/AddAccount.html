@@ -18,11 +18,11 @@
         <div class="col-4">
             <form action="{{ url_for('add_Account_To_Database') }}" method="POST">
                 <label for="New Account">New Account Name:</label>
-                <input type="text" name="account_Name" id="New Account Name">
+                <input type="text" name="account_Name" id="New Account Name" autocomplete="off">
                 <br>
                 <br>
                 <label for="New Account">New Account Balance:</label>
-                <input type="text" name="account_Balance" id="New Account Balance">
+                <input type="text" name="account_Balance" id="New Account Balance"autocomplete="off">
                 <br>
                 <br>
                 <select name="account_Type">
