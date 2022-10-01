@@ -39,9 +39,9 @@ def dashboard():
         #turn accounts column from 550000 into "$5,500.00"
 
 
-        create_Balance_Sheet_HTML()
-        create_Account_Balances_HTML_Table()
-        get_Account_Percentages()
+        #create_Balance_Sheet_HTML()
+        #create_Account_Balances_HTML_Table()
+        #get_Account_Percentages()
 
 
 
