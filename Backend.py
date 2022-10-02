@@ -1,30 +1,68 @@
-import sqlite3, datetime, os
+import datetime, os
+
+#Basic Functions
+def programSetup():
+    if "Financial Data.csv" not in os.listdir():
+        with open("Financial Data.csv", "w", newline="") as csv_file:
+            csv_file.write("Date,Account Type,Account Name,Value\n" )
+
+def get_Date():
+    today = str(datetime.date.today().strftime('%m/%d/%Y'))
+    return today
+
+def raw_Num_To_Currency(raw_Number: float):
+    return "${:,.2f}".format(raw_Number)
+
+def raw_Num_To_Percentage(raw_Number: float):
+    return "{:,.2f}%".format(raw_Number)
 
 
-def programSetup(directories: tuple, databases: tuple, tables: tuple):
-    for directory in directories:
-        try:
-            os.mkdir(directory)
-            print("Database " + directory + " Created ")
-        except FileExistsError:
-            print(directory + " directory already exists")
+#CRUD for "Financial Data.csv"
+def create_Database_Row(tuple_of_values_to_add):
+    import csv
+    with open("Financial Data.csv", "a", newline="\n") as csv_file:
+        csv_out = csv.writer(csv_file)
+        csv_out.writerow(tuple_of_values_to_add)
 
-    os.chdir("Databases")
+def read_Database_Information():
+    import pandas as pd
 
-    for database in databases:
-        conn = sqlite3.connect(database)
-        c = conn.cursor()
-        for table_Name in tables:
-            try:
-                c.execute("CREATE TABLE  " + table_Name + "(ID INTEGER PRIMARY KEY, "
-                                                          "Date TEXT, "
-                                                          "Account_Type TEXT, "
-                                                          "Account_Name TEXT, "
-                                                          "Value TEXT)")
-            except sqlite3.OperationalError:
-                print(table_Name + " already exists.")
+    df = pd.read_csv("Financial Data.csv", index_col=False)
+    df.columns = [c.replace(' ', '_') for c in df.columns]
+    return df#.to_string(index=False)
 
-    os.chdir('..')
+def update_Database_Information(value_to_update):
+    with open('Financial Data.csv', "r") as inp:
+        data_in = inp.readlines()
+    with open('Financial Data.csv', 'w') as outfile:
+        for row in data_in:
+            row_to_tuple = tuple(row.split(","))
+            if row_to_tuple[1:-1] == value_to_update[1:-1]:
+                update_value = (get_Date(),) + row_to_tuple[1:-1] + (value_to_update[-1],)
+                print(update_value)
+                outfile.writelines(','.join(update_value) +"\n")
+            else:
+                outfile.writelines(row)
+
+def delete_Database_Row(value_to_remove):
+    #remove_value = ','.join(value_to_remove) +"\n"
+
+    with open('Financial Data.csv', "r") as inp:
+        data_in = inp.readlines()
+    with open('Financial Data.csv', 'w') as outfile:
+        for row in data_in:
+            print(type(row.split(",")))
+            print("****************")
+            print(type(value_to_remove.split(",")))
+            if row.split(",")[1:-1] == value_to_remove.split(",")[1:-1]:
+                pass
+            else:
+                outfile.writelines(row)
+
+
+
+
+
 
 def organize_Database(dataframe):
     account_Type_Nums = {
@@ -43,67 +81,6 @@ def organize_Database(dataframe):
     organized_Dataframe = organized_Dataframe.drop(["Account Type Number"], axis=1)
 
     return organized_Dataframe
-
-
-
-def create_Database_Row(database, table, tuple_Of_Values_To_Add):
-    os.chdir("Databases")
-
-    conn = sqlite3.connect(database)
-    c = conn.cursor()
-
-    tuple_To_Database_Syntax = "?, " * (len(tuple_Of_Values_To_Add) - 1)
-
-    c.execute("INSERT INTO " + table + " VALUES (NULL," + tuple_To_Database_Syntax + "?)", tuple_Of_Values_To_Add)
-    os.chdir('..')
-    conn.commit()
-
-
-def read_Database(database, table):
-    import pandas as pd
-
-    os.chdir("Databases")
-
-    con = sqlite3.connect(database)
-    df = pd.read_sql_query("SELECT * from " + table, con)
-    con.close()
-
-    clean_Data = organize_Database(df)
-
-    os.chdir("..")
-    return organize_Database(clean_Data)
-
-
-def update_Database_Information(database, list_Of_New_Values, replace):
-
-
-    current_Data = read_Database("Account_Balances.db", "Accounts")
-
-    current_Data["Value"] = list_Of_New_Values
-    os.chdir("Databases")
-
-    conn = sqlite3.connect(database)
-
-    if replace:
-        current_Data.to_sql('Accounts', con=conn, if_exists='replace', index=False)
-    else:
-        current_Data = current_Data.drop(["ID"], axis=1)
-        current_Data.to_sql('Accounts', con=conn, if_exists='append', index=False)
-
-    os.chdir('..')
-    conn.commit()
-
-
-def delete_Database_Row(database, table, value_To_Remove):
-    os.chdir("Databases")
-
-    conn = sqlite3.connect(database)
-    c = conn.cursor()
-
-    c.execute("DELETE FROM " + table + " where Account_Name = ?", [value_To_Remove])
-    os.chdir('..')
-    conn.commit()
-
 
 def prior_Report_Dates():
     today = str(datetime.date.today())
@@ -130,12 +107,7 @@ def difference_Between_Percentage_Calculator(previous_Value: float, current_Valu
     except (decimal.DivisionByZero, decimal.InvalidOperation):
         return "0.00%"
 
-def raw_Num_To_Currency(raw_Number: float):
-    return "${:,.2f}".format(raw_Number)
 
-
-def raw_Num_To_Percentage(raw_Number: float):
-    return "{:,.2f}%".format(raw_Number)
 
 
 def percentage_Or_Currency_To_Float(input_String: str):
