@@ -40,8 +40,8 @@ def update_Accounts():
             return redirect(url_for('dashboard'))
 
     else:
-        from Backend import read_Database
-        account_Information = read_Database("Account_Balances.db", "Accounts")
+        from Backend import read_Database_Information
+        account_Information = read_Database_Information()
 
         return render_template('UpdateAccounts.html', data=account_Information)
 
