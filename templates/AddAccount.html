@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block head %}
     {{ super() }}
+    <script src="../static/AddAccount.js"></script>
 {% endblock %}
 {% block content %}
     {{ super() }}
@@ -15,7 +16,7 @@
         <div class="col-4"></div>
         <div class="col-4">
 
-            <label for="New Account">New Account Name:</label>
+            <label for="New Account Name">New Account Name:</label>
             <input type="text" name="account_Name" id="New Account Name" autocomplete="off">
             <br>
             <br>
@@ -38,156 +39,42 @@
 
             <div class="col-4"></div>
 
-            <form action="{{ url_for('add_Account_To_Database') }}" method="POST">
 
-
-            </form>
         </div>
         <div class="col-4"></div>
     </div>
     <div class="row">
-        <script>
 
-            document.getElementById("Results Card").style.visibility = "hidden";
-
-            function prep_Account() {
-                document.getElementById("Results Card").style.visibility = "visible";
+        <form action="{{ url_for('add_Account_To_Database') }}" method="POST">
 
 
-                let new_account_name = document.getElementById('New Account Name').value;
-                let new_account_type = document.getElementById('New Account Type').value;
-                let new_account_balance = document.getElementById('New Account Balance').value;
-
-                let reveal_div = new_account_type + " Div"
-                console.log(reveal_div)
-
-                document.getElementById(new_account_type + " Div").style.visibility = "visible";
-
-                var table = document.getElementById(new_account_type);
-                var row = table.insertRow(-1);
-                var cell1 = row.insertCell(0);
-                var cell2 = row.insertCell(1);
-
-
-                cell1.innerHTML = new_account_name;
-                cell2.innerHTML = new_account_balance;
-
-                //results_card.innerHTML = new_account_type + new_account_name + new_account_balance;
-
-            }
-
-        </script>
-
-
-        <div class="results_div" id="Results Card" style="visibility:hidden ">
-            <!--Assets-->
-            <div class="row">
-                <div class="col">
-                    <div class="card card-primary mb-2">
-                        <div class="Current Asset Div" style="visibility:hidden" id="Current Asset Div">
-
-                            <h2 class="display-2">Assets</h2>
-                            <label for="Current Asset" class="display-5">Current Assets:</label>
-                            <table id="Current Asset" class="table table-dark">
-                                <thead>
-                                <tr>
-                                    <th>Account Name</th>
-                                    <th>Balance</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                                <tfoot>
-
-                                </tfoot>
-                            </table>
-                        </div>
-                        <div class="NonCurrent Asset Div" style="visibility:hidden" id="NonCurrent Asset Div">
-
-                            <label for="NonCurrent Asset" class="display-5">NonCurrent Assets:</label>
-                            <table id="NonCurrent Asset" class="table table-dark">
-                                <thead>
-                                <tr>
-                                    <th>Account Name</th>
-                                    <th>Balance</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                                <tfoot>
-
-                                </tfoot>
-                            </table>
+            <div class="results_div" id="Results Card" style="visibility:hidden ">
+                <!--Assets-->
+                <div class="row">
+                    <div class="col-5"></div>
+                    <div class="col-2">
+                        <div class="form-group">
+                            <label for="Data Area">Accounts To Be Uploaded</label>
+                            <textarea class="form-control" id="Data Area" rows="3"
+                                      name="Upload List"></textarea>
                         </div>
 
 
+                        <input type="submit" name="submit_button" value="Add New Account">
                     </div>
+                    <div class="col-5"></div>
 
                 </div>
 
 
-
-                <!--Liabilities-->
-                <div class="col">
-                    <div class="card card-primary mb-2">
-                        <div class="card-body">
-                            <div class="Current Liability Div" style="visibility:hidden" id="Current Liability Div">
-                                <h2 class="display-2">Liabilities</h2>
-
-                                <label for="Current Liability" class="display-5">Current Liabilities:</label>
-                                <table id="Current Liability" class="table table-dark">
-                                    <thead>
-                                    <tr>
-                                        <th>Account Name</th>
-                                        <th>Balance</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                    <tfoot>
-
-                                    </tfoot>
-                                </table>
-                            </div>
-
-                            <div class="Current Liability Div" style="visibility:hidden" id="NonCurrent Liability Div">
-                                <label for="NonCurrent Liability" class="display-5">NonCurrent Liabilities:</label>
-                                <table id="NonCurrent Liability" class="table table-dark">
-                                    <thead>
-                                    <tr>
-                                        <th>Account Name</th>
-                                        <th>Balance</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                    <tfoot>
-
-                                    </tfoot>
-                                </table>
-                            </div>
-
-
-                        </div>
-
-                    </div>
-
-                </div>
             </div>
 
 
-        </div>
-
-
-        <input type="submit" name="submit_button" value="Add New Account">
-    </div>
-
-
+        </form>
     </div>
 
 
 
-    </div>
 
 {% endblock %}
 

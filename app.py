@@ -51,10 +51,8 @@ def add_Account_To_Database():
         if request.form['submit_button'] == 'Add New Account':
             from Backend import create_Database_Row,get_Date
 
-            create_Database_Row((get_Date(),
-                                 request.form['account_Type'],
-                                 request.form['account_Name'],
-                                 request.form['account_Balance']))
+            cat = request.form["Upload List"]
+            print(request.form["Upload List"])
 
             return redirect(url_for('dashboard'))
     else:
