@@ -49,10 +49,15 @@ def update_Accounts():
 def add_Account_To_Database():
     if request.method == "POST":
         if request.form['submit_button'] == 'Add New Account':
-            from Backend import create_Database_Row,get_Date
+            from ast import literal_eval as make_tuple
+            from Backend import create_Database_Row
 
-            cat = request.form["Upload List"]
-            print(request.form["Upload List"])
+
+            user_info = request.form["Upload List"]
+            print(user_info)
+            accounts_to_upload = tuple(request.form["Upload List"].split("\r\n"))
+            for account_to_add in accounts_to_upload:
+                create_Database_Row(tuple(account_to_add.split(',')))
 
             return redirect(url_for('dashboard'))
     else:
@@ -87,7 +92,7 @@ if __name__ == '__main__':
     programSetup()
 
     port = 5420
-    url = "http://127.0.0.1:{0}".format(port)
+    url = "http://192.168.0.46:{0}".format(port)
 
 
     nav.init_app(app)
