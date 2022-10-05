@@ -20,40 +20,7 @@ def mynavbar():
 @app.route('/', methods=["POST","GET"])
 def dashboard():
     if request.method == "GET":
-        from Backend import create_Balance_Sheet_HTML, create_Account_Balances_HTML_Table, get_Account_Percentages
-
-
-
-
-
-        headers = ('Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul','Aug')
-
-        hardcoded_Data = {
-            "Current Assets":(813.08,1194.3,783.9,3489.03,2866.52,1998.79,1386.07,1795.42,1136.83),
-            "NonCurrent Assets": (22619.05,22876.03,23686.49,22583.09,25248.03,26976.007,27919.84,29305.22,30706.34),
-            "Current Liabilities": (1497.52,1085.33,1762.72,73.12,62.77,196.64,188.68,862.49,93.64),
-            "NonCurrent Liabilities": (0,0,0,0,0,0,0,0,0),
-            "Equity":(23420.6,22985,22707.67,25999,28051.78,28778.157,29117.23,30238.15,31749.53)
-        }
-
-        #turn accounts column from 550000 into "$5,500.00"
-
-
-        create_Balance_Sheet_HTML()
-        create_Account_Balances_HTML_Table()
-        get_Account_Percentages()
-
-
-
-
-
-
-
-
-
-        return render_template('main.html',
-                               heads=headers,
-                               data = hardcoded_Data)
+        return render_template('main.html')
 
 @app.route('/UpdateAccountBalances', methods=["POST","GET"])
 def update_Accounts():
@@ -73,8 +40,8 @@ def update_Accounts():
             return redirect(url_for('dashboard'))
 
     else:
-        from Backend import read_Database
-        account_Information = read_Database("Account_Balances.db", "Accounts")
+        from Backend import read_Database_Information
+        account_Information = read_Database_Information()
 
         return render_template('UpdateAccounts.html', data=account_Information)
 
@@ -82,31 +49,15 @@ def update_Accounts():
 def add_Account_To_Database():
     if request.method == "POST":
         if request.form['submit_button'] == 'Add New Account':
+            from ast import literal_eval as make_tuple
             from Backend import create_Database_Row
-            import datetime
-
-            scrub_Comma = request.form['account_Balance'].replace(",","")
-            clean_Data = float(scrub_Comma.replace("$",""))
 
 
-
-
-            create_Database_Row("Account_Balances.db","Accounts",(str(datetime.date.today()),
-                                                                  request.form['account_Type'],
-                                                                  request.form['account_Name'],
-                                                                  clean_Data,
-                                                                  )
-                                )
-            create_Database_Row("Backup_Accounts.db", "Accounts", (str(datetime.date.today()),
-                                                                    request.form['account_Type'],
-                                                                    request.form['account_Name'],
-                                                                    clean_Data,
-                                                                    )
-                                )
-
-
-                
-
+            user_info = request.form["Upload List"]
+            print(user_info)
+            accounts_to_upload = tuple(request.form["Upload List"].split("\r\n"))
+            for account_to_add in accounts_to_upload:
+                create_Database_Row(tuple(account_to_add.split(',')))
 
             return redirect(url_for('dashboard'))
     else:
@@ -118,9 +69,10 @@ def remove_Account_From_Database():
         if request.form['submit_button'] == "Remove Item":
             from Backend import delete_Database_Row
             selected = request.form.getlist('checkbox')
-
+            print(selected)
             for row in selected:
-                delete_Database_Row("Account_Balances.db","Accounts",row)
+                print(type(row))
+                delete_Database_Row(row)
 
             return redirect(url_for('dashboard'))
 
@@ -128,22 +80,20 @@ def remove_Account_From_Database():
             return redirect(url_for('dashboard'))
 
     else:
-        from Backend import read_Database
-        account_Information = read_Database("Account_Balances.db","Accounts")
+        from Backend import read_Database_Information
+        account_Information = read_Database_Information()
         return render_template('RemoveAccounts.html', data=account_Information)
 
 
 
-
+#
 if __name__ == '__main__':
-    import random, threading, webbrowser
     from Backend import programSetup
-    programSetup(("Databases",),("Account_Balances.db","Backup_Accounts.db", 'Backup_Balances.db'),("Accounts",))
+    programSetup()
 
     port = 5420
-    url = "http://127.0.0.1:{0}".format(port)
+    url = "http://192.168.0.46:{0}".format(port)
 
-    threading.Timer(1.25, lambda: webbrowser.open(url)).start()
 
     nav.init_app(app)
 

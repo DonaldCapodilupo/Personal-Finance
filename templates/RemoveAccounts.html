@@ -8,74 +8,76 @@
 
     <!-- Page content-->
     <div class="row">
-            <div class="row">
-                <h1 class="Main_Title">Remove An Account</h1>
-            </div>
-            <form action="{{ url_for('remove_Account_From_Database') }}" method="POST">
-                <div class="row">
-                    <div class="col-6">
-                        <h2>Current Assets</h2>
-                        {% for accounts in data.values %}
-                            {% if accounts[2] == "Current Asset" %}
-                                <td><input type="checkbox" name="checkbox" value="{{ accounts[3] }}"></td>
-                                {{ accounts[1] }} {{ accounts[2] }} {{ accounts[3] }} ${{ accounts[4] }}
-                                <br>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-
-                    <div class="col-6">
-                        <h2>NonCurrent Assets</h2>
-                        {% for accounts in data.values %}
-                            {% if accounts[2] == "NonCurrent Asset" %}
-                                <input type="checkbox" name="checkbox" value="{{ accounts[3] }}"></td>
-                                {{ accounts[1] }} {{ accounts[2] }} {{ accounts[3] }} ${{ accounts[4] }}
-                                <br>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-6">
-                        <h2>Current Liabilities</h2>
-                        {% for accounts in data.values %}
-                            {% if accounts[2] == "Current Liability" %}
-                                <input type="checkbox" name="checkbox" value="{{ accounts[3] }}"></td>
-                                {{ accounts[1] }} {{ accounts[2] }} {{ accounts[3] }} ${{ accounts[4] }}
-                                <br>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-
-                    <div class="col-6">
-                        <h2>NonCurrent Liabilities</h2>
-                        {% for accounts in data.values %}
-                            {% if accounts[2] == "NonCurrent Liability" %}
-                                <input type="checkbox" name="checkbox" value="{{ accounts[3] }}"></td>
-                                {{ accounts[1] }} {{ accounts[2] }} {{ accounts[3] }} ${{ accounts[4] }}
-                                <br>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-4">
-
-                    </div>
-                    <div class="col-4">
-                        <button type="submit" name="submit_button" value="Remove Item">Remove Item</button>
-
-                        <input type="submit" name="submit_button" value="Go Back">
-                    </div>
-                    <div class="col-4">
-
-                    </div>
-                </div>
-
-
-            </form>
+        <div class="row">
+            <h1 class="Main_Title">Remove An Account</h1>
         </div>
+        <form action="{{ url_for('remove_Account_From_Database') }}" method="POST">
+            <div class="row">
+                <div class="col-6">
+                    <h2>Current Assets</h2>
+                    {% for index, account in data.iterrows() %}
+                        {% if account.Account_Type == "Current Asset" %}
+                            <td><input type="checkbox" name="checkbox" value="{{ account.Date}},{{account.Account_Type}},{{account.Account_Name}},{{account.Value}}"></td>
+                            {{ account.Account_Name }} -- {{ account.Value }}
+                            <br>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                <div class="col-6">
+                    <h2>NonCurrent Assets</h2>
+                    {% for index, account in data.iterrows() %}
+                        {% if account.Account_Type == "NonCurrent Asset" %}
+                            <td><input type="checkbox" name="checkbox" value="{{ account.Date}},{{account.Account_Type}},{{account.Account_Name}},{{account.Value}}"></td>
+                            {{ account.Account_Name }} -- {{ account.Value }}
+                            <br>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-6">
+                    <h2>Current Liabilities</h2>
+                    {% for index, account in data.iterrows() %}
+
+                        {% if account.Account_Type == "Current Liability" %}
+                            <td><input type="checkbox" name="checkbox" value="{{ account.Date}},{{account.Account_Type}},{{account.Account_Name}},{{account.Value}}"></td>
+                            {{ account.Account_Name }} -- {{ account.Value }}
+                            <br>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                <div class="col-6">
+                    <h2>NonCurrent Liabilities</h2>
+                    {% for index, account in data.iterrows() %}
+
+                        {% if account.Account_Type == "NonCurrent Liability" %}
+                            <td><input type="checkbox" name="checkbox" value="{{ account.Date}},{{account.Account_Type}},{{account.Account_Name}},{{account.Value}}"></td>
+                            {{ account.Account_Name }} -- {{ account.Value }}
+                            <br>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-4">
+
+                </div>
+                <div class="col-4">
+                    <button type="submit" name="submit_button" value="Remove Item">Remove Item</button>
+
+                    <input type="submit" name="submit_button" value="Go Back">
+                </div>
+                <div class="col-4">
+
+                </div>
+            </div>
+
+
+        </form>
+    </div>
 
 {% endblock %}

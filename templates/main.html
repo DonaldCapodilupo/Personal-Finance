@@ -11,13 +11,8 @@
     <div class="row">
         <div class="chart-container" align="center">
             <div class="col-lg-5">
-                <canvas id="equityChart" style="border:1px solid"></canvas>
-                <script>
-                    make_Chart('equityChart',
-                        {{ heads|tojson }},
-                        {{ data["Equity"]|tojson }},
-                        "Equity")
-                </script>
+
+
             </div>
         </div>
     </div>
@@ -44,12 +39,7 @@
             <div class="chart-container">
                 <div class="col-lg-auto">
                     <canvas id="currentAssetChart" style="border:1px solid"></canvas>
-                    <script>
-                        make_Chart('currentAssetChart',
-                            {{ heads|tojson }},
-                            {{ data["Current Assets"]|tojson }},
-                            "Current Assets")
-                    </script>
+
                 </div>
             </div>
         </div>
@@ -58,12 +48,7 @@
             <div class="chart-container">
                 <div class="col-lg-auto">
                     <canvas id="currentLiabilityChart" style="border:1px solid"></canvas>
-                    <script>
-                        make_Chart('currentLiabilityChart',
-                            {{ heads|tojson }},
-                            {{ data["Current Liabilities"]|tojson }},
-                            "Current Liabilities")
-                    </script>
+
                 </div>
             </div>
         </div>
@@ -73,10 +58,7 @@
                 <div class="col-lg-auto">
                     <canvas id="nonCurrentLiabilitiesChart" style="border:1px solid"></canvas>
                     <script>
-                        make_Chart('nonCurrentLiabilitiesChart',
-                            {{ heads|tojson }},
-                            {{ data["NonCurrent Liabilities"]|tojson }},
-                            "NonCurrent Liabilities")
+
                     </script>
                 </div>
             </div>
@@ -95,10 +77,7 @@
 
                     </canvas>
                     <script>
-                        make_Chart('nonCurrentAssetschart',
-                            {{ heads|tojson }},
-                            {{ data["NonCurrent Assets"]|tojson }},
-                        "NonCurrent Assets")
+
                     </script>
                 </div>
             </div>
