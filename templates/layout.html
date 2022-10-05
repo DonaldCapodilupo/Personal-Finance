@@ -25,7 +25,7 @@
         <div class="d-flex" id="wrapper">
             <!-- Sidebar-->
             {% block navbar %}
-                <div class="border-end bg-white" id="sidebar-wrapper">
+                <div class="border-end bg-white text-dark" id="sidebar-wrapper">
                     <div class="sidebar-heading border-bottom bg-light">Options</div>
                     <div class="list-group list-group-flush">
                         {{ nav.mynavbar.render() }}
@@ -35,7 +35,7 @@
 
 
             <!-- Page content wrapper-->
-            <div id="page-content-wrapper">
+            <div id="page-content-wrapper" class="p-3 mb-2 bg-info text-white">
                 {% block content %}
                     <div class="row">
                         <div class="col-2">
