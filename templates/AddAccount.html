@@ -11,7 +11,6 @@
     <div class="row">
     <div class="col-3"></div>
         <div class="col-6 p-3 mb-2 bg-dark text-white text-center">
-
             <h1 class="Main_Title">Add An Account</h1>
             <h3 class='Sub_Title'>What type of account would you like to add?</h3>
         </div>
@@ -20,8 +19,8 @@
 
     </div>
     <div class="row">
-        <div class="col-4"></div>
-        <div class="col-4 p-3 mb-2 bg-primary text-white text-center">
+        <div class="col-3"></div>
+        <div class="col-6 p-3 mb-2 bg-primary text-white text-center">
 
             <label for="New Account Name">New Account Name:</label>
             <input type="text" name="account_Name" id="New Account Name" autocomplete="off">
@@ -41,10 +40,10 @@
             <br>
             <br>
 
-            <button onclick="prep_Account()">Record Information</button>
+            <button class="btn btn-dark" onclick="prep_Account()">Add Information to Que</button>
 
 
-            <div class="col-4"></div>
+            <div class="col-3"></div>
 
 
         </div>
@@ -58,18 +57,18 @@
             <div class="results_div mt-3" id="Results Card" style="visibility:hidden ">
                 <!--Assets-->
                 <div class="row">
-                    <div class="col-4"></div>
-                    <div class="col-4 p-3 mb-2 bg-success text-white">
-                        <div class="form-group">
-                            <label for="Data Area">Accounts To Be Uploaded</label>
+                    <div class="col-3"></div>
+                    <div class="col-6 p-3 mb-2 text-center bg-success text-white">
+                        <div class="form-group mb-5">
+                            <label for="Data Area">Accounts To Be Added Database</label>
                             <textarea class="form-control" id="Data Area" rows="3"
                                       name="Upload List"></textarea>
                         </div>
 
 
-                        <input type="submit" name="submit_button" value="Add New Account">
+                        <input class="btn btn-dark" type="submit" name="submit_button" value="Upload New Accounts">
                     </div>
-                    <div class="col-4"></div>
+                    <div class="col-3"></div>
 
                 </div>
 
