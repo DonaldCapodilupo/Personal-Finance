@@ -22,7 +22,8 @@ def create_Database_Row(tuple_of_values_to_add):
     import csv
     with open("Financial Data.csv", "a", newline="\n") as csv_file:
         csv_out = csv.writer(csv_file)
-        csv_out.writerow(tuple_of_values_to_add)
+
+        csv_out.writerow((get_Date(),) + tuple_of_values_to_add)
 
 def read_Database_Information():
     import pandas as pd
