@@ -26,13 +26,14 @@ def dashboard():
 def update_Accounts():
     if request.method == "POST":
         if request.form['submit_button'] == 'Update Balances':
-            from Backend import read_Database, update_Database_Information
+            from Backend import update_Database_Information
 
-            new_Values = request.form.getlist("new_Balances")
+            new_Values = request.form.getlist("New Balances")
 
-            update_Database_Information("Account_Balances.db", new_Values, replace=True)
-            update_Database_Information("Backup_Balances.db", new_Values, replace=False)
+            print("Here are the values the user entered to be updated:")
+            print(new_Values)
 
+            update_Database_Information(new_Values)
 
             return redirect(url_for('dashboard'))
 
@@ -48,13 +49,13 @@ def update_Accounts():
 @app.route('/AddAnAccount', methods=["POST","GET"])
 def add_Account_To_Database():
     if request.method == "POST":
-        if request.form['submit_button'] == 'Add New Account':
-            from ast import literal_eval as make_tuple
+        if request.form['submit_button'] == 'Upload New Accounts':
             from Backend import create_Database_Row
-
-
             user_info = request.form["Upload List"]
+
+            print("This is the information that the user wants to add to the database.")
             print(user_info)
+
             accounts_to_upload = tuple(request.form["Upload List"].split("\r\n"))
             for account_to_add in accounts_to_upload:
                 create_Database_Row(tuple(account_to_add.split(',')))
@@ -69,11 +70,12 @@ def remove_Account_From_Database():
         if request.form['submit_button'] == "Remove Item":
             from Backend import delete_Database_Row
             selected = request.form.getlist('checkbox')
-            print(selected)
-            for row in selected:
-                print(type(row))
-                delete_Database_Row(row)
 
+            print("These are the accounts that the user wants to remove.")
+            print(selected)
+
+            for row in selected:
+                delete_Database_Row(row)
             return redirect(url_for('dashboard'))
 
         if request.form['submit_button'] == 'Go Back':
@@ -82,6 +84,7 @@ def remove_Account_From_Database():
     else:
         from Backend import read_Database_Information
         account_Information = read_Database_Information()
+        print(account_Information)
         return render_template('RemoveAccounts.html', data=account_Information)
 
 

@@ -16,106 +16,107 @@
         <div class="col-3"></div>
     </div>
 
-
-    <div class="row">
-        <div class="col-3"></div>
-
-        <div class="col-3 p-3 mb-2 bg-primary text-white">
-            <h2 class="text-center">Current Assets</h2>
-            {% for index, account in data.iterrows() %}
-                {% if account.Account_Type == "Current Asset" %}
-                    <div class="row">
-                        <div class="col d-flex justify-content-end">
-                            <label for="{{ account.Account_Name }}"> {{ account.Account_Name }}:</label>
-                        </div>
-                        <div class="col">
-                            <input type="text" name="{{ account.Account_Name }}" value="{{ account.Value }}">
-                        </div>
-
-                    </div>
-                {% endif %}
-            {% endfor %}
-        </div>
-
-        <div class="col-3 p-3 mb-2 bg-primary text-white">
-            <h2 class="text-center">NonCurrent Assets</h2>
-            {% for index, account in data.iterrows() %}
-                {% if account.Account_Type == "NonCurrent Asset" %}
-                    <div class="row">
-                        <div class="col d-flex justify-content-end">
-                            <label for="{{ account.Account_Name }}"> {{ account.Account_Name }}:</label>
-                        </div>
-                        <div class="col">
-                            <input type="text" name="{{ account.Account_Name }}" value="{{ account.Value }}">
-                        </div>
-
-                    </div>
-                {% endif %}
-            {% endfor %}
-        </div>
-        <div class="col-3"></div>
-    </div>
-
-    <div class="row">
-        <div class="col-3"></div>
-        <div class="col-3 p-3 mb-2 bg-danger text-white">
-            <h2 class="text-center">Current Liabilities</h2>
-            {% for index, account in data.iterrows() %}
-                {% if account.Account_Type == "Current Liability" %}
-                    <div class="row">
-                        <div class="col d-flex justify-content-end">
-                            <label for="{{ account.Account_Name }}"> {{ account.Account_Name }}:</label>
-                        </div>
-                        <div class="col">
-                            <input type="text" name="{{ account.Account_Name }}" value="{{ account.Value }}">
-                        </div>
-
-                    </div>
-                {% endif %}
-            {% endfor %}
-        </div>
-
-        <div class="col-3 p-3 mb-2 bg-danger text-white">
-            <h2 class="text-center">NonCurrent Liabilities</h2>
-            {% for index, account in data.iterrows() %}
-                {% if account.Account_Type == "NonCurrent Liability" %}
-                    <div class="row">
-                        <div class="col d-flex justify-content-end">
-                            <label for="{{ account.Account_Name }}"> {{ account.Account_Name }}:</label>
-                        </div>
-                        <div class="col">
-                            <input type="text" name="{{ account.Account_Name }}" value="{{ account.Value }}">
-                        </div>
-
-                    </div>
-                {% endif %}
-            {% endfor %}
-        </div>
-        <div class="col-3"></div>
-    </div>
-
-    <div class="row">
-        <div class="col-4"></div>
-        <div class="col-4 d-flex justify-content-center">
-            <div class="col d-flex justify-content-center">
-                <button class="btn btn-dark mr-2" type="submit" name="submit_button" value="Update Balances">Update
-                    Balances
-                </button>
-            </div>
-
-
-            <div class="col d-flex justify-content-center">
-                <input class="btn btn-dark" type="submit" name="submit_button" value="Go Back">
-            </div>
-        </div>
-        <div class="col-4">
-        </div>
-
-
-    </div>
-
     <form action="{{ url_for('update_Accounts') }}" method="POST">
+        <div class="row">
+            <div class="col-3"></div>
+
+            <div class="col-3 p-3 mb-2 bg-primary text-white">
+                <h2 class="text-center">Current Assets</h2>
+                {% for index, account in data.iterrows() %}
+                    {% if account.Account_Type == "Current Asset" %}
+                        <div class="row">
+                            <div class="col d-flex justify-content-end">
+                                <label for="{{ account.Account_Name }}"> {{ account.Account_Name }}:</label>
+                            </div>
+                            <div class="col">
+                                <input name="New Balances" type="text" value="{{ account.Value }}">
+                            </div>
+
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <div class="col-3 p-3 mb-2 bg-primary text-white">
+                <h2 class="text-center">NonCurrent Assets</h2>
+                {% for index, account in data.iterrows() %}
+                    {% if account.Account_Type == "NonCurrent Asset" %}
+                        <div class="row">
+                            <div class="col d-flex justify-content-end">
+                                <label for="{{ account.Account_Name }}"> {{ account.Account_Name }}:</label>
+                            </div>
+                            <div class="col">
+                                <input type="text" name="New Balances" value="{{ account.Value }}">
+                            </div>
+
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="col-3"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-3 p-3 mb-2 bg-danger text-white">
+                <h2 class="text-center">Current Liabilities</h2>
+                {% for index, account in data.iterrows() %}
+                    {% if account.Account_Type == "Current Liability" %}
+                        <div class="row">
+                            <div class="col d-flex justify-content-end">
+                                <label for="{{ account.Account_Name }}"> {{ account.Account_Name }}:</label>
+                            </div>
+                            <div class="col">
+                                <input type="text" name="New Balances" value="{{ account.Value }}">
+                            </div>
+
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <div class="col-3 p-3 mb-2 bg-danger text-white">
+                <h2 class="text-center">NonCurrent Liabilities</h2>
+                {% for index, account in data.iterrows() %}
+                    {% if account.Account_Type == "NonCurrent Liability" %}
+                        <div class="row">
+                            <div class="col d-flex justify-content-end">
+                                <label for="{{ account.Account_Name }}"> {{ account.Account_Name }}:</label>
+                            </div>
+                            <div class="col">
+                                <input type="text" name="New Balances" value="{{ account.Value }}">
+                            </div>
+
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="col-3"></div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4 d-flex justify-content-center">
+                <div class="col d-flex justify-content-center">
+                    <button class="btn btn-dark mr-2" type="submit" name="submit_button" value="Update Balances">Update
+                        Balances
+                    </button>
+                </div>
+
+
+                <div class="col d-flex justify-content-center">
+                    <input class="btn btn-dark" type="submit" name="submit_button" value="Go Back">
+                </div>
+            </div>
+            <div class="col-4">
+            </div>
+
+
+        </div>
+
+
     </form>
-    </div>
+
 
 {% endblock %}
