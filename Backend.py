@@ -33,17 +33,11 @@ def read_Database_Information():
     return df#.to_string(index=False)
 
 def update_Database_Information(value_to_update):
-    with open('Financial Data.csv', "r") as inp:
-        data_in = inp.readlines()
-    with open('Financial Data.csv', 'w') as outfile:
-        for row in data_in:
-            row_to_tuple = tuple(row.split(","))
-            if row_to_tuple[1:-1] == value_to_update[1:-1]:
-                update_value = (get_Date(),) + row_to_tuple[1:-1] + (value_to_update[-1],)
-                print(update_value)
-                outfile.writelines(','.join(update_value) +"\n")
-            else:
-                outfile.writelines(row)
+    import pandas as pd
+
+    df = pd.read_csv("Financial Data.csv")
+    df["Value"] = value_to_update
+    df.to_csv("Financial Data.csv", index=False)
 
 def delete_Database_Row(value_to_remove):
     #remove_value = ','.join(value_to_remove) +"\n"
@@ -52,9 +46,6 @@ def delete_Database_Row(value_to_remove):
         data_in = inp.readlines()
     with open('Financial Data.csv', 'w') as outfile:
         for row in data_in:
-            print(type(row.split(",")))
-            print("****************")
-            print(type(value_to_remove.split(",")))
             if row.split(",")[1:-1] == value_to_remove.split(",")[1:-1]:
                 pass
             else:
