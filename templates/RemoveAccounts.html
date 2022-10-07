@@ -16,71 +16,72 @@
         <div class="col-3"></div>
     </div>
 
-    <div class="row">
-        <div class="col-3"></div>
-
-        <div class="col-3 p-3 mb-2 bg-primary text-white">
-            <h2 class="text-center">Current Assets</h2>
-            {% for index, account in data.iterrows() %}
-                {% if account.Account_Type == "Current Asset" %}
-                    <td><input type="checkbox" name="checkbox"
-                                                 value="{{ account.Date }},{{ account.Account_Type }},{{ account.Account_Name }},{{ account.Value }}">
-                    </td>
-                    {{ account.Account_Name }} -- {{ account.Value }}
-                    <br>
-                {% endif %}
-            {% endfor %}
-        </div>
-
-        <div class="col-3 p-3 mb-2 bg-primary text-white">
-            <h2 class="text-center">NonCurrent Assets</h2>
-            {% for index, account in data.iterrows() %}
-                {% if account.Account_Type == "NonCurrent Asset" %}
-                    <td><input type="checkbox" name="checkbox"
-                                                 value="{{ account.Date }},{{ account.Account_Type }},{{ account.Account_Name }},{{ account.Value }}">
-                    </td>
-                    {{ account.Account_Name }} -- {{ account.Value }}
-                    <br>
-                {% endif %}
-            {% endfor %}
-        </div>
-        <div class="col-3"></div>
-    </div>
-
-    <div class="row">
-        <div class="col-3"></div>
-        <div class="col-3 p-3 mb-2 bg-danger text-white">
-            <h2 class="text-center">Current Liabilities</h2>
-            {% for index, account in data.iterrows() %}
-
-                {% if account.Account_Type == "Current Liability" %}
-                    <td><input type="checkbox" name="checkbox"
-                                                 value="{{ account.Date }},{{ account.Account_Type }},{{ account.Account_Name }},{{ account.Value }}">
-                    </td>
-                    {{ account.Account_Name }} -- {{ account.Value }}
-                    <br>
-                {% endif %}
-            {% endfor %}
-        </div>
-
-        <div class="col-3 p-3 mb-2 bg-danger text-white">
-            <h2 class="text-center">NonCurrent Liabilities</h2>
-            {% for index, account in data.iterrows() %}
-
-                {% if account.Account_Type == "NonCurrent Liability" %}
-                    <td><input type="checkbox" name="checkbox"
-                                                 value="{{ account.Date }},{{ account.Account_Type }},{{ account.Account_Name }},{{ account.Value }}">
-                    </td>
-                    {{ account.Account_Name }} -- {{ account.Value }}
-                    <br>
-                {% endif %}
-            {% endfor %}
-        </div>
-        <div class="col-3"></div>
-    </div>
-
-
     <form action="{{ url_for('remove_Account_From_Database') }}" method="POST">
+
+        <div class="row">
+            <div class="col-3"></div>
+
+            <div class="col-3 p-3 mb-2 bg-primary text-white">
+                <h2 class="text-center">Current Assets</h2>
+                {% for index, account in data.iterrows() %}
+                    {% if account.Account_Type == "Current Asset" %}
+                        <td><input type="checkbox" name="checkbox"
+                                   value="{{ account.Date }},{{ account.Account_Type }},{{ account.Account_Name }},{{ account.Value }}">
+                        </td>
+                        {{ account.Account_Name }} -- {{ account.Value }}
+                        <br>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <div class="col-3 p-3 mb-2 bg-primary text-white">
+                <h2 class="text-center">NonCurrent Assets</h2>
+                {% for index, account in data.iterrows() %}
+                    {% if account.Account_Type == "NonCurrent Asset" %}
+                        <td><input type="checkbox" name="checkbox"
+                                   value="{{ account.Date }},{{ account.Account_Type }},{{ account.Account_Name }},{{ account.Value }}">
+                        </td>
+                        {{ account.Account_Name }} -- {{ account.Value }}
+                        <br>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="col-3"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-3 p-3 mb-2 bg-danger text-white">
+                <h2 class="text-center">Current Liabilities</h2>
+                {% for index, account in data.iterrows() %}
+
+                    {% if account.Account_Type == "Current Liability" %}
+                        <td><input type="checkbox" name="checkbox"
+                                   value="{{ account.Date }},{{ account.Account_Type }},{{ account.Account_Name }},{{ account.Value }}">
+                        </td>
+                        {{ account.Account_Name }} -- {{ account.Value }}
+                        <br>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <div class="col-3 p-3 mb-2 bg-danger text-white">
+                <h2 class="text-center">NonCurrent Liabilities</h2>
+                {% for index, account in data.iterrows() %}
+
+                    {% if account.Account_Type == "NonCurrent Liability" %}
+                        <td><input type="checkbox" name="checkbox"
+                                   value="{{ account.Date }},{{ account.Account_Type }},{{ account.Account_Name }},{{ account.Value }}">
+                        </td>
+                        {{ account.Account_Name }} -- {{ account.Value }}
+                        <br>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="col-3"></div>
+        </div>
+
+
         <div class="row">
             <div class="col-5"></div>
             <div class="col-2 mt-3">
