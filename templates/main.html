@@ -1,106 +1,20 @@
 {% extends "layout.html" %}
 {% block head %}
     {{ super() }}
-     <script src="../static/main.js"></script>
 {% endblock %}
 {% block content %}
     {{ super() }}
 
 
     <!-- Page content-->
-    <div class="row">
-        <div class="chart-container" align="center">
-            <div class="col-lg-5">
+    <div class="container">
+        <div class="row text-center">
 
+                <h1>Hello World</h1>
 
-            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-6">
-            <style>
-                table {
-                    text-align: center;
-                }
-                table thead th {
-                    text-align: center;
-                }
-            </style>
-
-            {% include "Account_Balances_Table.html" %}
-        </div>
-        <div class="col-6">
-            {% include "Account_Percentages_Table.html" %}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-4">
-
-            <div class="chart-container">
-                <div class="col-lg-auto">
-                    <canvas id="currentAssetChart" style="border:1px solid"></canvas>
-
-                </div>
-            </div>
-        </div>
-
-        <div class="col-4">
-            <div class="chart-container">
-                <div class="col-lg-auto">
-                    <canvas id="currentLiabilityChart" style="border:1px solid"></canvas>
-
-                </div>
-            </div>
-        </div>
-
-        <div class="col-4">
-            <div class="chart-container">
-                <div class="col-lg-auto">
-                    <canvas id="nonCurrentLiabilitiesChart" style="border:1px solid"></canvas>
-                    <script>
-
-                    </script>
-                </div>
-            </div>
-        </div>
 
 
-    </div>
-    <div class="row">
-        <div class="col-3">
-        </div>
-
-        <div class="col-6">
-            <div class="chart-container">
-                <div class="col-lg-auto">
-                    <canvas id="nonCurrentAssetschart" style="border:1px solid">
-
-                    </canvas>
-                    <script>
-
-                    </script>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-3">
-        </div>
-
-
-    </div>
-    <div class="row">
-        <div class="col-4"></div>
-        <div class="col-4">
-            {% include 'Balance_Sheet.html' %}
-        </div>
-        <div class="col-4"></div>
-    </div>
-
-    <script type='text/javascript'>
-  window.onload = function() {
-    const thead = document.querySelectorAll('.table > thead');
-    thead.forEach(e => e.classList.add('thead-dark'));
-  }
-</script>
 
 {% endblock %}

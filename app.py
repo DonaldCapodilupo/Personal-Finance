@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request,url_for,redirect
+from flask import Flask, render_template, request, url_for, redirect
 from flask_nav import Nav
 from flask_nav.elements import Navbar, View
 
 app = Flask(__name__)
 nav = Nav()
+
 
 @nav.navigation()
 def mynavbar():
@@ -16,13 +17,13 @@ def mynavbar():
     )
 
 
-
-@app.route('/', methods=["POST","GET"])
+@app.route('/', methods=["POST", "GET"])
 def dashboard():
     if request.method == "GET":
         return render_template('main.html')
 
-@app.route('/UpdateAccountBalances', methods=["POST","GET"])
+
+@app.route('/Update-Account-Balances', methods=["POST", "GET"])
 def update_Accounts():
     if request.method == "POST":
         if request.form['submit_button'] == 'Update Balances':
@@ -44,27 +45,27 @@ def update_Accounts():
         from Backend import read_Database_Information
         account_Information = read_Database_Information()
 
-        return render_template('UpdateAccounts.html', data=account_Information)
+        return render_template('Update Accounts.html', data=account_Information)
 
-@app.route('/AddAnAccount', methods=["POST","GET"])
+
+@app.route('/Add-Account', methods=["POST", "GET"])
 def add_Account_To_Database():
     if request.method == "POST":
-        if request.form['submit_button'] == 'Upload New Accounts':
+        if request.form['submit_button'] == 'Add Item':
             from Backend import create_Database_Row
-            user_info = request.form["Upload List"]
+            new_account_name = request.form["Account Name"]
+            new_account_balance = request.form["Account Balance"]
+            new_account_type = request.form["Account Type"]
 
-            print("This is the information that the user wants to add to the database.")
-            print(user_info)
+            create_Database_Row(new_account_type, new_account_name, new_account_balance)
 
-            accounts_to_upload = tuple(request.form["Upload List"].split("\r\n"))
-            for account_to_add in accounts_to_upload:
-                create_Database_Row(tuple(account_to_add.split(',')))
+        return redirect(url_for('dashboard'))
 
-            return redirect(url_for('dashboard'))
     else:
-        return render_template('AddAccount.html')
+        return render_template('Add Account.html')
 
-@app.route('/RemoveAnAccount', methods=["POST","GET"])
+
+@app.route('/Remove-Account', methods=["POST", "GET"])
 def remove_Account_From_Database():
     if request.method == "POST":
         if request.form['submit_button'] == "Remove Item":
@@ -85,18 +86,14 @@ def remove_Account_From_Database():
         from Backend import read_Database_Information
         account_Information = read_Database_Information()
         print(account_Information)
-        return render_template('RemoveAccounts.html', data=account_Information)
-
+        return render_template('Remove Accounts.html', data=account_Information)
 
 
 #
 if __name__ == '__main__':
-    from Backend import programSetup
-    programSetup()
 
     port = 5420
     url = "http://192.168.0.46:{0}".format(port)
-
 
     nav.init_app(app)
 
