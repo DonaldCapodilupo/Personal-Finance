@@ -8,88 +8,84 @@
 
     <!-- Page content-->
     <div class="row mt-3">
-        <div class="col-3"></div>
-        <div class="col-6 p-3 mb-2 bg-dark text-white text-center">
+        <div class="col p-3 mb-2 bg-success text-center">
             <h1 class="Main_Title">Remove An Account</h1>
             <h3 class='Sub_Title'>What type of account would you like to remove?</h3>
         </div>
-        <div class="col-3"></div>
     </div>
 
     <form action="{{ url_for('remove_Account_From_Database') }}" method="POST">
 
         <div class="row">
-            <div class="col-3"></div>
-
-            <div class="col-3 p-3 mb-2 bg-primary text-white">
+            <div class="col p-3 mb-2 bg-primary text-center">
                 <h2 class="text-center">Current Assets</h2>
-                {% for index, account in data.iterrows() %}
-                    {% if account.Account_Type == "Current Asset" %}
-                        <td><input type="checkbox" name="checkbox"
-                                   value="{{ account.Date }},{{ account.Account_Type }},{{ account.Account_Name }},{{ account.Value }}">
-                        </td>
-                        {{ account.Account_Name }} -- {{ account.Value }}
-                        <br>
-                    {% endif %}
+                {% for account_name, account_balance in infoDict["Current Assets"].items() %}
+
+                    <input type="checkbox" name="checkbox"
+                           value="{{ account_name }}">
+
+                    {{ account_name }} -- {{ account_balance }}
+                    <br>
+
                 {% endfor %}
             </div>
 
-            <div class="col-3 p-3 mb-2 bg-primary text-white">
-                <h2 class="text-center">NonCurrent Assets</h2>
-                {% for index, account in data.iterrows() %}
-                    {% if account.Account_Type == "NonCurrent Asset" %}
-                        <td><input type="checkbox" name="checkbox"
-                                   value="{{ account.Date }},{{ account.Account_Type }},{{ account.Account_Name }},{{ account.Value }}">
-                        </td>
-                        {{ account.Account_Name }} -- {{ account.Value }}
-                        <br>
-                    {% endif %}
+            <div class="col p-3 mb-2 bg-primary text-center">
+                <h2 class="text-center">Noncurrent Assets</h2>
+                {% for account_name, account_balance in infoDict["Noncurrent Assets"].items() %}
+
+                    <input type="checkbox" name="checkbox"
+                           value="{{ account_name }}">
+
+                    {{ account_name }} -- {{ account_balance }}
+                    <br>
+
                 {% endfor %}
             </div>
-            <div class="col-3"></div>
+
         </div>
 
         <div class="row">
-            <div class="col-3"></div>
-            <div class="col-3 p-3 mb-2 bg-danger text-white">
+            <div class="col p-3 mb-2 bg-danger text-center">
                 <h2 class="text-center">Current Liabilities</h2>
-                {% for index, account in data.iterrows() %}
+                {% for account_name, account_balance in infoDict["Current Liabilities"].items() %}
 
-                    {% if account.Account_Type == "Current Liability" %}
-                        <td><input type="checkbox" name="checkbox"
-                                   value="{{ account.Date }},{{ account.Account_Type }},{{ account.Account_Name }},{{ account.Value }}">
-                        </td>
-                        {{ account.Account_Name }} -- {{ account.Value }}
-                        <br>
-                    {% endif %}
+
+                    <input type="checkbox" name="checkbox"
+                           value="{{ account_name }}">
+
+                    {{ account_name }} -- {{ account_balance }}
+                    <br>
+
                 {% endfor %}
             </div>
 
-            <div class="col-3 p-3 mb-2 bg-danger text-white">
+            <div class="col p-3 mb-2 bg-danger text-center">
                 <h2 class="text-center">NonCurrent Liabilities</h2>
-                {% for index, account in data.iterrows() %}
+                {% for account_name, account_balance in infoDict["Noncurrent Liabilities"].items() %}
 
-                    {% if account.Account_Type == "NonCurrent Liability" %}
-                        <td><input type="checkbox" name="checkbox"
-                                   value="{{ account.Date }},{{ account.Account_Type }},{{ account.Account_Name }},{{ account.Value }}">
-                        </td>
-                        {{ account.Account_Name }} -- {{ account.Value }}
-                        <br>
-                    {% endif %}
+
+                    <input type="checkbox" name="checkbox"
+                           value="{{ account_name }}">
+
+                    {{ account_name }} -- {{ account_balance }}
+                    <br>
+
                 {% endfor %}
             </div>
-            <div class="col-3"></div>
         </div>
 
 
-        <div class="row">
-            <div class="col-5"></div>
-            <div class="col-2 mt-3">
-                <button class="btn btn-dark" type="submit" name="submit_button" value="Remove Item">Remove Item</button>
+        <div class="row text-center">
+            <div class="col mt-3">
+                <button class="btn btn-success" type="submit" name="submit_button" value="Remove Item">Remove Selected
+                    Items
+                </button>
 
-                <input class="btn btn-dark" type="submit" name="submit_button" value="Go Back">
+
             </div>
-            <div class="col-5"></div>
+
+
         </div>
     </form>
 

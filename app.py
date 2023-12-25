@@ -29,10 +29,9 @@ def update_Accounts():
         if request.form['submit_button'] == 'Update Balances':
             from Backend import update_Database_Information
 
-            new_Values = request.form.getlist("New Balances")
+            new_Values = request.form.to_dict()
 
-            print("Here are the values the user entered to be updated:")
-            print(new_Values)
+
 
             update_Database_Information(new_Values)
 
@@ -45,7 +44,7 @@ def update_Accounts():
         from Backend import read_Database_Information
         account_Information = read_Database_Information()
 
-        return render_template('Update Accounts.html', data=account_Information)
+        return render_template('Update Accounts.html', infoDict=account_Information)
 
 
 @app.route('/Add-Account', methods=["POST", "GET"])
@@ -86,11 +85,15 @@ def remove_Account_From_Database():
         from Backend import read_Database_Information
         account_Information = read_Database_Information()
         print(account_Information)
-        return render_template('Remove Accounts.html', data=account_Information)
+        return render_template('Remove Accounts.html', infoDict=account_Information)
 
 
 #
 if __name__ == '__main__':
+
+    from Backend import setup_Program
+
+    setup_Program()
 
     port = 5420
     url = "http://192.168.0.46:{0}".format(port)

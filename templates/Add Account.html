@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 {% block head %}
     {{ super() }}
-    <script src="../static/AddAccount.js"></script>
 {% endblock %}
 {% block content %}
     {{ super() }}
@@ -15,46 +14,78 @@
 
         {% endif %}
         <div class="row mt-3">
-            <div class="col-3"></div>
-            <div class="col-6 p-3 mb-2 bg-dark text-white text-center">
-                <h1 class="Main_Title">Add An Account</h1>
-                <h3 class='Sub_Title'>What type of account would you like to add?</h3>
+
+            <div class="col p-3 mb-2 bg-success text-center">
+                <h1>Add An Account</h1>
+                <h3>What type of account would you like to add?</h3>
             </div>
 
-            <div class="col-3"></div>
 
         </div>
-        <div class="row">
-            <div class="col-3"></div>
-            <div class="col-6 p-3 mb-2 bg-primary text-white text-center">
 
-                <label for="New Account Name">New Account Name:</label>
-                <input type="text" name="Account Name" id="Account Name" autocomplete="off">
-                <br>
-                <br>
-                <label for="New Account Balance">New Account Balance:</label>
-                <input type="number" step="0.01" name="Account Balance" id="Account Balance" autocomplete="off">
-                <br>
-                <br>
-                <label for="New Account Type">What is the Account Type?:</label>
-                <select name="Account Type" id="Account Type">
-                    <option name="Account type" value="Current Asset">Current Asset</option>
-                    <option name="Account type" value="NonCurrent Asset">NonCurrent Asset</option>
-                    <option name="Account type" value="Current Liability">Current Liability</option>
-                    <option name="Account type" value="NonCurrent Liability">NonCurrent Liability</option>
-                </select>
-                <br>
-                <br>
+        <div class="row bg-primary pt-5 mb-5 pb-5">
+            <div class="row">
+                <div class="col-lg-6 text-end">
+                    <label for="Account Type" class="display-6">What is the Account Type? </label>
+                </div>
+                <div class="col-md-auto mt-2">
+                    <select name="Account Type" id="Account Type" class="form-select">
+                        <option name="Account type" value="Current Assets">Current Asset</option>
+                        <option name="Account type" value="Noncurrent Assets">NonCurrent Asset</option>
+                        <option name="Account type" value="Current Liabilities">Current Liability</option>
+                        <option name="Account type" value="Noncurrent Liabilities">NonCurrent Liability</option>
+                    </select>
 
-                <button class="btn btn-dark" type="submit" name="submit_button" value="Add Item">Add Item</button>
-
-
-                <div class="col-3"></div>
+                </div>
+                <div class="col"></div>
 
 
             </div>
-            <div class="col-4"></div>
+
+
+            <div class="row">
+                <div class="col-lg-6 text-end">
+                    <label for="Account Name" class="display-6">New Account Name:</label>
+                </div>
+                <div class="col-md-auto mt-2">
+                    <input type="text" name="Account Name" id="Account Name" autocomplete="off">
+
+                </div>
+                <div class="col"></div>
+
+
+            </div>
+
+
+            <div class="row">
+                <div class="col-lg-6 text-end">
+                    <label for="Account Balance" class="display-6">New Account Balance:</label>
+                </div>
+                <div class="col-md-auto mt-2">
+                    <input type="number" step="0.01" name="Account Balance" id="Account Balance"
+                           autocomplete="off">
+
+
+                </div>
+                <div class="col"></div>
+
+
+            </div>
+
+
+            <div class="row">
+
+                <div class="col text-center">
+                    <button class="btn btn-dark mt-5 mb-5" type="submit" name="submit_button" value="Add Item">Add
+                        Item
+                    </button>
+                </div>
+
+            </div>
+
+
         </div>
+
     </form>
 
 
